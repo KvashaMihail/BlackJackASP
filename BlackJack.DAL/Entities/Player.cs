@@ -8,9 +8,7 @@ namespace BlackJack.DAL.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public bool IsBot { get; set; }
 
 
