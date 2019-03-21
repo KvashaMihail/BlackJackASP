@@ -8,7 +8,6 @@ namespace BlackJack.DAL.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
         public bool IsWin { get; set; }
 
         public ICollection<RoundPlayerCard> RoundPlayerCards { get; set; }

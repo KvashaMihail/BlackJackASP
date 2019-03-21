@@ -9,9 +9,7 @@ namespace BlackJack.DAL.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
 

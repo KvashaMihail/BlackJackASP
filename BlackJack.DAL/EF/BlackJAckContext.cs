@@ -1,13 +1,14 @@
 ﻿using BlackJack.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace BlackJack.DAL.EF
 {
 
     public class BlackJackContext : DbContext
     {
-        private readonly string _connectionString;
+        private readonly string _connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Database=BlackJack";
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
@@ -16,9 +17,14 @@ namespace BlackJack.DAL.EF
         public DbSet<RoundPlayer> RoundPlayers { get; set; }
         public DbSet<RoundPlayerCard> RoundPlayerCards { get; set; }
 
-        public BlackJackContext(string connectionString)
+        public BlackJackContext(DbConnection connectionString)
         {
-            _connectionString = connectionString;
+            //_connectionString = connectionString;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +43,7 @@ namespace BlackJack.DAL.EF
                 .HasMany(p => p.RoundPlayers)
                 .WithOne(rp => rp.Player)
                 .HasForeignKey(rp => rp.PlayerId);
+
             modelBuilder.Entity<Player>()
                 .HasData(InitialPlayers());
             #endregion
@@ -75,10 +82,10 @@ namespace BlackJack.DAL.EF
             modelBuilder.Entity<RoundPlayerCard>()
                 .Property(rpc => rpc.NumberCard)
                 .IsRequired();
-            modelBuilder.Entity<RoundPlayerCard>()
-                .HasOne<Card>()
-                .WithMany()
-                .HasForeignKey(rpc => rpc.CardId);
+            //modelBuilder.Entity<RoundPlayerCard>()
+            //    .HasOne<Card>()
+            //    .WithOne()
+            //    .HasForeignKey(rpc => rpc.CardId);
             #endregion
 
             #region Card
@@ -87,20 +94,25 @@ namespace BlackJack.DAL.EF
             #endregion
         }
 
-        private IEnumerable<Card> InitialCards()
+        private Card[] InitialCards()
         {
             var cards = new List<Card>();
-            for (byte value = 0; value < 13; value++)
+            for (byte cardRank = 0; cardRank < 13; cardRank++)
             {
-                cards.Add(new Card { Id = (byte)(value * 4 + 1), Value = value, Suit = 0 });
-                cards.Add(new Card { Id = (byte)(value * 4 + 2), Value = value, Suit = 1 });
-                cards.Add(new Card { Id = (byte)(value * 4 + 3), Value = value, Suit = 2 });
-                cards.Add(new Card { Id = (byte)(value * 4 + 4), Value = value, Suit = 3 });
+                for (byte suit = 0; suit < 4; suit++)
+                {
+                    cards.Add(new Card
+                    {
+                        Id = (byte)(cardRank * 4 + suit + 1),
+                        Value = cardRank,
+                        Suit = suit
+                    });
+                }
             }
-            return cards;
+            return cards.ToArray();
         }
 
-        private IEnumerable<Player> InitialPlayers()
+        private Player[] InitialPlayers()
         {
             var players = new List<Player>
             {
@@ -113,7 +125,7 @@ namespace BlackJack.DAL.EF
                 new Player { Id = 7, Name = "Olivia", IsBot = true },
                 new Player { Id = 8, Name = "Dealer", IsBot = true }
             };
-            return players;
+            return players.ToArray();
         }
     }
 }
