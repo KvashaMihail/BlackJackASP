@@ -8,7 +8,7 @@ namespace BlackJack.DAL.EF
 
     public class BlackJackContext : DbContext
     {
-        //private readonly string _connectionString = @"";
+        private DbConnection _connection;
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
@@ -17,15 +17,15 @@ namespace BlackJack.DAL.EF
         public DbSet<RoundPlayer> RoundPlayers { get; set; }
         public DbSet<RoundPlayerCard> RoundPlayerCards { get; set; }
 
-        public BlackJackContext(DbContextOptions<BlackJackContext> options) : base(options)
+        public BlackJackContext(DbConnection connection) 
         {
+            _connection = connection;
         }
 
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(_connectionString);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connection);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

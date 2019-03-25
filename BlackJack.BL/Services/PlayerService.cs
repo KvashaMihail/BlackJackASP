@@ -59,10 +59,5 @@ namespace BlackJack.BL.Services
             return _playerRepository.Get(name) == null;
         }
 
-        //public IEnumerable<Player> GetPlayerAndBots(Player player, byte countBots)
-        //{
-        //    IEnumerable<Player> players = Mapper.ToModel(_playerRepository.Find(Player => (Player.Id <= countBots) || (Player.Id == player.Id)));
-        //    return players.Reverse();
-        //}
     }
 }

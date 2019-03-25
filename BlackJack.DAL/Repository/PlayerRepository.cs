@@ -4,53 +4,51 @@ using BlackJack.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
     public class PlayerRepository : IRepository<Player>, IPlayerRepository
     {
-        private DbContext _context;
+        
+        protected readonly BlackJackContext _context;
 
-        public PlayerRepository(DbContext dbContext) 
+        public PlayerRepository(DbConnection connection)
         {
-            _context = dbContext;
+            _context = new BlackJackContext(connection);
         }
 
-        //public PlayerRepository() 
-        //{
-        //    _context = new BlackJackContext();
-        //}
 
         public void Create(Player item)
         {
-            _context.Set<Player>().Add(item);
+            _context.Players.Add(item);
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            Player item = _context.Set<Player>().Find(id);
+            Player item = _context.Players.Find(id);
             if (item != null)
             {
-                _context.Set<Player>().Remove(item);
+                _context.Players.Remove(item);
                 _context.SaveChanges();
             }
         }
 
         public Player Get(string name)
         {
-            return _context.Set<Player>().Where(p => p.Name == name).FirstOrDefault();
+            return _context.Players.Where(p => p.Name == name).FirstOrDefault();
         }
 
         public Player Get(int id)
         {
-            return _context.Set<Player>().Find(id);
+            return _context.Players.Find(id);
         }
 
         public IEnumerable<Player> GetAll()
         {
-            return _context.Set<Player>();
+            return _context.Players;
         }
 
         public void Update(Player item)
@@ -61,7 +59,7 @@ namespace BlackJack.DAL.Repository
 
         public IEnumerable<Player> GetPlayers()
         {
-            return _context.Set<Player>().Where(p => p.IsBot == false);
+            return _context.Players.Where(p => p.IsBot == false);
         }
     }
 }

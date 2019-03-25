@@ -3,6 +3,8 @@ using BlackJack.DAL.Interfaces;
 using BlackJack.DAL.Repository;
 using BlackJack.DAL.EF;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace BlackJack.BL.Configuration
 {
@@ -10,13 +12,10 @@ namespace BlackJack.BL.Configuration
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<BlackJackContext>(c => c.UseSqlServer(connectionString));
-            services.AddTransient<IPlayerRepository>(provider =>
-            {
-                var context = provider.GetService<BlackJackContext>();
-                return new PlayerRepository(context);
-            });
-            //services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<DbConnection>(provider => new SqlConnection(connectionString));
+            services.AddDbContext<BlackJackContext>();
+
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
             //...
             return services;
         }
