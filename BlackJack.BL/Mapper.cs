@@ -37,6 +37,36 @@ namespace BlackJack.BL
             return playerOut;
         }
 
+        public static Game ToModel(DAL.Entities.Game game)
+        {
+            Game gameOut = new Game
+            {
+                Name = game.Name,
+                DateStart = game.DateStart,
+                DateEnd = game.DateEnd
+            };
+            return gameOut;
+        }
 
+        public static IEnumerable<Game> ToModel(IEnumerable<DAL.Entities.Game> games)
+        {
+            var gamesOut = new List<Game>();
+            foreach (DAL.Entities.Game game in games)
+            {
+                gamesOut.Add(ToModel(game));
+            }
+            return gamesOut;
+        }
+
+        public static DAL.Entities.Game ToEntity(Game game)
+        {
+            DAL.Entities.Game gameOut = new DAL.Entities.Game
+            {
+                Name = game.Name,
+                DateStart = game.DateStart,
+                DateEnd = game.DateEnd
+            };
+            return gameOut;
+        }
     }
 }

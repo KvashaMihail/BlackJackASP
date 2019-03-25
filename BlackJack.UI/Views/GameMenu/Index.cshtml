@@ -1,0 +1,24 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Game Menu";
+    Layout = "_Layout";
+}
+
+<h2 class="bj-centered-control" style="color: green;">Welcome to the game, @Model</h2>
+<form method="post" asp-controller="GameMenu" asp-action="GameStart" class="bj-centered-block">
+    <div class="form-group">
+        <label class="bj-centered-control" for="exampleFormControlInput1">Game name:</label>
+        <input type="text" class="form-control bj-centered-control" id="exampleFormControlInput1">
+    </div>
+    <div class="form-group">
+        <label class="bj-centered-control" for="exampleFormControlSelect1">Bots count:</label>
+        <select class="form-control bj-centered-control" id="exampleFormControlSelect1">
+            @for (int i = 0; i <= 7; i++)
+            {
+                <option>@i</option>
+            }
+        </select>
+    </div>
+</form>
+
+

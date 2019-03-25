@@ -1,7 +1,27 @@
-﻿@{
-    ViewBag.Title = "Home";
+﻿
+@model IEnumerable<PlayerViewModel>
+
+@{
+    ViewBag.Title = "Player Menu";
+    Layout = "_Layout";
 }
 
-<form asp-controller="PlayerPage" asp-action="Index" method="post">
-    <button type="submit">Start</button>
+<form method="post" asp-controller="Home" asp-action="Login" class="bj-centered-block">
+    <div class="input-group bj-centered-control">        
+        <input type="text" class="form-control" name="name" />
+    </div>
+    <input type="submit" class="btn btn btn-outline-secondary bj-centered-control" value="Next" />
 </form>
+
+
+<table class="table">
+    <tr>
+        <th>Players</th>
+    </tr>
+    @foreach (var player in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => player.Name)</td>
+        </tr>
+    }
+</table>

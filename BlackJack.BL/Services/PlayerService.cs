@@ -2,7 +2,6 @@
 using BlackJack.BL.Models;
 using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,36 +11,31 @@ namespace BlackJack.BL.Services
     public class PlayerService : IPlayerService
     {
         private readonly IPlayerRepository _playerRepository;
-        public Player Player { get; set; }
 
         public PlayerService(IPlayerRepository playerRepository)
         {
             _playerRepository = playerRepository;
         }
 
-        public void Select(string name)
+        public Player SelectOrCreate(string name)
         {
-            if (GetIsEmpty(name))
+            bool isEmptyPlayer = GetIsEmpty(name);
+            if (isEmptyPlayer)
             {
-                throw new ValidationException("Такого игрока нет, введите имя игрока из списка!");
+                Create(name);
+                return Mapper.ToModel(_playerRepository.Get(name));
             }
-            Player = Mapper.ToModel(_playerRepository.Get(name));
+            return Mapper.ToModel(_playerRepository.Get(name));          
         }
 
-        public void Create(string name)
+        private void Create(string name)
         {
-            bool isCorrectly = Regex.IsMatch(name, "^[a-zA-Z][a-zA-Z0-9]*$");
-            bool isEmptyPlayer = GetIsEmpty(name);
+            bool isCorrectly = Regex.IsMatch(name, "^[a-zA-Z][a-zA-Z0-9]*$");            
             if (!isCorrectly)
             {
-                throw new ValidationException("Только латинские буквы и цифры!");
-            }
-            if (!isEmptyPlayer)
-            {
-                throw new ValidationException("Такое имя занято.");
+                throw new ValidationException("Error! Only letters and numbers!");
             }
             _playerRepository.Create(Mapper.ToEntity(new Player { Name = name, IsBot = false }));
-            Player = Mapper.ToModel(_playerRepository.Get(name));
         }
 
         public IEnumerable<Player> ShowPlayers()
@@ -58,6 +52,5 @@ namespace BlackJack.BL.Services
         {
             return _playerRepository.Get(name) == null;
         }
-
     }
 }

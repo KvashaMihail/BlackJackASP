@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Error";
+    ViewBag.Title = "Player Menu";
+    Layout = "_Layout";
+}
+
+
+<form method="post" asp-controller="Home" asp-action="Index" class="bj-centered-block">
+    <h2 style="color: darkred;">@ViewBag.Message</h2>
+    <input type="submit" class="btn btn btn-outline-secondary bj-centered-control" value="Back" />
+</form>
+

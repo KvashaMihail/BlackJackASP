@@ -9,6 +9,7 @@ namespace BlackJack.BL.Configuration
         public static IServiceCollection AddServicesBL(this IServiceCollection services)
         {
             services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<IGameService, GameService>();
             //...
             return services;
         }

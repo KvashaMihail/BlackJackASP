@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Interfaces;
 using BlackJack.DAL.Repository;
-using BlackJack.DAL.EF;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -16,6 +15,7 @@ namespace BlackJack.BL.Configuration
             services.AddDbContext<BlackJackContext>();
 
             services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<IGameRepository, GameRepository>();
             //...
             return services;
         }

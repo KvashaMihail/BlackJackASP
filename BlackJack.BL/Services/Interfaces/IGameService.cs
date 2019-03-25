@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BlackJack.BL.Services.Interfaces
 {
-    public interface IPlayerService
+    public interface IGameService
     {
-        Player SelectOrCreate(string name);
-        IEnumerable<Player> ShowPlayers();
+        Game Create(string name);
+        IEnumerable<Game> ShowGames();
     }
 }
