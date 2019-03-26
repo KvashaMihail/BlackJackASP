@@ -43,7 +43,7 @@ namespace BlackJack.UI.Controllers
                 {
                     await _signInManager.SignInAsync(user, false);
                     _playerService.SelectOrCreate(model.Name);
-                    return RedirectToAction("Index", "GameMenu");
+                    return RedirectToAction("Index", "Game");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -69,7 +69,7 @@ namespace BlackJack.UI.Controllers
                     await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
                 if (result.Succeeded)
                 {
-                        return RedirectToAction("Index", "GameMenu");
+                        return RedirectToAction("Index", "Game");
                 }
                 ModelState.AddModelError("", "Incorrect username and / or password");
             }

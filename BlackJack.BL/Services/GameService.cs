@@ -1,11 +1,9 @@
-﻿using BlackJack.BL.Exception;
-using BlackJack.BL.Models;
+﻿using BlackJack.BL.Models;
 using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace BlackJack.BL.Services
 {
@@ -18,13 +16,9 @@ namespace BlackJack.BL.Services
             _gameRepository = gameRepository;
         }
 
-        public Game Create(string name)
+        public Game Create(string playerName)
         {
-            bool isCorrectly = Regex.IsMatch(name, "^[a-zA-Z][a-zA-Z0-9]*$");
-            if (!isCorrectly)
-            {
-                throw new ValidationException("Error! Only letters and numbers!");
-            }
+            string name = playerName + DateTime.Now.Date.ToString();
             Game game = new Game { Name = name, DateStart = DateTime.Now, DateEnd = DateTime.Now };
             _gameRepository.Create(Mapper.ToEntity(game));
             return game;
