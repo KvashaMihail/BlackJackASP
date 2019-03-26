@@ -6,13 +6,14 @@
     Layout = "_Layout";
 }
 
-<form method="post" asp-controller="Home" asp-action="Login" class="bj-centered-block">
-    <div class="input-group bj-centered-control">        
-        <input type="text" class="form-control" name="name" />
-    </div>
-    <input type="submit" class="btn btn btn-outline-secondary bj-centered-control" value="Next" />
+<form method="get" asp-controller="Home" asp-action="Register">
+    <input type="submit" style="width: 250px" class="btn btn btn-outline-primary bj-centered-control" value="Register" />
 </form>
-
+<form method="get" asp-controller="Home" asp-action="Login">
+        <input type="submit" style="width: 250px" class="btn btn btn-outline-success bj-centered-control" value="Login" />
+    </form>
+@*<button asp-controller="Home" asp-action="Register" value="Register" class="btn btn btn-outline-primary bj-centered-control">Register</button>
+<button formmethod="post" asp-controller="Home" asp-action="Login" class="btn btn btn-outline-success bj-centered-control">Login</button>*@
 
 <table class="table">
     <tr>

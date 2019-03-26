@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BlackJack.BL.Configuration;
+using BlackJack.UI.Data;
 using Microsoft.Extensions.Configuration;
 
 namespace BlackJack.UI
@@ -20,6 +23,20 @@ namespace BlackJack.UI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<UsersContext>(options =>
+                options.UseSqlServer(
+                    _configuration.GetConnectionString("IdentityConnection")));
+            services.AddDefaultIdentity<IdentityUser>(
+                options =>
+                    options.Password = new PasswordOptions
+                    {
+                        RequireDigit = false,
+                        RequiredLength = 6,
+                        RequireLowercase = true,
+                        RequireUppercase = false,
+                        RequireNonAlphanumeric = false
+                    })
+                .AddEntityFrameworkStores<UsersContext>();
             services.AddMvc();
             services.AddRepositories(_configuration.GetConnectionString("DefaultConnection"));
             services.AddServicesBL();
@@ -32,9 +49,15 @@ namespace BlackJack.UI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }

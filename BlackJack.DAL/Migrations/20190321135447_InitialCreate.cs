@@ -58,6 +58,7 @@ namespace BlackJack.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NumberRound = table.Column<int>(nullable: false),
+                    IsCompleted = table.Column<bool>(nullable: false),
                     GameId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

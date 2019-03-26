@@ -1,18 +1,23 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.UI.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BlackJack.UI.Controllers
 {
     public class HomeController : Controller
     {
         private IPlayerService _playerService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(IPlayerService service)
+        public HomeController(IPlayerService service, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _playerService = service;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -21,18 +26,54 @@ namespace BlackJack.UI.Controllers
             return View(playerList);
         }
 
-        public IActionResult Login(string name)
+        [HttpGet]
+        public IActionResult Register()
         {
-            try
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterPlayerModel model)
+        {
+            if (ModelState.IsValid)
             {
-                PlayerViewModel player = Mapper.ToViewModel(_playerService.SelectOrCreate(name));
-                return RedirectToAction("Index", "GameMenu", player);
+                IdentityUser user = new IdentityUser { UserName = model.Name};
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    _playerService.SelectOrCreate(model.Name);
+                    return RedirectToAction("Index", "GameMenu");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
-            catch (Exception exception)
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginPlayerModel model)
+        {
+            if (ModelState.IsValid)
             {
-                ViewBag.Message = exception.Message;
-                return View("Error");
-            } 
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+                if (result.Succeeded)
+                {
+                        return RedirectToAction("Index", "GameMenu");
+                }
+                ModelState.AddModelError("", "Incorrect username and / or password");
+            }
+            return View(model);
         }
     }
 }
