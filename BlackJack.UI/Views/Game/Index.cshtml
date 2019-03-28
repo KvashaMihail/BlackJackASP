@@ -7,8 +7,8 @@
 <div class="alert alert-primary">Welcome to the game, @Model</div>
 <form method="post" asp-controller="Game" asp-action="StartGame">
     <div class="form-group">
-        <label class="bj-centered-control" for="exampleFormControlSelect1">Bots count:</label>
-        <select class="form-control bj-centered-control" id="exampleFormControlSelect1">
+        <label class="bj-centered-control" for="countBotsString">Bots count:</label>
+        <select class="form-control bj-centered-control" name="countBots" id="countBotsString">
             @for (int i = 0; i <= 7; i++)
             {
                 <option>@i</option>

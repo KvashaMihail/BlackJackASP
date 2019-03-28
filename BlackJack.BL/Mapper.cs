@@ -41,6 +41,7 @@ namespace BlackJack.BL
         {
             Game gameOut = new Game
             {
+                Id = game.Id,
                 Name = game.Name,
                 DateStart = game.DateStart,
                 DateEnd = game.DateEnd

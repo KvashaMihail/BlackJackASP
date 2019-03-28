@@ -9,5 +9,6 @@ namespace BlackJack.BL.Services.Interfaces
     {
         Game Create(string name);
         IEnumerable<Game> ShowGames();
+        IEnumerable<Player> GetPlayers(string playerName, int countBots);
     }
 }

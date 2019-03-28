@@ -1,4 +1,5 @@
 ﻿using BlackJack.BL.Services.Interfaces;
+using BlackJack.UI.Models;
 using BlackJack.UI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace BlackJack.UI.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<PlayerViewModel> playerList = Mapper.ToViewModel(_playerService.ShowPlayers());
+            IEnumerable<PlayerModel> playerList = Mapper.ToViewModel(_playerService.ShowPlayers());
             return View(playerList);
         }
 

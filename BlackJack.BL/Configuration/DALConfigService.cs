@@ -16,7 +16,10 @@ namespace BlackJack.BL.Configuration
 
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IGameRepository, GameRepository>();
-            //...
+            services.AddTransient<IRoundRepository, RoundRepository>();
+            services.AddTransient<IRoundPlayerRepository, RoundPlayerRepository>();
+            services.AddTransient<IRoundPlayerCardRepository, RoundPlayerCardRepository>();
+
             return services;
         }
     }

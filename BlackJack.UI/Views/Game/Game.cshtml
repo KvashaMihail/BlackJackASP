@@ -1,7 +1,28 @@
-﻿
+﻿@model GameViewModel
 @{
     ViewData["Title"] = "Game";
+    Layout = "_LayoutNoCenter";
 }
+<div>
 
-<h2>Game</h2>
+    <button type="button" id="start-round-button" class="btn btn-outline-primary" style="float:left">Start Round</button>
+    <button type="button" id="get-card-button" class="btn btn-outline-primary" style="float:left">Взять карту</button>
+    <button type="button" id="skip-button" class="btn btn-outline-primary" style="float:left">Пропустить</button>
+    <div style="float:right" class="alert alert-primary">
+        Game @Model.Game.Name
+    </div>
+</div>
+
+<div>
+    <table class="table">
+        <tr>
+            @foreach (var player in Model.Players)
+            {                
+                <td>@Html.DisplayFor(model => player.Name)</td>
+            }
+        </tr>
+        </table>
+</div>
+
+
 

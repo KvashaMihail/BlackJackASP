@@ -36,9 +36,11 @@ namespace BlackJack.UI
                         RequireNonAlphanumeric = false
                     })
                 .AddEntityFrameworkStores<UsersContext>();
+            services.AddMemoryCache();
             services.AddMvc();
             services.AddRepositories(_configuration.GetConnectionString("DefaultConnection"));
             services.AddServicesBL();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,14 +2,13 @@
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
-    public class PlayerRepository : IRepository<Player>, IPlayerRepository
+    public class PlayerRepository : IPlayerRepository
     {
         
         protected readonly BlackJackContext _context;
@@ -60,6 +59,11 @@ namespace BlackJack.DAL.Repository
         public IEnumerable<Player> GetPlayers()
         {
             return _context.Players.Where(p => p.IsBot == false);
+        }
+
+        public IEnumerable<Player> GetBots(int countBots)
+        {
+            return _context.Players.Where(p => p.Id <= countBots);
         }
     }
 }

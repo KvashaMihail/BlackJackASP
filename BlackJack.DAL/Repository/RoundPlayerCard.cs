@@ -4,51 +4,46 @@ using BlackJack.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
-    public class GameRepository : IGameRepository
+    public class RoundPlayerCardRepository : IRoundPlayerCardRepository
     {
+
         protected readonly BlackJackContext _context;
 
-        public GameRepository(DbConnection connection)
+        public RoundPlayerCardRepository(DbConnection connection)
         {
             _context = new BlackJackContext(connection);
         }
 
-        public void Create(Game item)
+        public void Create(RoundPlayerCard item)
         {
-            _context.Games.Add(item);
+            _context.RoundPlayerCards.Add(item);
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            Game item = _context.Games.Find(id);
+            RoundPlayerCard item = _context.RoundPlayerCards.Find(id);
             if (item != null)
             {
-                _context.Games.Remove(item);
+                _context.RoundPlayerCards.Remove(item);
                 _context.SaveChanges();
             }
         }
 
-        public Game Get(int id)
+        public RoundPlayerCard Get(int id)
         {
-            return _context.Games.Find(id);
+            return _context.RoundPlayerCards.Find(id);
         }
 
-        public Game Get(string name)
+        public IEnumerable<RoundPlayerCard> GetAll()
         {
-            return _context.Games.Where(p => p.Name == name).FirstOrDefault();
+            return _context.RoundPlayerCards;
         }
 
-        public IEnumerable<Game> GetAll()
-        {
-            return _context.Games;
-        }
-
-        public void Update(Game item)
+        public void Update(RoundPlayerCard item)
         {
             _context.Entry(item).State = EntityState.Modified;
             _context.SaveChanges();
