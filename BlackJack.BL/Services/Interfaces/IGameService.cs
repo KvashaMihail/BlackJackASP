@@ -1,7 +1,5 @@
-﻿using BlackJack.BL.Models;
-using System;
+﻿using BlackJack.Shared.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BlackJack.BL.Services.Interfaces
 {

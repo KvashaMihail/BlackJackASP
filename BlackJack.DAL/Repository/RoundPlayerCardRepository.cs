@@ -17,10 +17,12 @@ namespace BlackJack.DAL.Repository
             _context = new BlackJackContext(connection);
         }
 
-        public void Create(RoundPlayerCard item)
+        public void Create(ref Shared.Models.RoundPlayerCard item)
         {
-            _context.RoundPlayerCards.Add(item);
+            RoundPlayerCard roundPlayerCard = Mapper.ToEntity(item);
+            _context.RoundPlayerCards.Add(roundPlayerCard);
             _context.SaveChanges();
+            item = Mapper.ToModel(roundPlayerCard);
         }
 
         public void Delete(int id)
@@ -33,19 +35,20 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public RoundPlayerCard Get(int id)
+        public Shared.Models.RoundPlayerCard Get(int id)
         {
-            return _context.RoundPlayerCards.Find(id);
+            return Mapper.ToModel(_context.RoundPlayerCards.Find(id));
         }
 
-        public IEnumerable<RoundPlayerCard> GetAll()
+        public IEnumerable<Shared.Models.RoundPlayerCard> GetAll()
         {
-            return _context.RoundPlayerCards;
+            return Mapper.ToModel(_context.RoundPlayerCards);
         }
 
-        public void Update(RoundPlayerCard item)
+        public void Update(Shared.Models.RoundPlayerCard item)
         {
-            _context.Entry(item).State = EntityState.Modified;
+
+            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

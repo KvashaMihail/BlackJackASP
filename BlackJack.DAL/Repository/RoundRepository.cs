@@ -4,6 +4,7 @@ using BlackJack.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
@@ -18,10 +19,12 @@ namespace BlackJack.DAL.Repository
         }
 
 
-        public void Create(Round item)
+        public void Create(ref Shared.Models.Round item)
         {
-            _context.Rounds.Add(item);
+            Round round = Mapper.ToEntity(item);
+            _context.Rounds.Add(round);
             _context.SaveChanges();
+            item = Mapper.ToModel(round);
         }
 
         public void Delete(int id)
@@ -34,19 +37,25 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public Round Get(int id)
+        public Shared.Models.Round Get(int id)
         {
-            return _context.Rounds.Find(id);
+            return Mapper.ToModel(_context.Rounds.Find(id));
         }
 
-        public IEnumerable<Round> GetAll()
+        public IEnumerable<Shared.Models.Round> GetAll()
         {
-            return _context.Rounds;
+            return Mapper.ToModel(_context.Rounds);
         }
 
-        public void Update(Round item)
+        public int GetCountRoundsByGame(int gameId)
         {
-            _context.Entry(item).State = EntityState.Modified;
+            return _context.Rounds.Where(round => round.GameId == gameId).Count();
+        }
+
+        public void Update(Shared.Models.Round item)
+        {
+
+            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

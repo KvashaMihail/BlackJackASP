@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BlackJack.DAL.Interfaces
 {
@@ -8,7 +6,7 @@ namespace BlackJack.DAL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(int id);
-        void Create(T item);
+        void Create(ref T item);
         void Update(T item);
         void Delete(int id);
     }

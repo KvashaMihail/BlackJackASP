@@ -17,10 +17,12 @@ namespace BlackJack.DAL.Repository
             _context = new BlackJackContext(connection);
         }
 
-        public void Create(Game item)
+        public void Create(ref Shared.Models.Game item)
         {
-            _context.Games.Add(item);
+            Game game = Mapper.ToEntity(item);
+            _context.Games.Add(game);
             _context.SaveChanges();
+            item = Mapper.ToModel(game);
         }
 
         public void Delete(int id)
@@ -33,24 +35,20 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public Game Get(int id)
+        public Shared.Models.Game Get(int id)
         {
-            return _context.Games.Find(id);
+            return Mapper.ToModel(_context.Games.Find(id));
         }
 
-        public Game Get(string name)
+        public IEnumerable<Shared.Models.Game> GetAll()
         {
-            return _context.Games.Where(p => p.Name == name).FirstOrDefault();
+            return Mapper.ToModel(_context.Games);
         }
 
-        public IEnumerable<Game> GetAll()
+        public void Update(Shared.Models.Game item)
         {
-            return _context.Games;
-        }
 
-        public void Update(Game item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
+            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

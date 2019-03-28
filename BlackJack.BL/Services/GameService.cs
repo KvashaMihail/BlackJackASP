@@ -1,4 +1,4 @@
-﻿using BlackJack.BL.Models;
+﻿using BlackJack.Shared.Models;
 using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using System;
@@ -11,15 +11,12 @@ namespace BlackJack.BL.Services
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPlayerRepository _playerRepository;
-        private readonly ICacheService _cacheService;
 
         public GameService(IGameRepository gameRepository, 
-            IPlayerRepository playerRepository,
-            ICacheService cacheService)
+            IPlayerRepository playerRepository)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
-            _cacheService = cacheService;
         }
 
         public Game Create(string playerName)
@@ -31,14 +28,13 @@ namespace BlackJack.BL.Services
                 DateStart = DateTime.Now,
                 DateEnd = DateTime.Now
             };
-            _gameRepository.Create(Mapper.ToEntity(game));
-            game = Mapper.ToModel(_gameRepository.Get(name));
+            _gameRepository.Create(ref game);
             return game;
         }
 
         public IEnumerable<Game> ShowGames()
         {
-            return Mapper.ToModel(_gameRepository.GetAll());
+            return _gameRepository.GetAll();
         }
 
         public bool GetIsEmpty()
@@ -49,10 +45,9 @@ namespace BlackJack.BL.Services
         public IEnumerable<Player> GetPlayers(string playerName, int countBots)
         {
             var players = new List<Player>();
-            players.Add(Mapper.ToModel(_playerRepository.Get(playerName)));
-            players.AddRange(Mapper.ToModel(_playerRepository.GetBots(countBots)));
-            players.Add(Mapper.ToModel(_playerRepository.Get(8)));
-            _cacheService.SetPlayers(players);
+            players.Add(_playerRepository.Get(playerName));
+            players.AddRange(_playerRepository.GetBots(countBots));
+            players.Add(_playerRepository.Get(8));
             return players;
         }
     }

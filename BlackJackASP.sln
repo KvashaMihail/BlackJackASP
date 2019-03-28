@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJack.BL", "BlackJack.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJack.DAL", "BlackJack.DAL\BlackJack.DAL.csproj", "{77DAC541-C85B-4A1F-AFEC-6EAA176767E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Shared", "BlackJack.Shared\BlackJack.Shared.csproj", "{44B11DE4-45A8-4F1E-9ABC-39DA7365BCDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{77DAC541-C85B-4A1F-AFEC-6EAA176767E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77DAC541-C85B-4A1F-AFEC-6EAA176767E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77DAC541-C85B-4A1F-AFEC-6EAA176767E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B11DE4-45A8-4F1E-9ABC-39DA7365BCDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B11DE4-45A8-4F1E-9ABC-39DA7365BCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B11DE4-45A8-4F1E-9ABC-39DA7365BCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B11DE4-45A8-4F1E-9ABC-39DA7365BCDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

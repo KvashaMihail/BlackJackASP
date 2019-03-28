@@ -19,10 +19,12 @@ namespace BlackJack.DAL.Repository
         }
 
 
-        public void Create(Player item)
+        public void Create(Shared.Models.Player item)
         {
-            _context.Players.Add(item);
+            Player player = Mapper.ToEntity(item);
+            _context.Players.Add(player);
             _context.SaveChanges();
+            item = Mapper.ToModel(player);
         }
 
         public void Delete(int id)
@@ -35,35 +37,36 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public Player Get(string name)
+        public Shared.Models.Player Get(int id)
         {
-            return _context.Players.Where(p => p.Name == name).FirstOrDefault();
+            return Mapper.ToModel(_context.Players.Find(id));
         }
 
-        public Player Get(int id)
+        public IEnumerable<Shared.Models.Player> GetAll()
         {
-            return _context.Players.Find(id);
+            return Mapper.ToModel(_context.Players);
         }
 
-        public IEnumerable<Player> GetAll()
+        public void Update(Shared.Models.Player item)
         {
-            return _context.Players;
-        }
 
-        public void Update(Player item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
+            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
-        public IEnumerable<Player> GetPlayers()
+        public IEnumerable<Shared.Models.Player> GetPlayers()
         {
-            return _context.Players.Where(p => p.IsBot == false);
+            return Mapper.ToModel(_context.Players.Where(p => p.IsBot == false));
         }
 
-        public IEnumerable<Player> GetBots(int countBots)
+        public IEnumerable<Shared.Models.Player> GetBots(int countBots)
         {
-            return _context.Players.Where(p => p.Id <= countBots);
+            return Mapper.ToModel(_context.Players.Where(p => p.Id <= countBots));
+        }
+
+        public Shared.Models.Player Get(string name)
+        {
+            return Mapper.ToModel(_context.Players.Where(p => p.Name == name).FirstOrDefault());
         }
     }
 }

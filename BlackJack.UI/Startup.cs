@@ -36,7 +36,6 @@ namespace BlackJack.UI
                         RequireNonAlphanumeric = false
                     })
                 .AddEntityFrameworkStores<UsersContext>();
-            services.AddMemoryCache();
             services.AddMvc();
             services.AddRepositories(_configuration.GetConnectionString("DefaultConnection"));
             services.AddServicesBL();

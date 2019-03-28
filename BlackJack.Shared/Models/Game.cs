@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlackJack.BL.Models
+namespace BlackJack.Shared.Models
 {
     public class Game
     {

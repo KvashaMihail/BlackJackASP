@@ -1,14 +1,11 @@
 ﻿using BlackJack.UI.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlackJack.UI
 {
     public static class Mapper
     {
-        public static PlayerModel ToViewModel(BL.Models.Player player)
+        public static PlayerModel ToViewModel(Shared.Models.Player player)
         {
             var playerOut = new PlayerModel
             {
@@ -18,17 +15,17 @@ namespace BlackJack.UI
             return playerOut;
         }
 
-        public static IEnumerable<PlayerModel> ToViewModel(IEnumerable<BL.Models.Player> players)
+        public static IEnumerable<PlayerModel> ToViewModel(IEnumerable<Shared.Models.Player> players)
         {
             var playersOut = new List<PlayerModel>();
-            foreach (BL.Models.Player player in players)
+            foreach (Shared.Models.Player player in players)
             {
                 playersOut.Add(ToViewModel(player));
             }
             return playersOut;
         }
 
-        public static GameModel ToViewModel(BL.Models.Game game)
+        public static GameModel ToViewModel(Shared.Models.Game game)
         {
             var gameOut = new GameModel
             {

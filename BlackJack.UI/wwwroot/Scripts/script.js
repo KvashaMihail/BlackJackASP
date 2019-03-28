@@ -3,7 +3,6 @@
 $(document).ready(() => {
     $("#start-round-button").click(() => {
         getMixedCards();
-        getPlayers();
     });
 });
 
@@ -18,12 +17,7 @@ function getMixedCards() {
     })
 }
 
-function getPlayers() {
-    $.get({
-        url: document.location.origin + "/" + gameApi + "/players",
-        type: "Get",
-        success: players => {
-            console.log(players);
-        }
-    })
+function startRound() {
+
 }
+

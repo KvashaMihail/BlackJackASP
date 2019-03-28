@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BlackJack.BL.Models
+﻿namespace BlackJack.Shared.Models
 {
     public class Player
     {

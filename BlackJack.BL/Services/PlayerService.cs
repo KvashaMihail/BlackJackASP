@@ -1,5 +1,5 @@
 ﻿using BlackJack.BL.Exception;
-using BlackJack.BL.Models;
+using BlackJack.Shared.Models;
 using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using System.Collections.Generic;
@@ -22,25 +22,14 @@ namespace BlackJack.BL.Services
             bool isEmptyPlayer = GetIsEmpty(name);
             if (isEmptyPlayer)
             {
-                Create(name);
-                return Mapper.ToModel(_playerRepository.Get(name));
+                _playerRepository.Create(new Player { Name = name, IsBot = false });
             }
-            return Mapper.ToModel(_playerRepository.Get(name));          
-        }
-
-        private void Create(string name)
-        {
-            bool isCorrectly = Regex.IsMatch(name, "^[a-zA-Z][a-zA-Z0-9]*$");            
-            if (!isCorrectly)
-            {
-                throw new ValidationException("Error! Only letters and numbers!");
-            }
-            _playerRepository.Create(Mapper.ToEntity(new Player { Name = name, IsBot = false }));
+            return _playerRepository.Get(name);          
         }
 
         public IEnumerable<Player> ShowPlayers()
         {
-            return Mapper.ToModel(_playerRepository.GetPlayers());
+            return _playerRepository.GetPlayers();
         }
 
         private bool GetIsEmpty()
