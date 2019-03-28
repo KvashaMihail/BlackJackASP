@@ -1,6 +1,6 @@
-﻿namespace BlackJack.UI.Models
+﻿namespace BlackJack.Models
 {
-    public class PlayerModel
+    public class Player
     {
         public int Id { get; set; }
         public string Name { get; set; }

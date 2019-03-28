@@ -1,7 +1,6 @@
-﻿using BlackJack.Shared.Models;
-using BlackJack.BL.Services.Interfaces;
+﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
-using System.Collections;
+using BlackJack.Models;
 using System.Collections.Generic;
 
 namespace BlackJack.BL.Services
@@ -17,8 +16,11 @@ namespace BlackJack.BL.Services
             _roundRepository = roundRepository;
             _roundPlayerRepository = roundPlayerRepository;
         }
-
-        public void StartRound(int gameId)
+        //private IEnumerable<int> getPlayersId(int gameId)
+        //{
+        //    var playersId = new List<int>();
+        //}
+        public void StartRound(int gameId, IEnumerable<int> playersId)
         {
             Round round = new Round
             {
@@ -26,6 +28,8 @@ namespace BlackJack.BL.Services
                 NumberRound = _roundRepository.GetCountRoundsByGame(gameId) + 1,
                 IsCompleted = false               
             };
+            _roundRepository.Create(round);
+
 
         }
     }

@@ -2,9 +2,9 @@
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
@@ -17,12 +17,14 @@ namespace BlackJack.DAL.Repository
             _context = new BlackJackContext(connection);
         }
 
-        public void Create(ref Shared.Models.Game item)
+        public int Create(Models.Game item)
         {
             Game game = Mapper.ToEntity(item);
+            game.DateStart = DateTime.Now;
+            game.DateEnd = DateTime.Now;
             _context.Games.Add(game);
             _context.SaveChanges();
-            item = Mapper.ToModel(game);
+            return game.Id;
         }
 
         public void Delete(int id)
@@ -35,17 +37,17 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public Shared.Models.Game Get(int id)
+        public Models.Game Get(int id)
         {
             return Mapper.ToModel(_context.Games.Find(id));
         }
 
-        public IEnumerable<Shared.Models.Game> GetAll()
+        public IEnumerable<Models.Game> GetAll()
         {
             return Mapper.ToModel(_context.Games);
         }
 
-        public void Update(Shared.Models.Game item)
+        public void Update(Models.Game item)
         {
 
             _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;

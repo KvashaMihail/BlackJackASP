@@ -1,4 +1,4 @@
-﻿using BlackJack.Shared.Models;
+﻿using BlackJack.Models;
 using System.Collections.Generic;
 
 namespace BlackJack.DAL
@@ -12,7 +12,7 @@ namespace BlackJack.DAL
             {
                 Id = player.Id,
                 Name = player.Name,
-                IsBot = player.IsBot
+                //IsBot = player.IsBot
             };
             return playerOut;
         }
@@ -23,13 +23,13 @@ namespace BlackJack.DAL
             {
                 Id = game.Id,
                 Name = game.Name,
-                DateStart = game.DateStart,
-                DateEnd = game.DateEnd
+                //DateStart = game.DateStart,
+                //DateEnd = game.DateEnd
             };
             return gameOut;
         }
 
-        public static Round ToModel(DAL.Entities.Round round)
+        public static Round ToModel(Entities.Round round)
         {
             Round roundOut = new Round
             {
@@ -132,8 +132,8 @@ namespace BlackJack.DAL
             DAL.Entities.Game gameOut = new DAL.Entities.Game
             {
                 Name = game.Name,
-                DateStart = game.DateStart,
-                DateEnd = game.DateEnd
+                //DateStart = game.DateStart,
+                //DateEnd = game.DateEnd
             };
             return gameOut;
         }
@@ -144,7 +144,7 @@ namespace BlackJack.DAL
                     {
                         Id = player.Id,
                         Name = player.Name,
-                        IsBot = player.IsBot
+                        //IsBot = player.IsBot
                     };
                     return playerOut;
                 }

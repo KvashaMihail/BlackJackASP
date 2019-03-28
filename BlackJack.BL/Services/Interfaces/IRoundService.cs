@@ -1,7 +1,9 @@
-﻿namespace BlackJack.BL.Services.Interfaces
+﻿using System.Collections.Generic;
+
+namespace BlackJack.BL.Services.Interfaces
 {
     public interface IRoundService
     {
-        void StartRound(int Number);
+        void StartRound(int gameId, IEnumerable<int> playersId);
     }
 }

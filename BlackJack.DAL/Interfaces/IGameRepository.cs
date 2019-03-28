@@ -1,4 +1,4 @@
-﻿using BlackJack.Shared.Models;
+﻿using BlackJack.Models;
 
 namespace BlackJack.DAL.Interfaces
 {

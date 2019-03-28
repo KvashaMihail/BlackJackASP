@@ -1,5 +1,5 @@
 ﻿using BlackJack.BL.Services.Interfaces;
-using BlackJack.UI.Models;
+using BlackJack.Models;
 using BlackJack.UI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +26,8 @@ namespace BlackJack.UI.Controllers
         public IActionResult StartGame(int countBots)
         {
             string playerName = _userManager.GetUserName(HttpContext.User);
-            GameModel game = Mapper.ToViewModel(_gameService.Create(playerName));
-            IEnumerable<PlayerModel> players = Mapper.ToViewModel(_gameService.GetPlayers(playerName, countBots));
+            Game game = _gameService.Create(playerName);
+            IEnumerable<Player> players = _gameService.GetPlayers(playerName, countBots);
             
             GameViewModel gameViewModel = new GameViewModel(game, players);                      
             return View("Game", gameViewModel);

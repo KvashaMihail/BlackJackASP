@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BlackJack.Shared.Models
+﻿namespace BlackJack.Models
 {
     public class Card
     {

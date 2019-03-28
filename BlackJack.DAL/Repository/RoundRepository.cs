@@ -19,12 +19,12 @@ namespace BlackJack.DAL.Repository
         }
 
 
-        public void Create(ref Shared.Models.Round item)
+        public int Create(Models.Round item)
         {
             Round round = Mapper.ToEntity(item);
             _context.Rounds.Add(round);
             _context.SaveChanges();
-            item = Mapper.ToModel(round);
+            return round.Id;
         }
 
         public void Delete(int id)
@@ -37,12 +37,12 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public Shared.Models.Round Get(int id)
+        public Models.Round Get(int id)
         {
             return Mapper.ToModel(_context.Rounds.Find(id));
         }
 
-        public IEnumerable<Shared.Models.Round> GetAll()
+        public IEnumerable<Models.Round> GetAll()
         {
             return Mapper.ToModel(_context.Rounds);
         }
@@ -52,7 +52,7 @@ namespace BlackJack.DAL.Repository
             return _context.Rounds.Where(round => round.GameId == gameId).Count();
         }
 
-        public void Update(Shared.Models.Round item)
+        public void Update(Models.Round item)
         {
 
             _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;

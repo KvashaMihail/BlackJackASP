@@ -1,4 +1,4 @@
-﻿using BlackJack.Shared.Models;
+﻿using BlackJack.Models;
 using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using System;
@@ -21,14 +21,12 @@ namespace BlackJack.BL.Services
 
         public Game Create(string playerName)
         {
-            string name = $"{playerName}-{DateTime.Now.DayOfYear}{DateTime.Now.Minute}{DateTime.Now.Second}";
+            string name = $"Game-{playerName}{DateTime.Now.Hour}:{DateTime.Now.Minute}";
             Game game = new Game
             {
                 Name = name,
-                DateStart = DateTime.Now,
-                DateEnd = DateTime.Now
             };
-            _gameRepository.Create(ref game);
+            game.Id = _gameRepository.Create(game);
             return game;
         }
 

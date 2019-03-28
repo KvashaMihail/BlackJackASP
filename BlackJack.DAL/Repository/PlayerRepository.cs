@@ -19,12 +19,13 @@ namespace BlackJack.DAL.Repository
         }
 
 
-        public void Create(Shared.Models.Player item)
+        public int Create(Models.Player item)
         {
             Player player = Mapper.ToEntity(item);
+            player.IsBot = false;
             _context.Players.Add(player);
             _context.SaveChanges();
-            item = Mapper.ToModel(player);
+            return player.Id;
         }
 
         public void Delete(int id)
@@ -37,34 +38,34 @@ namespace BlackJack.DAL.Repository
             }
         }
 
-        public Shared.Models.Player Get(int id)
+        public Models.Player Get(int id)
         {
             return Mapper.ToModel(_context.Players.Find(id));
         }
 
-        public IEnumerable<Shared.Models.Player> GetAll()
+        public IEnumerable<Models.Player> GetAll()
         {
             return Mapper.ToModel(_context.Players);
         }
 
-        public void Update(Shared.Models.Player item)
+        public void Update(Models.Player item)
         {
 
             _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
-        public IEnumerable<Shared.Models.Player> GetPlayers()
+        public IEnumerable<Models.Player> GetPlayers()
         {
             return Mapper.ToModel(_context.Players.Where(p => p.IsBot == false));
         }
 
-        public IEnumerable<Shared.Models.Player> GetBots(int countBots)
+        public IEnumerable<Models.Player> GetBots(int countBots)
         {
             return Mapper.ToModel(_context.Players.Where(p => p.Id <= countBots));
         }
 
-        public Shared.Models.Player Get(string name)
+        public Models.Player Get(string name)
         {
             return Mapper.ToModel(_context.Players.Where(p => p.Name == name).FirstOrDefault());
         }

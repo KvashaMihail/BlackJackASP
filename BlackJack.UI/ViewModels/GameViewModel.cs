@@ -1,18 +1,18 @@
-﻿using BlackJack.UI.Models;
+﻿using BlackJack.Models;
 using System.Collections.Generic;
 
 namespace BlackJack.UI.ViewModels
 {
     public class GameViewModel
     {
-        public GameViewModel(GameModel game, IEnumerable<PlayerModel> players)
+        public GameViewModel(Game game, IEnumerable<Player> players)
         {
             Game = game;
             Players = players;
         }
 
-        public GameModel Game { get; set; }
-        public IEnumerable<PlayerModel> Players { get; set; }
+        public Game Game { get; set; }
+        public IEnumerable<Player> Players { get; set; }
         public int NumberRound { get; set; }
     }
 }

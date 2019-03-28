@@ -1,4 +1,4 @@
-﻿using BlackJack.Shared.Models;
+﻿using BlackJack.Models;
 using System.Collections.Generic;
 
 namespace BlackJack.BL.Services.Interfaces

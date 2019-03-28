@@ -1,5 +1,5 @@
 ﻿using BlackJack.BL.Exception;
-using BlackJack.Shared.Models;
+using BlackJack.Models;
 using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace BlackJack.BL.Services
             bool isEmptyPlayer = GetIsEmpty(name);
             if (isEmptyPlayer)
             {
-                _playerRepository.Create(new Player { Name = name, IsBot = false });
+                _playerRepository.Create(new Player { Name = name });
             }
             return _playerRepository.Get(name);          
         }
