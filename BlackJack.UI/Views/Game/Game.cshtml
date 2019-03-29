@@ -1,29 +1,36 @@
 ﻿@model GameViewModel
 @{
     ViewData["Title"] = "Game";
-    Layout = "_LayoutNoCenter";
+    Layout = "_LayoutGame";
 }
 <div>
 
-    <button type="button" id="start-round-button" class="btn btn-outline-primary" style="float:left">Start Round</button>
-    <button type="button" id="get-card-button" class="btn btn-outline-primary" style="float:left">Взять карту</button>
-    <button type="button" id="skip-button" class="btn btn-outline-primary" style="float:left">Пропустить</button>
-    <div style="float:right" class="alert alert-primary">
-        Game @Model.Game.Name
-    </div>
+    
+
 </div>
 
 <div style="display: none" id="GameId">@Model.Game.Id</div>
 
 <div>
-    <table class="table">
-        <tr>
-            @foreach (var player in Model.Players)
-            {                
-                <td>@Html.DisplayFor(model => player.Name)</td>
-            }
-        </tr>
-        </table>
+    @{ 
+    int i = 1;
+    foreach (var player in Model.Players)
+    {
+        <div class="card card-modify">
+            <div class="card-header">
+                @player.Name
+            </div>
+            <div id="body-@i.ToString();" class="card-body" style="height: 150px;">
+                 
+            </div>
+            <div id="" class="alert-success card-footer">
+                <span id="score-@i.ToString();" style="width: 30px; float: left">0</span>
+                <span id="result-@i.ToString();" style="float: right">Победил?</span>           
+            </div>
+        </div>
+        i++;
+    }
+    }
 </div>
 
 

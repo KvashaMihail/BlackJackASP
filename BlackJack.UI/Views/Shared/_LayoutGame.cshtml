@@ -8,8 +8,15 @@
     <link rel="stylesheet" href="~/Style.css" />
 </head>
 <body>
+    <nav id="nav-id" style="border-bottom: 3px solid #28a745" class="navbar navbar-light bg-light shadow p-3">
+        <span class="navbar-brand mb-0 h1">BlackJack Game</span>
+        <button type="button" id="get-card-button" class="btn btn-outline-primary" style="float:left">Get Card</button>
+        <button type="button" id="skip-button" class="btn btn-outline-primary" style="float:left">Skip</button>
+        <button type="button" id="start-round-button" class="btn btn-outline-primary" style="float:left">Continue</button>
+        <span class="navbar-brand" style="float: right">@Model.Game.Name</span>
+    </nav>
     @RenderBody()
-        
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

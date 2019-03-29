@@ -4,6 +4,7 @@ using BlackJack.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
@@ -46,9 +47,13 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.RoundPlayers);
         }
 
+        public IEnumerable<Models.RoundPlayer> GetRoundPlayersByRound(int roundId)
+        {
+            return Mapper.ToModel(_context.RoundPlayers.Where(rp => rp.RoundId == roundId));
+        }
+
         public void Update(Models.RoundPlayer item)
         {
-
             _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
             _context.SaveChanges();
         }

@@ -10,11 +10,15 @@ namespace BlackJack.UI.Controllers
     public class GameController : Controller
     {
         private IGameService _gameService;
+        private IRoundService _roundService;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public GameController(IGameService service, UserManager<IdentityUser> userManager)
+        public GameController(IGameService gameService,
+            IRoundService roundService,
+            UserManager<IdentityUser> userManager)
         {
-            _gameService = service;
+            _gameService = gameService;
+            _roundService = roundService;
             _userManager = userManager;
         }
 
@@ -28,7 +32,12 @@ namespace BlackJack.UI.Controllers
             string playerName = _userManager.GetUserName(HttpContext.User);
             Game game = _gameService.Create(playerName);
             IEnumerable<Player> players = _gameService.GetPlayers(playerName, countBots);
-            
+            var playersId = new List<int>();
+            foreach (Player player in players)
+            {
+                playersId.Add(player.Id);
+            }
+            _roundService.StartRound(game.Id, playersId);
             GameViewModel gameViewModel = new GameViewModel(game, players);                      
             return View("Game", gameViewModel);
         }  

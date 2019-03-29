@@ -1,5 +1,6 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
+using BlackJack.Models;
 using System;
 
 namespace BlackJack.BL.Services
@@ -16,10 +17,17 @@ namespace BlackJack.BL.Services
             _cardRepository = cardRepository;
         }
 
-        public byte GetRandomCard()
+        public byte GetRandomCard(int roundPlayerId)
         {
             var random = new Random();
-            return (byte)random.Next(1, 52);
+            byte cardId = (byte)random.Next(1, 52);
+            RoundPlayerCard roundPlayerCard = new RoundPlayerCard
+            {
+                CardId = cardId,
+                RoundPlayerId = roundPlayerId
+            };
+            _roundPlayerCardRepository.Create(roundPlayerCard);
+            return cardId;
         }
     }
 }

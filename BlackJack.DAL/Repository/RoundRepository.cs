@@ -52,6 +52,13 @@ namespace BlackJack.DAL.Repository
             return _context.Rounds.Where(round => round.GameId == gameId).Count();
         }
 
+        public int GetIdbyNumber(int gameId, int number)
+        {
+            return _context.Rounds
+                .Where(round => ((round.GameId == gameId) && round.NumberRound == number))
+                .FirstOrDefault().Id;
+        }
+
         public void Update(Models.Round item)
         {
 

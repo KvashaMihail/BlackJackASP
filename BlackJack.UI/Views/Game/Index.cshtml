@@ -3,19 +3,21 @@
     ViewData["Title"] = "Game Menu";
     Layout = "_Layout";
 }
+<div>
+    <div class="alert alert-success button-my-outline">Welcome to the game, @Model</div>
+    <form method="post" asp-controller="Game" asp-action="StartGame">
+        <div class="form-group">
+            <label for="countBotsString">Bots count:</label>
+            <select class="form-control" name="countBots" id="countBotsString">
+                @for (int i = 0; i <= 7; i++)
+                {
+                    <option>@i</option>
+                }
+            </select>
+            <input type="submit" class="btn btn btn-outline-success button-my-outline" value="Start Game" />
+        </div>
+    </form>
+</div>
 
-<div class="alert alert-primary">Welcome to the game, @Model</div>
-<form method="post" asp-controller="Game" asp-action="StartGame">
-    <div class="form-group">
-        <label class="bj-centered-control" for="countBotsString">Bots count:</label>
-        <select class="form-control bj-centered-control" name="countBots" id="countBotsString">
-            @for (int i = 0; i <= 7; i++)
-            {
-                <option>@i</option>
-            }
-        </select>
-        <input type="submit" class="btn btn btn-outline-success bj-centered-control" value="Start Game" />
-    </div>
-</form>
 
 

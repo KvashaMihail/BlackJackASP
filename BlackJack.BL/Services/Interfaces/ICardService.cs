@@ -2,6 +2,6 @@
 {
     public interface ICardService
     {
-        byte GetRandomCard();
+        byte GetRandomCard(int roundPlayerId);
     }
 }
