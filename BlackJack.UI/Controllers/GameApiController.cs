@@ -20,9 +20,9 @@ namespace BlackJack.UI.Controllers
             _roundService = roundService;
         }
 
-        public ActionResult<IEnumerable<byte>> GetCards(int gameId)
+        public ActionResult<IEnumerable<byte>> GetCards(int gameId, IEnumerable<bool> flags)
         {
-            return _roundService.GetCards(gameId).ToList();
+            return _roundService.GetCards(gameId, flags.ToList()).ToList();
         }
 
         public ActionResult<IEnumerable<byte>> GetScores(int gameId)

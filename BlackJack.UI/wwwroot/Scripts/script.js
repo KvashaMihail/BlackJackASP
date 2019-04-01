@@ -10,12 +10,16 @@ $(document).ready(() => {
 
 //})
 $(window).on('load', function () {
-    GetCards();
-    GetCards();
-    GetScores();
+    
 });
 
-function GetCards() {
+function StartRound() {
+    GetCards(null);
+    GetCards(null);
+    GetScores();
+}
+
+function GetCards(flags) {
     $.ajax({
         url: '/api/GameApi/GetCards',
         type: 'GET',

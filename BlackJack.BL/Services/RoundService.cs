@@ -109,14 +109,29 @@ namespace BlackJack.BL.Services
             return theEnd;
         }
 
-        public IEnumerable<byte> GetCards(int gameId)
+        public IEnumerable<byte> GetCards(int gameId, List<bool> flags)
         {
+            
             var cards = new List<byte>();
             IEnumerable<RoundPlayer> roundPlayers = GetRoundPlayers(gameId);
-            foreach (RoundPlayer roundPlayer in roundPlayers)
+            if (flags == null)
             {
-                cards.Add(_cardService.GetRandomCard(roundPlayer.Id));
-            }           
+                for (int i = 0; i < roundPlayers.Count(); i++)
+                {
+                    flags.Add(true);
+                }
+            }
+            for (int i = 0; i < roundPlayers.Count(); i++)
+            {
+                if (flags[i])
+                {
+                    cards.Add(_cardService.GetRandomCard(roundPlayers.ElementAt(i).Id));                   
+                }
+                if (!flags[i])
+                {
+                    cards.Add(53);
+                }
+            }         
             return cards;
         }
 
