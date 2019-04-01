@@ -3,13 +3,7 @@
     ViewData["Title"] = "Game";
     Layout = "_LayoutGame";
 }
-<div>
-
-    
-
-</div>
-
-<div style="display: none" id="GameId">@Model.Game.Id</div>
+<div style="display: none" id="id-game">@Model.Game.Id</div>
 
 <div>
     @{ 
@@ -20,12 +14,12 @@
             <div class="card-header">
                 @player.Name
             </div>
-            <div id="body-@i.ToString();" class="card-body" style="height: 150px;">
-                 
+            <div id="body-@i.ToString()" class="card-body card-body-modify">
+                @*<img src="/Images/0.png" class="card-img" />*@
             </div>
             <div id="" class="alert-success card-footer">
-                <span id="score-@i.ToString();" style="width: 30px; float: left">0</span>
-                <span id="result-@i.ToString();" style="float: right">Победил?</span>           
+                <span id="score-@i.ToString()" class="card-score">0</span>
+                <span id="result-@i.ToString()" style="float: right"></span>           
             </div>
         </div>
         i++;

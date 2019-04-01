@@ -8,5 +8,6 @@ namespace BlackJack.DAL.Interfaces
         Player Get(string name);
         IEnumerable<Player> GetPlayers();
         IEnumerable<Player> GetBots(int countBots);
+        bool GetIsEmptyByName(string name);
     }
 }

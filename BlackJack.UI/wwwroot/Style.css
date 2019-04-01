@@ -33,16 +33,22 @@ button {
     overflow: auto;
 }
 
+.button-game {
+    float: left;
+    margin: 2px;
+    border-width: 2px;
+    font-family: Consolas;
+}
+
 .button-my-outline {
     margin: 10px 25px 10px 25px;
-    padding: 10px;
-    border-width: medium;
-    border-radius: 8px;
+    padding: 5px;
+    border-width: 2px;
+    border-radius: 5px;
     width: -webkit-fill-available;
-    min-width: 300px;
+    min-width: 250px;
     font-family: Consolas;
-    font-weight: 500;
-    font-size: larger;
+    font-weight: 400;
 }
 
 .bj-centered-block {
@@ -59,6 +65,27 @@ button {
     border-radius: 8px;
     width: 200px;
     float: left;
+}
+
+.card-body-modify {
+    height: 165px;
+    padding: 0 12px;
+}
+.card-img {
+    margin: 3px;
+    padding: 0;
+    border: 1px solid #28a745;
+    width: 50px;
+    height: 76px;
+    float: left;
+}
+
+.card-score {
+    float: left;
+    width: 30px;
+    font-family: Consolas;
+    font-weight: bold;
+    font-size: large;
 }
 
 .bj-centered-control {

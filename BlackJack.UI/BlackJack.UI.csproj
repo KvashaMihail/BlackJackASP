@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlackJack.BL\BlackJack.BL.csproj" />
-    <ProjectReference Include="..\BlackJack.Shared\BlackJack.Models.csproj" />
+    <ProjectReference Include="..\BlackJack.Models\BlackJack.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

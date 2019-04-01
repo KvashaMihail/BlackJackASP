@@ -17,7 +17,7 @@ namespace BlackJack.DAL.Repository
             _context = new BlackJackContext(connection);
         }
 
-        public Models.Card Get(int id)
+        public Models.Card Get(byte id)
         {
             return Mapper.ToModel(_context.Cards.Find(id));
         }

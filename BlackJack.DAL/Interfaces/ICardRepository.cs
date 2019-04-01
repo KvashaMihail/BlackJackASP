@@ -4,6 +4,6 @@ namespace BlackJack.DAL.Interfaces
 {
     public interface ICardRepository 
     {
-        Card Get(int id);
+        Card Get(byte id);
     }
 }

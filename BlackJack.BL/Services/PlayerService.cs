@@ -19,7 +19,7 @@ namespace BlackJack.BL.Services
 
         public Player SelectOrCreate(string name)
         {
-            bool isEmptyPlayer = GetIsEmpty(name);
+            bool isEmptyPlayer = _playerRepository.GetIsEmptyByName(name);
             if (isEmptyPlayer)
             {
                 _playerRepository.Create(new Player { Name = name });
@@ -35,11 +35,6 @@ namespace BlackJack.BL.Services
         private bool GetIsEmpty()
         {
             return !ShowPlayers().Any();
-        }
-
-        private bool GetIsEmpty(string name)
-        {
-            return _playerRepository.Get(name) == null;
         }
     }
 }

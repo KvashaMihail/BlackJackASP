@@ -17,17 +17,65 @@ namespace BlackJack.BL.Services
             _cardRepository = cardRepository;
         }
 
+        
+
         public byte GetRandomCard(int roundPlayerId)
         {
             var random = new Random();
             byte cardId = (byte)random.Next(1, 52);
+            int numberCard = _roundPlayerCardRepository.GetCountCardsByRoundPlayer(roundPlayerId) + 1;
             RoundPlayerCard roundPlayerCard = new RoundPlayerCard
             {
                 CardId = cardId,
-                RoundPlayerId = roundPlayerId
+                RoundPlayerId = roundPlayerId,
+                NumberCard = numberCard
             };
             _roundPlayerCardRepository.Create(roundPlayerCard);
             return cardId;
+        }
+
+        private byte GetScoreCard(byte idCard)
+        {
+            byte valueCard = _cardRepository.Get(idCard).Value;
+            if (valueCard <= 8)
+            {
+                return (byte)(valueCard + 2);
+            }
+            if (valueCard > 8 && valueCard < 12)
+            {
+                return 10;
+            }
+            return 11;
+        }       
+
+        public byte GetScorePlayer(int roundPlayerId)
+        {
+            byte score = 0;
+            int countAces = 0;
+            var cards = _roundPlayerCardRepository.GetCardsByRoundPlayer(roundPlayerId);
+            foreach (RoundPlayerCard card in cards)
+            {
+                score += GetScoreCard(Convert.ToByte(card.CardId));
+                if (card.CardId > 48)
+                {
+                    countAces++;
+                }
+            }
+            for (int i = 0; i < countAces; i++)
+            {
+                if (score > 21)
+                {
+                    score -= 10;
+                }
+            }
+            return score;
+        }
+
+        public bool CheckBlackJack(int roundPlayerId)
+        {
+            int cardsCount = _roundPlayerCardRepository.GetCountCardsByRoundPlayer(roundPlayerId);
+            byte score = GetScorePlayer(roundPlayerId);
+            return cardsCount == 2 && score == 21;
         }
     }
 }

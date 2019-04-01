@@ -69,5 +69,10 @@ namespace BlackJack.DAL.Repository
         {
             return Mapper.ToModel(_context.Players.Where(p => p.Name == name).FirstOrDefault());
         }
+
+        public bool GetIsEmptyByName(string name)
+        {
+            return _context.Players.Where(p => p.Name == name).FirstOrDefault() == null;
+        }
     }
 }
