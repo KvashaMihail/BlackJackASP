@@ -24,6 +24,7 @@ namespace BlackJack.DAL.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseSqlServer(_connection);
         }
 
@@ -69,9 +70,6 @@ namespace BlackJack.DAL.EF
             #endregion
 
             #region RoundPlayer
-            modelBuilder.Entity<RoundPlayer>()
-                .Property(rp => rp.IsWin)
-                .IsRequired();
             modelBuilder.Entity<RoundPlayer>()
                 .HasMany(rp => rp.RoundPlayerCards)
                 .WithOne(rpc => rpc.RoundPlayer)

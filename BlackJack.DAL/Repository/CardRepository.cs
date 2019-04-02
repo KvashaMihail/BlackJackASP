@@ -1,9 +1,5 @@
 ﻿using BlackJack.DAL.EF;
-using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Data.Common;
 
 namespace BlackJack.DAL.Repository
 {
@@ -12,9 +8,9 @@ namespace BlackJack.DAL.Repository
 
         protected readonly BlackJackContext _context;
 
-        public CardRepository(DbConnection connection)
+        public CardRepository(BlackJackContext context)
         {
-            _context = new BlackJackContext(connection);
+            _context = context;
         }
 
         public Models.Card Get(byte id)

@@ -13,9 +13,9 @@ namespace BlackJack.DAL.Repository
 
         protected readonly BlackJackContext _context;
 
-        public RoundRepository(DbConnection connection)
+        public RoundRepository(BlackJackContext context)
         {
-            _context = new BlackJackContext(connection);
+            _context = context;
         }
 
 
@@ -59,10 +59,10 @@ namespace BlackJack.DAL.Repository
                 .FirstOrDefault().Id;
         }
 
-        public void Update(Models.Round item)
+        public void Update(int id, Models.Round item)
         {
-
-            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
+            var entity = _context.Rounds.FirstOrDefault(r => r.Id == id);
+            entity.IsCompleted = true;
             _context.SaveChanges();
         }
     }

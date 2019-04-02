@@ -1,9 +1,7 @@
 ﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository
@@ -13,9 +11,9 @@ namespace BlackJack.DAL.Repository
 
         protected readonly BlackJackContext _context;
 
-        public RoundPlayerRepository(DbConnection connection)
+        public RoundPlayerRepository(BlackJackContext context)
         {
-            _context = new BlackJackContext(connection);
+            _context = context;
         }
 
 
@@ -57,9 +55,10 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.RoundPlayers.Where(rp => rp.RoundId == roundId && rp.PlayerId == playerId).FirstOrDefault());
         }
 
-        public void Update(Models.RoundPlayer item)
+        public void Update(int id, Models.RoundPlayer item)
         {
-            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
+            var entity = _context.RoundPlayers.FirstOrDefault(rp => rp.Id == id);
+            entity.IsWin = item.IsWin;
             _context.SaveChanges();
         }
     }

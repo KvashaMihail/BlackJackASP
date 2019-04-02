@@ -10,16 +10,15 @@
     int i = 1;
     foreach (var player in Model.Players)
     {
-        <div class="card card-modify">
+        <div id="card-@i.ToString()" class="card card-modify">
             <div class="card-header">
                 @player.Name
             </div>
             <div id="body-@i.ToString()" class="card-body card-body-modify">
-                @*<img src="/Images/0.png" class="card-img" />*@
             </div>
-            <div id="" class="alert-success card-footer">
-                <span id="score-@i.ToString()" class="card-score">0</span>
-                <span id="result-@i.ToString()" style="float: right"></span>           
+            <div id="footer-@i.ToString()" class="alert-secondary card-footer">
+                <span id="score-@i.ToString()" class="card-font-large card-score">0</span>
+                <span id="result-@i.ToString()" class="card-font-large" style="float: right"></span>           
             </div>
         </div>
         i++;

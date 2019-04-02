@@ -8,6 +8,7 @@ namespace BlackJack.BL.Services.Interfaces
         IEnumerable<byte> GetCards(int gameId, List<bool> flags);
         IEnumerable<byte> GetScores(int gameId);
         IEnumerable<bool> GetFlagsIsGiveCard(int gameId, bool playerChoice);
-        bool EndCheck(int gameId, IEnumerable<bool> flags);
+        bool CheckIsRoundFinished(int gameId, IEnumerable<bool> flags);
+        IEnumerable<bool> GetFlagsIsWin(int gameId);
     }
 }

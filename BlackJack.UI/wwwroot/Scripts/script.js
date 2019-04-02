@@ -1,57 +1,116 @@
 ﻿const gameApi = "api/GameApi";
-
 $(document).ready(() => {
     $("#get-cards-button").click(() => {
-        GetCards();
+        GiveNextCard(true);       
+    });
+    $("#skip-button").click(() => {
+        GiveNextCard(false);
     });
 });
 
-//$(document).load(function() {
-
-//})
 $(window).on('load', function () {
-    
+    StartRound();
 });
 
 function StartRound() {
-    GetCards(null);
-    GetCards(null);
-    GetScores();
+    $("#next-round-button").attr("disabled", true);
+    ShowCards();
+    ShowCards();
+    ShowScores();
 }
 
-function GetCards(flags) {
+function ShowCards(flags) {
     $.ajax({
         url: '/api/GameApi/GetCards',
-        type: 'GET',
-        dataType: 'json',
-        data: "gameId=" + $("#id-game").html(),
+        cache: false,
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ GameId: $("#id-game").html(), Flags: flags }),
         success: cards => {
-            ShowCards(cards);
-            GetScores();
+            ShowScores();
+            for (var i = 1; i <= cards.length; i++) {
+                if (cards[i - 1] <= 52) {
+                    $('#body-' + i).append('<img src="/Images/' + cards[i - 1] + '.png" class="card-img" />');
+                }
+            }
         }
     });
 }
 
-function GetScores() {
+function GetCheckedIsFinishRound(flags) {
     $.ajax({
-        url: '/api/GameApi/GetScores',
-        type: 'GET',
-        dataType: 'json',
-        data: "gameId=" + $("#id-game").html(),
-        success: scores => {
-            ShowScores(scores);
+        url: '/api/GameApi/CheckFinishRound',
+        cache: false,
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ GameId: $("#id-game").html(), Flags: flags }),
+        success: isFinished => {
+            if (!isFinished) {
+                ShowCards(flags);
+            }
+            if (isFinished) {
+                ShowResults();
+            }  
         }
     });
 }
 
-function ShowScores(scores) {
-    for (var i = 1; i <= scores.length; i++) {
-        $('#score-' + i).empty().append(scores[i-1]);
-    }
+function GiveNextCard(choice) {
+    $.ajax({
+        url: '/api/GameApi/GetFlags',
+        cache: false,
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ GameId: $("#id-game").html(), Choice: choice }),
+        success: flags => {
+            GetCheckedIsFinishRound(flags);
+        }
+    });
 }
 
-function ShowCards(cards) {
-    for (var i = 1; i <= cards.length; i++) {
-        $('#body-' + i).append('<img src="/Images/' + cards[i - 1] + '.png" class="card-img" />');
-    }
+function CardSetLose(i) {
+    $('#result-' + i).append("Lose!");
+    $('#footer-' + i).removeClass("alert-success").addClass("alert-danger");
+    $('#card-'+i).css("border-color", "red")
+}
+
+function CardSetWin(i) {
+    $('#result-' + i).append("Win!");
+    $('#footer-' + i).removeClass("alert-secondary").addClass("alert-success");
+    $('#card-' + i).css("border-color", "green")
+}
+
+function ShowResults() {
+    $.ajax({
+        url: '/api/GameApi/GetFlagsIsWin/' + $("#id-game").html(),
+        cache: false,
+        type: 'GET',
+        success: flags => {
+            $("#next-round-button").attr("disabled", false);
+            $("#skip-button").attr("disabled", true);
+            $("#get-cards-button").attr("disabled", true);
+            for (var i = 1; i <= flags.length; i++) {
+                if (flags[i-1]) {
+                    CardSetWin(i);
+                }
+                if (!flags[i-1]) {
+                    CardSetLose(i);
+                }               
+            }
+        }
+    });
+}
+
+function ShowScores() {
+    $.ajax({
+        url: '/api/GameApi/GetScores/' + $("#id-game").html(),
+        cache: false,
+        type: 'GET',
+        success: scores => {
+            $("#get-cards-button").attr("disabled", scores[0]>19);
+            for (var i = 1; i <= scores.length; i++) {
+                $('#score-' + i).empty().append(scores[i - 1]);
+            }
+        }
+    });
 }

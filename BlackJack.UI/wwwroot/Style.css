@@ -61,7 +61,7 @@ button {
 
 .card-modify {
     margin: 10px;
-    border: medium solid #28a745;
+    border: medium solid #4b4b4b;
     border-radius: 8px;
     width: 200px;
     float: left;
@@ -79,13 +79,15 @@ button {
     height: 76px;
     float: left;
 }
-
-.card-score {
-    float: left;
-    width: 30px;
+.card-font-large {
     font-family: Consolas;
     font-weight: bold;
     font-size: large;
+}
+
+.card-score {
+    float: left;
+    width: 30px;  
 }
 
 .bj-centered-control {

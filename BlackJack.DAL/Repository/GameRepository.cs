@@ -12,9 +12,9 @@ namespace BlackJack.DAL.Repository
     {
         protected readonly BlackJackContext _context;
 
-        public GameRepository(DbConnection connection)
+        public GameRepository(BlackJackContext context)
         {
-            _context = new BlackJackContext(connection);
+            _context = context;
         }
 
         public int Create(Models.Game item)
@@ -47,7 +47,7 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.Games);
         }
 
-        public void Update(Models.Game item)
+        public void Update(int id, Models.Game item)
         {
 
             _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;

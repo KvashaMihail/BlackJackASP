@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190402143233_IsWinNotRequired.cs" />
+    <Compile Remove="Migrations\20190402145101_RoundPlayerIsWinNull.cs" />
+    <Compile Remove="Migrations\20190402150112_IsWinNullable.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.8">
       <PrivateAssets>all</PrivateAssets>
