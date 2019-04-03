@@ -37,9 +37,14 @@ namespace BlackJack.UI.Controllers
             {
                 playersId.Add(player.Id);
             }
-            _roundService.StartRound(game.Id, playersId);
+            _roundService.StartFirstRound(game.Id, playersId);
             GameViewModel gameViewModel = new GameViewModel(game, players);                      
             return View("Game", gameViewModel);
-        }  
+        }
+        
+        public IActionResult ShowGames()
+        {
+            return View();
+        }
     }
 }

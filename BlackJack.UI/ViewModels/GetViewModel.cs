@@ -4,7 +4,8 @@ namespace BlackJack.UI.ViewModels
 {
     public class GetViewModel
     {
-        bool IsFinishedRound { get; set; }
-        List<List<byte>> Cards { get; set; }
+        public bool IsFinishedRound { get; set; }
+        public List<List<byte>> Cards { get; set; }
+        public List<byte> Scores { get; set; }
     }
 }

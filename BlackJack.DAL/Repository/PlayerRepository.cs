@@ -1,9 +1,7 @@
 ﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository
@@ -66,6 +64,11 @@ namespace BlackJack.DAL.Repository
         public bool GetIsEmptyByName(string name)
         {
             return _context.Players.Where(p => p.Name == name).FirstOrDefault() == null;
+        }
+
+        public Models.Player GetDealer()
+        {
+            return Mapper.ToModel(_context.Players.Find(8));
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository
@@ -22,7 +20,7 @@ namespace BlackJack.DAL.Repository
         {
             Game game = Mapper.ToEntity(item);
             game.DateStart = DateTime.Now;
-            game.DateEnd = DateTime.Now;
+            game.DateFinishLastRound = DateTime.Now;
             _context.Games.Add(game);
             _context.SaveChanges();
             return game.Id;
@@ -51,7 +49,7 @@ namespace BlackJack.DAL.Repository
         public void Update(int gameId)
         {
             var entity = _context.Games.FirstOrDefault(g => g.Id == gameId);
-            entity.DateEnd = DateTime.Now;
+            entity.DateFinishLastRound = DateTime.Now;
             _context.SaveChanges();
         }
     }

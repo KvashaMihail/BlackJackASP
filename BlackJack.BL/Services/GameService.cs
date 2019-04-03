@@ -24,9 +24,19 @@ namespace BlackJack.BL.Services
             _gameRepository.Update(gameId);
         }
 
+        public Player SelectPlayer(string name)
+        {
+            bool isEmptyPlayer = _playerRepository.GetIsEmptyByName(name);
+            if (isEmptyPlayer)
+            {
+                _playerRepository.Create(new Player { Name = name });
+            }
+            return _playerRepository.Get(name);
+        }
+
         public Game Create(string playerName)
         {
-            string name = $"Game-{playerName}{DateTime.Now.Hour}:{DateTime.Now.Minute}";
+            string name = $"{playerName}-{DateTime.Now.Hour}-{DateTime.Now.Minute}";
             Game game = new Game
             {
                 Name = name,

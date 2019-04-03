@@ -1,6 +1,7 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.UI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BlackJack.UI.Controllers
@@ -23,47 +24,66 @@ namespace BlackJack.UI.Controllers
             _gameService = gameService;
         }
 
-        //[HttpGet("{gameId}")]
-        //public ActionResult GetStartCards(int gameId)
-        //{
-
-        //    return Ok();
-        //}
-
-        [HttpPost]
-        public ActionResult GetCards([FromBody]PostViewModel postViewModel)
+        [HttpPost("{gameId}")]
+        public ActionResult StartNextRound(int gameId)
         {
-            var cards = _roundService.GetCards(postViewModel.GameId, postViewModel.Flags).ToList();
-            return Ok(cards);
+            _roundService.StartRound(gameId);
+            return Ok();
         }
-        
+
         [HttpGet("{gameId}")]
-        public ActionResult GetScores(int gameId)
+        public ActionResult GetStartCards(int gameId)
         {
-            var scores = _roundService.GetScores(gameId).ToList();
-            return Ok(scores);
+            var getViewModel = new GetViewModel
+            {
+                IsFinishedRound = false,
+                Cards = _roundService.GetStartCards(gameId),
+                Scores = _roundService.GetScores(gameId).ToList()
+            };
+            return Ok(getViewModel);
         }
 
-        [HttpPost]
-        public ActionResult GetFlags([FromBody]PostViewModel postViewModel)
+        [HttpGet("{gameId}")]
+        public ActionResult GetLastCards(int gameId)
         {
-            var flags = _roundService.GetFlagsIsGiveCard(postViewModel.GameId, postViewModel.Choice).ToList();
-            return Ok(flags);
+            var getViewModel = new GetViewModel();
+            var cards = new List<List<byte>>();
+            var flags = _roundService.GetFlagsIsGiveCard(gameId, false).ToList();
+            bool isFinishRound;
+            do
+            {
+                cards.Add(_roundService.GetCards(gameId, flags).ToList());
+                getViewModel.Scores = _roundService.GetScores(gameId).ToList();
+                flags = _roundService.GetFlagsIsGiveCard(gameId, false).ToList();
+                isFinishRound = _roundService.GetIsRoundFinished(gameId, flags);
+            }
+            while (!isFinishRound);
+            getViewModel.Cards = cards;
+            getViewModel.IsFinishedRound = true;
+            return Ok(getViewModel);
+        }
+
+        [HttpGet("{gameId}")]
+        public ActionResult GetCards(int gameId)
+        {
+            var getViewModel = new GetViewModel();
+            var cards = new List<List<byte>>();
+            var flags = _roundService.GetFlagsIsGiveCard(gameId, true).ToList();
+            cards.Add(_roundService.GetCards(gameId, flags).ToList());
+            getViewModel.Scores = _roundService.GetScores(gameId).ToList();
+            flags = _roundService.GetFlagsIsGiveCard(gameId, getViewModel.Scores[0] < 20).ToList();
+            getViewModel.Cards = cards;
+            getViewModel.IsFinishedRound = _roundService.GetIsRoundFinished(gameId, flags);
+            return Ok(getViewModel);
         }
 
         [HttpGet("{gameId}")]
         public ActionResult GetFlagsIsWin(int gameId)
         {
             var flags = _roundService.GetFlagsIsWin(gameId).ToList();
+            _roundService.SaveRound(gameId, flags);
             _gameService.UpdateTimeForGame(gameId);
             return Ok(flags);
-        }
-
-        [HttpPost]
-        public ActionResult CheckFinishRound([FromBody]PostViewModel postViewModel)
-        {
-            bool isFinished = _roundService.CheckIsRoundFinished(postViewModel.GameId, postViewModel.Flags);
-            return Ok(isFinished);
         }
     }
 }

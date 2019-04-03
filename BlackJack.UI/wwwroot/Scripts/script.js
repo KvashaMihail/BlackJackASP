@@ -1,96 +1,87 @@
 ﻿const gameApi = "api/GameApi";
-let isFinish;
 
 $(document).ready(() => {
 
     $("#get-cards-button").click(() => {
-        GiveCards(true);  
+        GiveCards();  
     });
 
     $("#skip-button").click(() => {
-        GiveCards(false);
+        GiveLastCards();
     });
 
     $('#next-round-button').click(() => {
         ClearOldRound();
+        StartRound();
     });
 });
 
 $(window).on('load', function () {
-    StartRound();
+    $("#next-round-button").attr("disabled", true);
+    GiveStartCards();
 });
 
-function NotGiveCard() {
-    do {
-        GiveCards(false);
-    }
-    while (!isFinish);
-}
-
 function StartRound() {
-    $("#next-round-button").attr("disabled", true);
-    ShowCards();
-    ShowCards(); 
-    IsFinishRound();
-}
-
-function IsFinishRound() {
-    return $.ajax({
-        url: '/api/GameApi/GetFlags',
+    $.ajax({
+        url: '/api/GameApi/StartNextRound/' + $("#id-game").html(),
         cache: false,
         type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ GameId: $("#id-game").html(), Choice: false }),
-        success: flags => {
-            CheckedIsFinishRound(flags);
+        success: ()=>{
+            GiveStartCards();
         }
     });
 }
 
-function ShowCards(flags) {
+function GiveStartCards() {
     $.ajax({
-        url: '/api/GameApi/GetCards',
+        url: '/api/GameApi/GetStartCards/' + $("#id-game").html(),
         cache: false,
-        type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ GameId: $("#id-game").html(), Flags: flags }),
-        success: cards => {
-            ShowScores();
-            for (var i = 1; i <= cards.length; i++) {
-                if (cards[i - 1] <= 52) {
-                    $('#body-' + i).append('<img src="/Images/' + cards[i - 1] + '.png" class="card-img" />');
-                }
+        type: 'GET',
+        success: getViewModel => {
+            ShowCards(getViewModel.cards);
+            ShowScores(getViewModel.scores);
+        }
+    });
+}
+
+function ShowCards(cards) {
+    for (var i = 0; i < cards.length; i++) {
+        for (var j = 1; j <= cards[i].length; j++) {
+            if (cards[i][j - 1] <= 52) {
+                $('#body-' + j).append('<img src="/Images/' + cards[i][j - 1] + '.png" class="card-img" />');
+            }
+        }
+    }
+}
+
+function GiveCards() {
+    $.ajax({
+        url: '/api/GameApi/GetCards/' + $("#id-game").html(),
+        cache: false,
+        type: 'GET',
+        success: getViewModel => {            
+            ShowCards(getViewModel.cards);
+            ShowScores(getViewModel.scores);  
+            if (getViewModel.isFinishRound) {
+                FinishRound();
+            }
+            var scorePlayer = getViewModel.scores[0];
+            if (scorePlayer > 20) {
+                GiveLastCards();
             }
         }
     });
 }
 
-function CheckedIsFinishRound(flags) {
+function GiveLastCards() {
     $.ajax({
-        url: '/api/GameApi/CheckFinishRound',
+        url: '/api/GameApi/GetLastCards/' + $("#id-game").html(),
         cache: false,
-        type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ GameId: $("#id-game").html(), Flags: flags }),
-        success: isFinished => {
-            if (isFinished) {
-                isFinish = isFinished;
-                FinishRound();
-            }            
-        }
-    });
-}
-
-function GiveCards(choice) {
-    return $.ajax({
-        url: '/api/GameApi/GetFlags',
-        cache: false,
-        type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ GameId: $("#id-game").html(), Choice: choice }),
-        success: flags => {
-            ShowCards(flags);
-            IsFinishRound();
+        type: 'GET',
+        success: getViewModel => {
+            ShowCards(getViewModel.cards);
+            ShowScores(getViewModel.scores);
+            FinishRound();
         }
     });
 }
@@ -129,26 +120,18 @@ function FinishRound() {
     });
 }
 
-function ShowScores() {
-    $.ajax({
-        url: '/api/GameApi/GetScores/' + $("#id-game").html(),
-        cache: false,
-        type: 'GET',
-        success: scores => {
-            
-            for (var i = 1; i <= scores.length; i++) {
-                $('#score-' + i).empty().append(scores[i - 1]);
-            }
-            if (scores[0] > 21) {
-                $("#get-cards-button").attr("disabled", true);
-            }
-        }
-    });
+function ShowScores(scores) {
+    for (var i = 1; i <= scores.length; i++) {
+        $('#score-' + i).empty().append(scores[i - 1]);
+    }
 }
 
 function ClearOldRound() {
     $("#next-round-button").attr("disabled", true);
     $("#skip-button").attr("disabled", false);
     $("#get-cards-button").attr("disabled", false);
-    $(".card-body").empty();
+    $(".card-body, .card-font-large").empty();
+    $(".card-score").append("0");
+    $(".card-footer").removeClass("alert-success alert-danger").addClass("alert-secondary");
+    $(".card").css("border-color", "#808080");
 }

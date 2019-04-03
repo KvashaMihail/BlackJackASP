@@ -60,7 +60,7 @@ namespace BlackJack.BL.Services
             return playersId;
         }
 
-        public IEnumerable<byte> GetScores(int gameId)
+        public List<byte> GetScores(int gameId)
         {
             var scores = new List<byte>();
             IEnumerable<RoundPlayer> roundPlayers = GetRoundPlayers(gameId);
@@ -71,7 +71,7 @@ namespace BlackJack.BL.Services
             return scores;
         }
 
-        public IEnumerable<bool> GetFlagsIsGiveCard(int gameId, bool playerChoice)
+        public List<bool> GetFlagsIsGiveCard(int gameId, bool playerChoice)
         {
             var flags = new List<bool>();
             flags.Add(playerChoice);
@@ -87,7 +87,7 @@ namespace BlackJack.BL.Services
             return flags;
         }
 
-        public IEnumerable<bool> GetFlagsIsWin(int gameId)
+        public List<bool> GetFlagsIsWin(int gameId)
         {
             var flags = new List<bool>();
             var roundPlayers = GetRoundPlayers(gameId).ToList();
@@ -118,7 +118,21 @@ namespace BlackJack.BL.Services
             return flags;
         }
 
-        public bool CheckIsRoundFinished(int gameId, IEnumerable<bool> flags)
+        public void SaveRound(int gameId, List<bool> flags)
+        {
+            var roundPlayers = GetRoundPlayers(gameId).ToList();
+            for (int i = 0; i < roundPlayers.Count - 1; i++)
+            {
+                roundPlayers[i].IsWin = flags[i];
+                _roundPlayerRepository.Update(roundPlayers[i]);
+            }
+            int roundId = GetCurrentRoundId(gameId);
+            Round round = _roundRepository.Get(roundId);
+            round.IsCompleted = true;
+            _roundRepository.Update(round);
+        }
+
+        public bool GetIsRoundFinished(int gameId, IEnumerable<bool> flags)
         {
             int roundId = GetCurrentRoundId(gameId);
             bool theEnd = true;
@@ -142,26 +156,11 @@ namespace BlackJack.BL.Services
             return theEnd;
         }
 
-        //public List<List<byte>> GetStartCards(int gameId)
-        //{
-        //    var cards = new List<List<byte>>();
-        //    cards.Add(GetCards(gameId, null).ToList());
-        //    return cards;
-        //}
-
-        public IEnumerable<byte> GetCards(int gameId, List<bool> flags)
+        public List<byte> GetCards(int gameId, List<bool> flags)
         {
             
             var cards = new List<byte>();
             IEnumerable<RoundPlayer> roundPlayers = GetRoundPlayers(gameId);
-            if (flags == null)
-            {
-                flags = new List<bool>();
-                for (int i = 0; i < roundPlayers.Count(); i++)
-                {
-                    flags.Add(true);
-                }
-            }
             for (int i = 0; i < roundPlayers.Count(); i++)
             {
                 if (flags[i])
@@ -176,7 +175,7 @@ namespace BlackJack.BL.Services
             return cards;
         }
 
-        public void StartRound(int gameId, IEnumerable<int> playersId)
+        public void StartFirstRound(int gameId, IEnumerable<int> playersId)
         {
             int number = _roundRepository.GetCountRoundsByGame(gameId);
             Round round = new Round
@@ -186,10 +185,37 @@ namespace BlackJack.BL.Services
                 IsCompleted = false               
             };
             round.Id = _roundRepository.Create(round);
-            if (playersId == null)
+            foreach (int id in playersId)
             {
-                playersId = GetPlayersId(gameId);
+                RoundPlayer roundPlayer = new RoundPlayer
+                {
+                    RoundId = round.Id,
+                    PlayerId = id
+                };
+                _roundPlayerRepository.Create(roundPlayer);
             }
+        }
+
+        public List<List<byte>> GetStartCards(int gameId)
+        {
+            var cards = new List<List<byte>>();
+            var flags = new List<bool> { true, true, true, true, true, true, true, true };
+            cards.Add(GetCards(gameId, flags).ToList());
+            cards.Add(GetCards(gameId, flags).ToList());
+            return cards;
+        }
+
+        public void StartRound(int gameId)
+        {
+            int number = _roundRepository.GetCountRoundsByGame(gameId);
+            var playersId = GetPlayersId(gameId);
+            Round round = new Round
+            {
+                GameId = gameId,
+                NumberRound = number + 1,
+                IsCompleted = false
+            };
+            round.Id = _roundRepository.Create(round);           
             foreach (int id in playersId)
             {
                 RoundPlayer roundPlayer = new RoundPlayer

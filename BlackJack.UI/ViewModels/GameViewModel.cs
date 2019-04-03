@@ -5,13 +5,13 @@ namespace BlackJack.UI.ViewModels
 {
     public class GameViewModel
     {
-        public GameViewModel(Game game, IEnumerable<Player> players)
+        public GameViewModel(Models.Game game, IEnumerable<Player> players)
         {
             Game = game;
             Players = players;
         }
 
-        public Game Game { get; set; }
+        public Models.Game Game { get; set; }
         public IEnumerable<Player> Players { get; set; }
         public int NumberRound { get; set; }
     }

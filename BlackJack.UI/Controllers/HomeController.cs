@@ -1,31 +1,27 @@
 ﻿using BlackJack.BL.Services.Interfaces;
-using BlackJack.Models;
-//using BlackJack.Models;
 using BlackJack.UI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BlackJack.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private IPlayerService _playerService;
+        private IGameService _gameService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(IPlayerService service, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public HomeController(IGameService gameService, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
-            _playerService = service;
+            _gameService = gameService;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Player> playerList = _playerService.ShowPlayers();
-            return View(playerList);
+            return View();
         }
 
         [HttpGet]
@@ -44,7 +40,7 @@ namespace BlackJack.UI.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    _playerService.SelectOrCreate(model.Name);
+                    _gameService.SelectPlayer(model.Name);
                     return RedirectToAction("Index", "Game");
                 }
                 foreach (var error in result.Errors)
