@@ -46,13 +46,6 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.RoundPlayerCards);
         }
 
-        public void Update(int id, Models.RoundPlayerCard item)
-        {
-
-            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
         public IEnumerable<Models.RoundPlayerCard> GetCardsByRoundPlayer(int idRoundPlayer)
         {
             return Mapper.ToModel(_context.RoundPlayerCards.Where(rpc => rpc.RoundPlayerId == idRoundPlayer));

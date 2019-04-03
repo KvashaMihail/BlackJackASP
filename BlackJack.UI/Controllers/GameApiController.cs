@@ -11,14 +11,24 @@ namespace BlackJack.UI.Controllers
     {
         private ICardService _cardService;
         private IRoundService _roundService;
+        private IGameService _gameService;
 
 
         public GameApiController(ICardService cardService,
-            IRoundService roundService)
+            IRoundService roundService,
+            IGameService gameService)
         {
             _cardService = cardService;
             _roundService = roundService;
+            _gameService = gameService;
         }
+
+        //[HttpGet("{gameId}")]
+        //public ActionResult GetStartCards(int gameId)
+        //{
+
+        //    return Ok();
+        //}
 
         [HttpPost]
         public ActionResult GetCards([FromBody]PostViewModel postViewModel)
@@ -45,6 +55,7 @@ namespace BlackJack.UI.Controllers
         public ActionResult GetFlagsIsWin(int gameId)
         {
             var flags = _roundService.GetFlagsIsWin(gameId).ToList();
+            _gameService.UpdateTimeForGame(gameId);
             return Ok(flags);
         }
 

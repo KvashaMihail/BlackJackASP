@@ -48,13 +48,6 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.Players);
         }
 
-        public void Update(int id, Models.Player item)
-        {
-
-            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
         public IEnumerable<Models.Player> GetPlayers()
         {
             return Mapper.ToModel(_context.Players.Where(p => p.IsBot == false));

@@ -59,9 +59,9 @@ namespace BlackJack.DAL.Repository
                 .FirstOrDefault().Id;
         }
 
-        public void Update(int id, Models.Round item)
+        public void Update(Models.Round item)
         {
-            var entity = _context.Rounds.FirstOrDefault(r => r.Id == id);
+            var entity = _context.Rounds.FirstOrDefault(r => r.Id == item.Id);
             entity.IsCompleted = true;
             _context.SaveChanges();
         }

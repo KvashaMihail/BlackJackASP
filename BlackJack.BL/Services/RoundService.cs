@@ -99,15 +99,22 @@ namespace BlackJack.BL.Services
             int dealerId = scores.Count - 1;
             for (int i = 0; i < dealerId; i++)
             {
+                bool isBlackJack = _cardService.CheckBlackJack(roundPlayers[i].Id);
                 bool isWin = scores[i] > scores[dealerId];
-                flags.Add(isWin);
+                if (isBlackJack)
+                {
+                    isWin = true;
+                }
+                
                 roundPlayers[i].IsWin = isWin;
-                _roundPlayerRepository.Update(roundPlayers[i].Id, roundPlayers[i]);
+                _roundPlayerRepository.Update(roundPlayers[i]);
+                flags.Add(isWin);
             }
             int roundId = GetCurrentRoundId(gameId);
             Round round = _roundRepository.Get(roundId);
             round.IsCompleted = true;
-            _roundRepository.Update(round.Id, round);
+            _roundRepository.Update(round);
+
             return flags;
         }
 
@@ -134,6 +141,13 @@ namespace BlackJack.BL.Services
             }
             return theEnd;
         }
+
+        //public List<List<byte>> GetStartCards(int gameId)
+        //{
+        //    var cards = new List<List<byte>>();
+        //    cards.Add(GetCards(gameId, null).ToList());
+        //    return cards;
+        //}
 
         public IEnumerable<byte> GetCards(int gameId, List<bool> flags)
         {

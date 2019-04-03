@@ -18,6 +18,11 @@ namespace BlackJack.BL.Services
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
         }
+        
+        public void UpdateTimeForGame(int gameId)
+        {
+            _gameRepository.Update(gameId);
+        }
 
         public Game Create(string playerName)
         {

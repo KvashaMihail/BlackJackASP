@@ -6,8 +6,7 @@ namespace BlackJack.DAL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(int id);
-        int Create(T item);
-        void Update(int id, T item);
+        int Create(T item);        
         void Delete(int id);
     }
 }

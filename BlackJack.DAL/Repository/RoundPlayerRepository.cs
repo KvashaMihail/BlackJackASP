@@ -55,9 +55,9 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.RoundPlayers.Where(rp => rp.RoundId == roundId && rp.PlayerId == playerId).FirstOrDefault());
         }
 
-        public void Update(int id, Models.RoundPlayer item)
+        public void Update(Models.RoundPlayer item)
         {
-            var entity = _context.RoundPlayers.FirstOrDefault(rp => rp.Id == id);
+            var entity = _context.RoundPlayers.FirstOrDefault(rp => rp.Id == item.Id);
             entity.IsWin = item.IsWin;
             _context.SaveChanges();
         }

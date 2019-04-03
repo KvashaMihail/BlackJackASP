@@ -1,10 +1,18 @@
 ﻿const gameApi = "api/GameApi";
+let isFinish;
+
 $(document).ready(() => {
+
     $("#get-cards-button").click(() => {
-        GiveNextCard(true);       
+        GiveCards(true);  
     });
+
     $("#skip-button").click(() => {
-        GiveNextCard(false);
+        GiveCards(false);
+    });
+
+    $('#next-round-button').click(() => {
+        ClearOldRound();
     });
 });
 
@@ -12,11 +20,31 @@ $(window).on('load', function () {
     StartRound();
 });
 
+function NotGiveCard() {
+    do {
+        GiveCards(false);
+    }
+    while (!isFinish);
+}
+
 function StartRound() {
     $("#next-round-button").attr("disabled", true);
     ShowCards();
-    ShowCards();
-    ShowScores();
+    ShowCards(); 
+    IsFinishRound();
+}
+
+function IsFinishRound() {
+    return $.ajax({
+        url: '/api/GameApi/GetFlags',
+        cache: false,
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ GameId: $("#id-game").html(), Choice: false }),
+        success: flags => {
+            CheckedIsFinishRound(flags);
+        }
+    });
 }
 
 function ShowCards(flags) {
@@ -37,7 +65,7 @@ function ShowCards(flags) {
     });
 }
 
-function GetCheckedIsFinishRound(flags) {
+function CheckedIsFinishRound(flags) {
     $.ajax({
         url: '/api/GameApi/CheckFinishRound',
         cache: false,
@@ -45,25 +73,24 @@ function GetCheckedIsFinishRound(flags) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ GameId: $("#id-game").html(), Flags: flags }),
         success: isFinished => {
-            if (!isFinished) {
-                ShowCards(flags);
-            }
             if (isFinished) {
-                ShowResults();
-            }  
+                isFinish = isFinished;
+                FinishRound();
+            }            
         }
     });
 }
 
-function GiveNextCard(choice) {
-    $.ajax({
+function GiveCards(choice) {
+    return $.ajax({
         url: '/api/GameApi/GetFlags',
         cache: false,
         type: 'POST',
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ GameId: $("#id-game").html(), Choice: choice }),
         success: flags => {
-            GetCheckedIsFinishRound(flags);
+            ShowCards(flags);
+            IsFinishRound();
         }
     });
 }
@@ -80,7 +107,8 @@ function CardSetWin(i) {
     $('#card-' + i).css("border-color", "green")
 }
 
-function ShowResults() {
+function FinishRound() {
+    isFinishRound = true;
     $.ajax({
         url: '/api/GameApi/GetFlagsIsWin/' + $("#id-game").html(),
         cache: false,
@@ -107,10 +135,20 @@ function ShowScores() {
         cache: false,
         type: 'GET',
         success: scores => {
-            $("#get-cards-button").attr("disabled", scores[0]>19);
+            
             for (var i = 1; i <= scores.length; i++) {
                 $('#score-' + i).empty().append(scores[i - 1]);
             }
+            if (scores[0] > 21) {
+                $("#get-cards-button").attr("disabled", true);
+            }
         }
     });
+}
+
+function ClearOldRound() {
+    $("#next-round-button").attr("disabled", true);
+    $("#skip-button").attr("disabled", false);
+    $("#get-cards-button").attr("disabled", false);
+    $(".card-body").empty();
 }

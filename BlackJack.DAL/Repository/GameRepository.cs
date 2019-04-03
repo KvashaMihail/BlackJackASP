@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 
 namespace BlackJack.DAL.Repository
 {
@@ -47,10 +48,10 @@ namespace BlackJack.DAL.Repository
             return Mapper.ToModel(_context.Games);
         }
 
-        public void Update(int id, Models.Game item)
+        public void Update(int gameId)
         {
-
-            _context.Entry(Mapper.ToEntity(item)).State = EntityState.Modified;
+            var entity = _context.Games.FirstOrDefault(g => g.Id == gameId);
+            entity.DateEnd = DateTime.Now;
             _context.SaveChanges();
         }
     }
