@@ -44,7 +44,7 @@ namespace BlackJack.UI.Controllers
         
         public IActionResult ShowGames()
         {
-            return View();
+            return View("List");
         }
     }
 }
