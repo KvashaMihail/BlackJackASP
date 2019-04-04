@@ -59,6 +59,11 @@ namespace BlackJack.DAL.Repository
                 .FirstOrDefault().Id;
         }
 
+        public IEnumerable<Models.Round> GetRoundsByGame(int gameId)
+        {
+            return Mapper.ToModel(_context.Rounds.Where(round => round.GameId == gameId));
+        }
+
         public void Update(Models.Round item)
         {
             var entity = _context.Rounds.FirstOrDefault(r => r.Id == item.Id);

@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="~/Style.css" />
 </head>
 <body>
-    <nav id="nav-id" style="border-bottom: 3px solid #28a745" class="navbar navbar-light bg-light shadow">
+    <nav id="nav-id" style="border-bottom: 3px solid #007bff" class="navbar navbar-dark bg-dark shadow">
         <span class="navbar-brand mb-0 h1">BlackJack Game</span>
         <span class="navbar-brand" style="float: right">@ViewBag.Title</span>
     </nav>
-    <div class="container-fluid">
-        <div id="main-container" class="row">
+    <div class="container-fluid" style="padding: 0">
+        <div id="main-container" class="row no-gutters">
             @RenderBody()
         </div>       
     </div>

@@ -1,5 +1,5 @@
 ﻿using BlackJack.BL.Services.Interfaces;
-using BlackJack.UI.ViewModels;
+using BlackJack.ViewModels.Game;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

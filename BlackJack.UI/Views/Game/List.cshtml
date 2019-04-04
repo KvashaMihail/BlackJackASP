@@ -1,11 +1,28 @@
-﻿@{
+﻿@model List<Game>
+@{
     ViewData["Title"] = "History Games";
     Layout = "_LayoutListGame";
 }
-<div class="col col-lg-2" style="background-color: antiquewhite">
-    list Games
+<div class="col col-sm-3">
+    <div class="alert alert-primary no-margin" style="border-radius: 5px 5px 0 0" role="heading">
+        Games:
+    </div>
+    <div id="games-id" class="list-group">
+        @foreach (var game in Model)
+        {
+        <button id="@game.Id" type="button" style="padding: 8px 12px" class="list-group-item list-group-item-action no-margin" active>@game.Name</button>
+        }
+    </div>
 </div>
-<div class="col" style="background-color: aquamarine">
-    list rounds
+<div class="col">
+    <div class="alert alert-success no-margin" style="border-radius: 5px 5px 0 0" role="heading">
+        Rounds:
+    </div>
+    <div id="rounds-id" class="tab-content">
+        <div class="alert alert-danger">
+            Select any game
+        </div>
+        
+    </div>
 </div>
 

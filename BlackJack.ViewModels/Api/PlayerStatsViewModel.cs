@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace BlackJack.UI.ViewModels
+namespace BlackJack.ViewModels.Api
 {
-    public class GetViewModel
+    public class PlayerStatsViewModel
     {
         public bool IsFinishedRound { get; set; }
         public List<List<byte>> Cards { get; set; }

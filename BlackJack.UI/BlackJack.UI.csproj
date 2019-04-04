@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlackJack.BL\BlackJack.BL.csproj" />
     <ProjectReference Include="..\BlackJack.Models\BlackJack.Models.csproj" />
+    <ProjectReference Include="..\BlackJack.ViewModels\BlackJack.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

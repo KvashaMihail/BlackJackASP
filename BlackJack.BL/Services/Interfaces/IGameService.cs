@@ -8,7 +8,8 @@ namespace BlackJack.BL.Services.Interfaces
         Game Create(string name);
         Player SelectPlayer(string name);
         void UpdateTimeForGame(int gameId);
-        IEnumerable<Game> ShowGames();
+        IEnumerable<Game> GetGames();
         IEnumerable<Player> GetPlayers(string playerName, int countBots);
+        List<string> GetNamePlayers(List<int> playersId);
     }
 }

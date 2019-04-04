@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace BlackJack.BL.Configuration
 {
-    public static class DALConfigService
+    public static class DALConfig
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services, string connectionString)
         {

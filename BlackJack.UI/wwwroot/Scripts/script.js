@@ -127,7 +127,7 @@ function ShowScores(scores) {
 }
 
 function ClearOldRound() {
-    $("#next-round-button").attr("disabled", true);
+    $("#next-round-button").attr("disabled", true); 
     $("#skip-button").attr("disabled", false);
     $("#get-cards-button").attr("disabled", false);
     $(".card-body, .card-font-large").empty();

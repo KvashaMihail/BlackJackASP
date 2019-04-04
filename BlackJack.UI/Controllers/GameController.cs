@@ -1,6 +1,6 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.Models;
-using BlackJack.UI.ViewModels;
+using BlackJack.ViewModels.Api;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -44,7 +44,8 @@ namespace BlackJack.UI.Controllers
         
         public IActionResult ShowGames()
         {
-            return View("List");
+            var games = _gameService.GetGames();
+            return View("List", games);
         }
     }
 }

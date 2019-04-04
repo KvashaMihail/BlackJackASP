@@ -45,7 +45,7 @@ namespace BlackJack.BL.Services
             return game;
         }
 
-        public IEnumerable<Game> ShowGames()
+        public IEnumerable<Game> GetGames()
         {
             return _gameRepository.GetAll();
         }
@@ -62,6 +62,16 @@ namespace BlackJack.BL.Services
             players.AddRange(_playerRepository.GetBots(countBots));
             players.Add(_playerRepository.Get(8));
             return players;
+        }
+
+        public List<string> GetNamePlayers(List<int> playersId)
+        {
+            var namePlayers = new List<string>();
+            foreach (int playerId in playersId)
+            {
+                namePlayers.Add(_playerRepository.Get(playerId).Name);
+            }
+            return namePlayers;
         }
     }
 }

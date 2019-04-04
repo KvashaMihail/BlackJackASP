@@ -96,3 +96,12 @@ button {
     height: auto;
     margin: 2px 10px;
 }
+.no-margin {
+    margin: 0;
+}
+
+.my-row {
+    padding: 0 5px;
+    text-align: center;   
+}
+

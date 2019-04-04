@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackJack.DAL\BlackJack.DAL.csproj" />
     <ProjectReference Include="..\BlackJack.Models\BlackJack.Models.csproj" />
-    <ProjectReference Include="..\BlackJack.ViewModels\BlackJack.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

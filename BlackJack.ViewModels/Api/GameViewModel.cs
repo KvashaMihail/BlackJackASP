@@ -1,7 +1,7 @@
 ﻿using BlackJack.Models;
 using System.Collections.Generic;
 
-namespace BlackJack.UI.ViewModels
+namespace BlackJack.ViewModels.Api
 {
     public class GameViewModel
     {

@@ -2,6 +2,7 @@
 using BlackJack.DAL.Interfaces;
 using BlackJack.Models;
 using System;
+using System.Collections.Generic;
 
 namespace BlackJack.BL.Services
 {
@@ -15,9 +16,7 @@ namespace BlackJack.BL.Services
         {
             _roundPlayerCardRepository = roundPlayerCardRepository;
             _cardRepository = cardRepository;
-        }
-
-        
+        }       
 
         public byte GetRandomCard(int roundPlayerId)
         {
@@ -76,6 +75,17 @@ namespace BlackJack.BL.Services
             int cardsCount = _roundPlayerCardRepository.GetCountCardsByRoundPlayer(roundPlayerId);
             byte score = GetScorePlayer(roundPlayerId);
             return cardsCount == 2 && score == 21;
+        }
+
+        public List<byte> GetCardsByRoundPlayer(int roundPlayerId)
+        {
+            var cardsId = new List<byte>();
+            var cards = _roundPlayerCardRepository.GetCardsByRoundPlayer(roundPlayerId);
+            foreach (RoundPlayerCard card in cards)
+            {
+                cardsId.Add((byte)card.CardId);
+            }
+            return cardsId;
         }
     }
 }

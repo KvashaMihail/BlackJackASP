@@ -4,14 +4,16 @@ using BlackJack.DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlackJack.DAL.Migrations
 {
     [DbContext(typeof(BlackJackContext))]
-    partial class BlackJackContextModelSnapshot : ModelSnapshot
+    [Migration("20190404074256_Rename Game column")]
+    partial class RenameGamecolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

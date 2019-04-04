@@ -1,4 +1,6 @@
-﻿namespace BlackJack.Models
+﻿using System.Collections.Generic;
+
+namespace BlackJack.Models
 {
     public class Round
     {
