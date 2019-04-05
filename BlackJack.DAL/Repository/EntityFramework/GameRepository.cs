@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJack.DAL.Repository
+namespace BlackJack.DAL.Repository.EntityFramework
 {
     public class GameRepository : IGameRepository
     {

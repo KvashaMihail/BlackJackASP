@@ -1,6 +1,7 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using BlackJack.Models;
+using BlackJack.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,13 +44,13 @@ namespace BlackJack.BL.Services
         {
             int roundId = GetCurrentRoundId(gameId);
             byte score = _cardService.GetScorePlayer(roundPlayerId);
-            if (score > 21)
+            if (score > (int)Constants.MaxScore)
             {
-                score = 0;
+                score = (int)Constants.OverScore;
             }
             if (_cardService.CheckBlackJack(roundPlayerId))
             {
-                score = 100;
+                score = (int)Constants.BlackJackScore;
             }
             return score;
         }
@@ -160,7 +161,7 @@ namespace BlackJack.BL.Services
                         }
                         if (!flags[i])
                         {
-                            cards.Add(53);
+                            cards.Add((byte)Constants.IdNullCard);
                         }
                     }         
                     return cards;
@@ -179,7 +180,7 @@ namespace BlackJack.BL.Services
                     }
                     int idDealer = _roundPlayerRepository.GetPlayer(roundId, 8).Id;
                     int scoreDealer = _cardService.GetScorePlayer(idDealer);
-                    if (scoreDealer > 21)
+                    if (scoreDealer > (int)Constants.MaxScore)
                     {
                         theEnd = true;
                     }

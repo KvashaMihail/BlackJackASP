@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 
-namespace BlackJack.DAL.Repository
+namespace BlackJack.DAL.Repository.EntityFramework
 {
     public class RoundPlayerCardRepository : IRoundPlayerCardRepository
     {

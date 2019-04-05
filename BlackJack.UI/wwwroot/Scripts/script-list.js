@@ -77,7 +77,7 @@ function ShowRound(roundM) {
         var cards = roundM.cards[i];
         for (var j = 0; j < cards.length; j++) {
             if (cards[j] <= 52) {
-                $('#cards-' + roundM.round.id + i).append('<img src="/Images/' + cards[j] + '.png" class="card-img" />');
+                $('#cards-' + roundM.round.id + i).append('<img src="/Images/' + cards[j] + '.png" class="view-img" />');
             }            
         }
     } 

@@ -38,8 +38,7 @@ namespace BlackJack.UI
                     })
                 .AddEntityFrameworkStores<UsersContext>();
             services.AddMvc();
-            services.AddRepositories(_configuration.GetConnectionString("DefaultConnection"));
-            services.AddServicesBL();
+            services.AddServicesFromBL(_configuration.GetConnectionString("DefaultConnection"));
             
         }
 

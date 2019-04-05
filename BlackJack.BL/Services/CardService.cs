@@ -1,6 +1,7 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
 using BlackJack.Models;
+using BlackJack.Shared.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -44,7 +45,7 @@ namespace BlackJack.BL.Services
             {
                 return 10;
             }
-            return 11;
+            return (byte)Constants.AceCardScore;
         }       
 
         public byte GetScorePlayer(int roundPlayerId)
@@ -62,7 +63,7 @@ namespace BlackJack.BL.Services
             }
             for (int i = 0; i < countAces; i++)
             {
-                if (score > 21)
+                if (score > (byte)Constants.MaxScore)
                 {
                     score -= 10;
                 }
@@ -74,7 +75,7 @@ namespace BlackJack.BL.Services
         {
             int cardsCount = _roundPlayerCardRepository.GetCountCardsByRoundPlayer(roundPlayerId);
             byte score = GetScorePlayer(roundPlayerId);
-            return cardsCount == 2 && score == 21;
+            return cardsCount == 2 && score == (byte)Constants.MaxScore;
         }
 
         public List<byte> GetCardsByRoundPlayer(int roundPlayerId)

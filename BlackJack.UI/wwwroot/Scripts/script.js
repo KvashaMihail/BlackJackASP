@@ -40,6 +40,10 @@ function GiveStartCards() {
         success: getViewModel => {
             ShowCards(getViewModel.cards);
             ShowScores(getViewModel.scores);
+            var idDealer = getViewModel.cards[0].length;
+            $('#body-' + idDealer).find("img").eq(1).css('display', 'none');
+            $('#body-' + idDealer).append('<img id="" src="/Images/0.png" class="card-img" />');
+            $('#score-' + idDealer).css('display', 'none');
         }
     });
 }
@@ -48,10 +52,10 @@ function ShowCards(cards) {
     for (var i = 0; i < cards.length; i++) {
         for (var j = 1; j <= cards[i].length; j++) {
             if (cards[i][j - 1] <= 52) {
-                $('#body-' + j).append('<img src="/Images/' + cards[i][j - 1] + '.png" class="card-img" />');
+                $('#body-' + j).append('<img id="" src="/Images/' + cards[i][j - 1] + '.png" class="card-img" />');
             }
         }
-    }
+    }   
 }
 
 function GiveCards() {
@@ -63,7 +67,7 @@ function GiveCards() {
             ShowCards(getViewModel.cards);
             ShowScores(getViewModel.scores);  
             if (getViewModel.isFinishRound) {
-                FinishRound();
+                FinishRound(getViewModel.cards[0].length);
             }
             var scorePlayer = getViewModel.scores[0];
             if (scorePlayer > 20) {
@@ -81,7 +85,7 @@ function GiveLastCards() {
         success: getViewModel => {
             ShowCards(getViewModel.cards);
             ShowScores(getViewModel.scores);
-            FinishRound();
+            FinishRound(getViewModel.cards[0].length);
         }
     });
 }
@@ -98,7 +102,7 @@ function CardSetWin(i) {
     $('#card-' + i).css("border-color", "green")
 }
 
-function FinishRound() {
+function FinishRound(id) {
     isFinishRound = true;
     $.ajax({
         url: '/api/GameApi/GetFlagsIsWin/' + $("#id-game").html(),
@@ -116,6 +120,9 @@ function FinishRound() {
                     CardSetLose(i);
                 }               
             }
+            $('#body-' + id).find("img").eq(1).css('display', 'block');
+            $('#body-' + id).find("img").eq(2).css('display', 'none');
+            $('#score-' + id).css('display', 'block');
         }
     });
 }

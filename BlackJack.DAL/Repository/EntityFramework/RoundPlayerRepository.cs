@@ -4,7 +4,7 @@ using BlackJack.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJack.DAL.Repository
+namespace BlackJack.DAL.Repository.EntityFramework
 {
     public class RoundPlayerRepository : IRoundPlayerRepository
     {

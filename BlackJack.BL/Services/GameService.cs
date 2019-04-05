@@ -4,6 +4,7 @@ using BlackJack.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BlackJack.Shared.Enums;
 
 namespace BlackJack.BL.Services
 {
@@ -60,7 +61,7 @@ namespace BlackJack.BL.Services
             var players = new List<Player>();
             players.Add(_playerRepository.Get(playerName));
             players.AddRange(_playerRepository.GetBots(countBots));
-            players.Add(_playerRepository.Get(8));
+            players.Add(_playerRepository.Get((int)Constants.DealerId));
             return players;
         }
 

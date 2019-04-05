@@ -1,24 +1,19 @@
 ﻿using BlackJack.BL.Services.Interfaces;
-using BlackJack.Models;
 using BlackJack.ViewModels.Api;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BlackJack.UI.Controllers
 {
     public class GameController : Controller
     {
-        private IGameService _gameService;
-        private IRoundService _roundService;
+        private IGameMenuService _gameMenuService;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public GameController(IGameService gameService,
-            IRoundService roundService,
+        public GameController(IGameMenuService gameMenuService,
             UserManager<IdentityUser> userManager)
         {
-            _gameService = gameService;
-            _roundService = roundService;
+            _gameMenuService = gameMenuService;
             _userManager = userManager;
         }
 
@@ -30,21 +25,13 @@ namespace BlackJack.UI.Controllers
         public IActionResult StartGame(int countBots)
         {
             string playerName = _userManager.GetUserName(HttpContext.User);
-            Game game = _gameService.Create(playerName);
-            IEnumerable<Player> players = _gameService.GetPlayers(playerName, countBots);
-            var playersId = new List<int>();
-            foreach (Player player in players)
-            {
-                playersId.Add(player.Id);
-            }
-            _roundService.StartFirstRound(game.Id, playersId);
-            GameViewModel gameViewModel = new GameViewModel(game, players);                      
+            GameViewModel gameViewModel = _gameMenuService.GetGameViewModel(countBots, playerName);                      
             return View("Game", gameViewModel);
         }
         
         public IActionResult ShowGames()
         {
-            var games = _gameService.GetGames();
+            var games = _gameMenuService.GetGames();
             return View("List", games);
         }
     }

@@ -79,6 +79,16 @@ button {
     height: 76px;
     float: left;
 }
+
+.view-img {
+    margin: 3px;
+    padding: 0;
+    border: 1px solid #000000;
+    width: 75px;
+    height: 110px;
+    float: left;
+}
+
 .card-font-large {
     font-family: Consolas;
     font-weight: bold;

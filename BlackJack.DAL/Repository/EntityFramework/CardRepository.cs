@@ -1,7 +1,7 @@
 ﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Interfaces;
 
-namespace BlackJack.DAL.Repository
+namespace BlackJack.DAL.Repository.EntityFramework
 {
     public class CardRepository : ICardRepository
     {
