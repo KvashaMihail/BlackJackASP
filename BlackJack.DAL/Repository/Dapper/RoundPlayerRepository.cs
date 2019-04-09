@@ -20,9 +20,9 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public int Create(Models.RoundPlayer item)
         {
-            var sqlQuery = "INSERT INTO RoundPlayers (RoundId, PlayerId)" +
-                "VALUES(@RoundId, @PlayerId); SELECT CAST(SCOPE_IDENTITY() as int)";
-            int? id = _dbConnection.Query<int>(sqlQuery, item).FirstOrDefault();
+            var sqlQuery = @"INSERT INTO RoundPlayers (RoundId, PlayerId)
+                VALUES(@RoundId, @PlayerId); SELECT CAST(SCOPE_IDENTITY() as int)";
+            int? id = _dbConnection.QuerySingle<int>(sqlQuery, item);
             return id.Value;
         }
 
@@ -34,7 +34,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.RoundPlayer Get(int id)
         {
-            var roundPlayer = _dbConnection.Query<RoundPlayer>("SELECT * FROM RoundPlayers WHERE Id = @id", new { id }).FirstOrDefault();
+            var roundPlayer = _dbConnection.QuerySingle<RoundPlayer>("SELECT * FROM RoundPlayers WHERE Id = @id", new { id });
             return Mapper.ToModel(roundPlayer);
         }
 
@@ -52,8 +52,9 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.RoundPlayer GetPlayer(int roundId, int playerId)
         {
-            var roundPlayer = _dbConnection.Query<RoundPlayer>("SELECT * FROM RoundPlayers WHERE RoundId = @roundId" + 
-                " AND PlayerId = @playerId", new { roundId, playerId }).FirstOrDefault();
+            var sql = @"SELECT * FROM RoundPlayers 
+                        WHERE RoundId = @roundId AND PlayerId = @playerId";
+            var roundPlayer = _dbConnection.QuerySingle<RoundPlayer>(sql, new { roundId, playerId });
             return Mapper.ToModel(roundPlayer);
         }
 

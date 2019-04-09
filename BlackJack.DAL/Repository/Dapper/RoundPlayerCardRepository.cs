@@ -19,9 +19,9 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public int Create(Models.RoundPlayerCard item)
         {
-            var sqlQuery = "INSERT INTO RoundPlayerCards (NumberCard, RoundPlayerId, CardId)" +
-                "VALUES(@NumberCard, @RoundPlayerId, @CardId); SELECT CAST(SCOPE_IDENTITY() as int)";
-            int? id = _dbConnection.Query<int>(sqlQuery, item).FirstOrDefault();
+            var sqlQuery = @"INSERT INTO RoundPlayerCards (NumberCard, RoundPlayerId, CardId)
+                VALUES(@NumberCard, @RoundPlayerId, @CardId); SELECT CAST(SCOPE_IDENTITY() as int)";
+            int? id = _dbConnection.QuerySingle<int>(sqlQuery, item);
             return id.Value;
         }
 
@@ -33,7 +33,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.RoundPlayerCard Get(int id)
         {
-            var roundPlayerCard = _dbConnection.Query<RoundPlayerCard>("SELECT * FROM RoundPlayerCards WHERE Id = @id", new { id }).FirstOrDefault();
+            var roundPlayerCard = _dbConnection.QuerySingle<RoundPlayerCard>("SELECT * FROM RoundPlayerCards WHERE Id = @id", new { id });
             return Mapper.ToModel(roundPlayerCard);
         }
 

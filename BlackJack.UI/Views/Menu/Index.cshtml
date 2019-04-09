@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 <div>
-    <form method="post" asp-controller="Game" asp-action="StartGame">
+    <form method="post" asp-controller="Menu" asp-action="StartGame">
         <div class="form-group">
             <label for="countBotsString">Bots count:</label>
             <select class="form-control" name="countBots" id="countBotsString">
@@ -16,7 +16,7 @@
             <input type="submit" class="btn btn btn-outline-success button-my-outline" value="Start Game" />
         </div>
     </form>
-    <form method="post" asp-controller="Game" asp-action="ShowGames">
+    <form method="post" asp-controller="Menu" asp-action="ShowGames">
         <input type="submit" class="btn btn-outline-primary button-my-outline" value="Show Games" />
     </form>
 </div>

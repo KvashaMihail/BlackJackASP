@@ -11,7 +11,7 @@ namespace BlackJack.BL.Configuration
         public static IServiceCollection AddServicesFromBL(this IServiceCollection services, string connectionString)
         {
             services.AddDapper(connectionString);
-
+            //services.AddEF(connectionString);
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<ICardService, CardService>();
             services.AddTransient<IRoundService, RoundService>();

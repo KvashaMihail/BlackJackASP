@@ -1,11 +1,15 @@
 ﻿using BlackJack.BL.Configuration;
 using BlackJack.UI.Data;
+using BlackJack.UI.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace BlackJack.UI
 {
@@ -19,8 +23,7 @@ namespace BlackJack.UI
             
             _configuration = configuration;
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<UsersContext>(options =>
@@ -36,13 +39,24 @@ namespace BlackJack.UI
                         RequireUppercase = false,
                         RequireNonAlphanumeric = false
                     })
-                .AddEntityFrameworkStores<UsersContext>();
+                .AddEntityFrameworkStores<UsersContext>().
+                AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options =>
+            {
+                //options.Cookie.HttpOnly = false;
+                //options.LoginPath = new PathString("/Home/Login");
+                //options.AccessDeniedPath = new PathString("/Home/AccessDenied");
+                //options.SlidingExpiration = true;
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                };
+            });
             services.AddMvc();
             services.AddServicesFromBL(_configuration.GetConnectionString("DefaultConnection"));
-            
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -54,10 +68,12 @@ namespace BlackJack.UI
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            
             app.UseHttpsRedirection();
-            app.UseStatusCodePages();
-            app.UseStaticFiles();
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");     
+            app.UseStaticFiles();          
             app.UseAuthentication();
+            //app.UseMiddleware<RequestValidation>();
             app.UseMvcWithDefaultRoute();
             
         }

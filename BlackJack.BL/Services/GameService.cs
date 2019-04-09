@@ -51,9 +51,9 @@ namespace BlackJack.BL.Services
             return _gameRepository.GetAll();
         }
 
-        public bool GetIsEmpty()
+        public bool GetIsEmptyById(int gameId)
         {
-            return !_gameRepository.GetAll().Any();
+            return _gameRepository.GetIsEmptyById(gameId);
         }
 
         public IEnumerable<Player> GetPlayers(string playerName, int countBots)

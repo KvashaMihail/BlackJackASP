@@ -20,10 +20,10 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public int Create(Models.Round item)
         {
-            var sqlQuery = "INSERT INTO Rounds (NumberRound, GameId, IsCompleted)" +
-                "VALUES(@NumberRound, @GameId, @IsCompleted); SELECT CAST(SCOPE_IDENTITY() as int)";
+            var sqlQuery = @"INSERT INTO Rounds (NumberRound, GameId, IsCompleted)
+                VALUES(@NumberRound, @GameId, @IsCompleted); SELECT CAST(SCOPE_IDENTITY() as int)";
             item.IsCompleted = false;
-            int? id = _dbConnection.Query<int>(sqlQuery, item).FirstOrDefault();
+            int? id = _dbConnection.QuerySingle<int>(sqlQuery, item);
             return id.Value;
         }
 
@@ -35,7 +35,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.Round Get(int id)
         {
-            var round = _dbConnection.Query<Round>("SELECT * FROM Rounds WHERE Id = @id", new { id }).FirstOrDefault();
+            var round = _dbConnection.QuerySingle<Round>("SELECT * FROM Rounds WHERE Id = @id", new { id });
             return Mapper.ToModel(round);
         }
 
@@ -53,8 +53,8 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public int GetIdbyNumber(int gameId, int number)
         {
-            var round = _dbConnection.Query<Round>("SELECT * FROM Rounds WHERE GameId = @gameId AND NumberRound = @number",
-                new { gameId, number }).FirstOrDefault();
+            var round = _dbConnection.QuerySingle<Round>("SELECT * FROM Rounds WHERE GameId = @gameId AND NumberRound = @number",
+                new { gameId, number });
             return round.Id;
         }
 

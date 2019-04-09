@@ -46,6 +46,17 @@ namespace BlackJack.DAL.Repository.EntityFramework
             return Mapper.ToModel(_context.Games);
         }
 
+        public IEnumerable<Models.Game> GetGamesByPlayerId(int playerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetIsEmptyById(int id)
+        {
+            var game = _context.Games.Find(id);
+            return game == null;
+        }
+
         public void Update(int gameId)
         {
             var entity = _context.Games.FirstOrDefault(g => g.Id == gameId);

@@ -1,4 +1,4 @@
-﻿const gameApi = "api/GameApi";
+﻿const gameApi = "api/Game";
 
 $(document).ready(() => {
 
@@ -18,12 +18,14 @@ $(document).ready(() => {
 
 $(window).on('load', function () {
     $("#next-round-button").attr("disabled", true);
+    $("#exit-game-button").attr("disabled", true);
     GiveStartCards();
 });
 
 function StartRound() {
+
     $.ajax({
-        url: '/api/GameApi/StartNextRound/' + $("#id-game").html(),
+        url: '/api/Game/StartNextRound/' + $("#id-game").html(),
         cache: false,
         type: 'POST',
         success: ()=>{
@@ -34,7 +36,7 @@ function StartRound() {
 
 function GiveStartCards() {
     $.ajax({
-        url: '/api/GameApi/GetStartCards/' + $("#id-game").html(),
+        url: '/api/Game/GetStartCards/' + $("#id-game").html(),
         cache: false,
         type: 'GET',
         success: getViewModel => {
@@ -60,7 +62,7 @@ function ShowCards(cards) {
 
 function GiveCards() {
     $.ajax({
-        url: '/api/GameApi/GetCards/' + $("#id-game").html(),
+        url: '/api/Game/GetCards/' + $("#id-game").html(),
         cache: false,
         type: 'GET',
         success: getViewModel => {            
@@ -79,7 +81,7 @@ function GiveCards() {
 
 function GiveLastCards() {
     $.ajax({
-        url: '/api/GameApi/GetLastCards/' + $("#id-game").html(),
+        url: '/api/Game/GetLastCards/' + $("#id-game").html(),
         cache: false,
         type: 'GET',
         success: getViewModel => {
@@ -105,11 +107,12 @@ function CardSetWin(i) {
 function FinishRound(id) {
     isFinishRound = true;
     $.ajax({
-        url: '/api/GameApi/GetFlagsIsWin/' + $("#id-game").html(),
+        url: '/api/Game/GetFlagsIsWin/' + $("#id-game").html(),
         cache: false,
         type: 'GET',
         success: flags => {
             $("#next-round-button").attr("disabled", false);
+            $("#exit-game-button").attr("disabled", false);
             $("#skip-button").attr("disabled", true);
             $("#get-cards-button").attr("disabled", true);
             for (var i = 1; i <= flags.length; i++) {
@@ -134,7 +137,8 @@ function ShowScores(scores) {
 }
 
 function ClearOldRound() {
-    $("#next-round-button").attr("disabled", true); 
+    $("#next-round-button").attr("disabled", true);
+    $("#exit-game-button").attr("disabled", true);    
     $("#skip-button").attr("disabled", false);
     $("#get-cards-button").attr("disabled", false);
     $(".card-body, .card-font-large").empty();

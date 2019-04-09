@@ -11,5 +11,6 @@ namespace BlackJack.BL.Services.Interfaces
         IEnumerable<Game> GetGames();
         IEnumerable<Player> GetPlayers(string playerName, int countBots);
         List<string> GetNamePlayers(List<int> playersId);
+        bool GetIsEmptyById(int gameId);
     }
 }

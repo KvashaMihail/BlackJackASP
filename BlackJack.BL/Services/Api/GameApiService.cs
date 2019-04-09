@@ -23,6 +23,10 @@ namespace BlackJack.BL.Services.Api
 
         public PlayerStatsViewModel GetCards(int gameId)
         {
+            if (_gameService.GetIsEmptyById(gameId))
+            {
+                return null;
+            }
             var playerStatsViewModel = new PlayerStatsViewModel();
             var cards = new List<List<byte>>();
             var flags = _roundService.GetFlagsIsGiveCard(gameId, true).ToList();
@@ -41,6 +45,10 @@ namespace BlackJack.BL.Services.Api
 
         public PlayerStatsViewModel GetLastCards(int gameId)
         {
+            if (_gameService.GetIsEmptyById(gameId))
+            {
+                return null;
+            }
             var playerStatsViewModel = new PlayerStatsViewModel();
             var cards = new List<List<byte>>();
             var flags = _roundService.GetFlagsIsGiveCard(gameId, false).ToList();
@@ -60,6 +68,10 @@ namespace BlackJack.BL.Services.Api
 
         public PlayerStatsViewModel GetStartCards(int gameId)
         {
+            if (_gameService.GetIsEmptyById(gameId))
+            {
+                return null;
+            }
             var playerStatsViewModel = new PlayerStatsViewModel()
             {
                 IsFinishedRound = false,
@@ -71,6 +83,10 @@ namespace BlackJack.BL.Services.Api
 
         public List<bool> GetFlagsIsWin(int gameId)
         {
+            if (_gameService.GetIsEmptyById(gameId))
+            {
+                return null;
+            }
             var flags = _roundService.GetFlagsIsWin(gameId).ToList();
             _roundService.SaveRound(gameId, flags);
             _gameService.UpdateTimeForGame(gameId);
@@ -79,6 +95,10 @@ namespace BlackJack.BL.Services.Api
 
         public List<RoundViewModel> GetRoundsViewModel(int gameId)
         {
+            if (_gameService.GetIsEmptyById(gameId))
+            {
+                return null;
+            }
             var roundViewModels = new List<RoundViewModel>();
             var rounds = _roundService.GetRounds(gameId);
             foreach (Round round in rounds)

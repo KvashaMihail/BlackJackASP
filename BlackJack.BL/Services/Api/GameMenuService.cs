@@ -1,10 +1,12 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.Models;
 using BlackJack.ViewModels.Api;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 
 namespace BlackJack.BL.Services.Api
 {
+    [Authorize]
     public class GameMenuService : IGameMenuService
     {
         private IGameService _gameService;

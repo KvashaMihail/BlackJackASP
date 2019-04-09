@@ -19,7 +19,7 @@ $(document).ready(() => {
 
 function GetRounds(id) {
     $.ajax({
-        url: '/api/GameApi/GetRounds/' + id,
+        url: '/api/Game/GetRounds/' + id,
         cache: false,
         type: 'GET',
         success: roundsViewModel => {
@@ -43,12 +43,12 @@ function ShowRounds(roundsViewModel) {
         let id = roundsViewModel[i].round.id;
         $('#rounds-id').append('<div id = "round' + id + '" ></div>');
         $('#round'+id).append('<ul id="A' + id + '" class="list-group list-group-horizontal row no-gutters my-row">' +
-            '<li class="list-group-item ' + itemClass + ' col col-sm-1">' +
-            '<a data-toggle="collapse"' +
+            '<li class="list-group-item list-group-item-action ' + itemClass + ' col col-sm-1">' +
+            '<a href data-toggle="collapse"' +
             'data-target="#B' + id + '" aria-expanded="false"' +
             'aria-controls="B' + id + '">' +
             '# ' + roundsViewModel[i].round.numberRound +
-            '</button>' + 
+            '</a>' + 
             '</li></ul>');
         ShowRound(roundsViewModel[i]);
     }    

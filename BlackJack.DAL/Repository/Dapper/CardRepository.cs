@@ -18,7 +18,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.Card Get(byte id)
         {
-            var card = _dbConnection.Query<Card>("SELECT * FROM Cards WHERE Id = @id", new { id }).FirstOrDefault();
+            var card = _dbConnection.QuerySingle<Card>("SELECT * FROM Cards WHERE Id = @id", new { id });
             return Mapper.ToModel(card);
         }
     }

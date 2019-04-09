@@ -44,9 +44,12 @@ namespace BlackJack.DAL.EF
                 .HasMany(p => p.RoundPlayers)
                 .WithOne(rp => rp.Player)
                 .HasForeignKey(rp => rp.PlayerId);
-
+            modelBuilder.Entity<Player>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
             modelBuilder.Entity<Player>()
                 .HasData(InitialPlayers());
+            
             #endregion
 
             #region Game
@@ -57,6 +60,9 @@ namespace BlackJack.DAL.EF
                 .HasMany(g => g.Rounds)
                 .WithOne(r => r.Game)
                 .HasForeignKey(r => r.GameId);
+            modelBuilder.Entity<Game>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
             #endregion
 
             #region Round
@@ -67,6 +73,9 @@ namespace BlackJack.DAL.EF
                 .HasMany(r => r.RoundPlayers)
                 .WithOne(rp => rp.Round)
                 .HasForeignKey(rp => rp.RoundId);
+            modelBuilder.Entity<Round>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
             #endregion
 
             #region RoundPlayer
@@ -74,21 +83,27 @@ namespace BlackJack.DAL.EF
                 .HasMany(rp => rp.RoundPlayerCards)
                 .WithOne(rpc => rpc.RoundPlayer)
                 .HasForeignKey(rpc => rpc.RoundPlayerId);
+            modelBuilder.Entity<RoundPlayer>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
             #endregion
 
             #region RoundPlayerCard
             modelBuilder.Entity<RoundPlayerCard>()
                 .Property(rpc => rpc.NumberCard)
                 .IsRequired();
-            //modelBuilder.Entity<RoundPlayerCard>()
-            //    .HasOne<Card>()
-            //    .WithOne()
-            //    .HasForeignKey(rpc => rpc.CardId);
+            modelBuilder.Entity<RoundPlayerCard>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
             #endregion
 
             #region Card
             modelBuilder.Entity<Card>()
                 .HasData(InitialCards());
+
+            modelBuilder.Entity<Card>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
             #endregion
         }
 

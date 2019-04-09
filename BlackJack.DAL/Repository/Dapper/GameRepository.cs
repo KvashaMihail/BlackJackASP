@@ -22,9 +22,9 @@ namespace BlackJack.DAL.Repository.Dapper
             Game game = Mapper.ToEntity(item);
             game.DateStart = DateTime.Now;
             game.DateFinishLastRound = DateTime.Now;
-            var sqlQuery = "INSERT INTO Games (Name, DateStart, DateFinishLastRound)" +
-                "VALUES(@Name, @DateStart, @DateFinishLastRound); SELECT CAST(SCOPE_IDENTITY() as int)";
-            int? id = _dbConnection.Query<int>(sqlQuery, game).FirstOrDefault();           
+            var sqlQuery = @"INSERT INTO Games (Name, DateStart, DateFinishLastRound)
+                VALUES(@Name, @DateStart, @DateFinishLastRound); SELECT CAST(SCOPE_IDENTITY() as int)";
+            int? id = _dbConnection.Query<int>(sqlQuery, game).FirstOrDefault();
             return id.Value;
         }
 
@@ -36,7 +36,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.Game Get(int id)
         {
-            var game = _dbConnection.Query<Game>("SELECT * FROM Games WHERE Id = @id", new { id }).FirstOrDefault();
+            var game = _dbConnection.QuerySingle<Game>("SELECT * FROM Games WHERE Id = @id", new { id });
             return Mapper.ToModel(game);
         }
 
@@ -46,11 +46,23 @@ namespace BlackJack.DAL.Repository.Dapper
             return Mapper.ToModel(games);
         }
 
+        public bool GetIsEmptyById(int id)
+        {
+            var game = _dbConnection.Query<Game>("SELECT * FROM Games WHERE Id = @id", new { id });
+            return !game.Any();
+        }
+
         public void Update(int gameId)
         {
             var sqlQuery = "UPDATE Games SET DateFinishLastRound = @DateFinishLastRound WHERE Id = @Id";
             Game game = new Game { Id = gameId, DateFinishLastRound = DateTime.Now };
             _dbConnection.Execute(sqlQuery, game);
+        }
+
+        public IEnumerable<Models.Game> GetGamesByPlayerId(int playerId)
+        {
+            var games = _dbConnection.Query<Game>("SELECT * FROM Games");
+            return Mapper.ToModel(games);
         }
     }
 }

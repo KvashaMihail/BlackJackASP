@@ -1,38 +1,66 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.ViewModels.Api;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackJack.UI.Controllers
 {
-    public class GameController : Controller
+    [Authorize]
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class GameController : ControllerBase
     {
-        private IGameMenuService _gameMenuService;
-        private readonly UserManager<IdentityUser> _userManager;
+        IGameApiService _gameApiService;
 
-        public GameController(IGameMenuService gameMenuService,
-            UserManager<IdentityUser> userManager)
+        public GameController(IGameApiService gameApiService)
         {
-            _gameMenuService = gameMenuService;
-            _userManager = userManager;
+            _gameApiService = gameApiService;
         }
 
-        public IActionResult Index()
-        {            
-            return View("Index", _userManager.GetUserName(HttpContext.User));
+        [HttpPost("{gameId}")]
+        public ActionResult StartNextRound(int gameId)
+        {
+            _gameApiService.StartRound(gameId);
+            return Ok();
         }
 
-        public IActionResult StartGame(int countBots)
+        [HttpGet("{gameId}")]
+        public ActionResult GetStartCards(int gameId)
         {
-            string playerName = _userManager.GetUserName(HttpContext.User);
-            GameViewModel gameViewModel = _gameMenuService.GetGameViewModel(countBots, playerName);                      
-            return View("Game", gameViewModel);
+            var playerStatsViewModel = _gameApiService.GetStartCards(gameId);
+            return Ok(playerStatsViewModel);
         }
-        
-        public IActionResult ShowGames()
+
+        [HttpGet("{gameId}")]
+        public ActionResult GetLastCards(int gameId)
         {
-            var games = _gameMenuService.GetGames();
-            return View("List", games);
+            var playerStatsViewModel = _gameApiService.GetLastCards(gameId);
+            return Ok(playerStatsViewModel);
+        }
+
+        [HttpGet("{gameId}")]
+        public ActionResult<PlayerStatsViewModel> GetCards(int gameId)
+        {
+            var playerStatsViewModel = _gameApiService.GetCards(gameId);
+            if (playerStatsViewModel == null)
+            {
+
+            }
+            return Ok(playerStatsViewModel);
+        }
+
+        [HttpGet("{gameId}")]
+        public JsonResult GetFlagsIsWin(int gameId)
+        {
+            var flags = _gameApiService.GetFlagsIsWin(gameId);
+            return new JsonResult(flags);
+        }
+
+        [HttpGet("{gameId}")]
+        public ActionResult GetRounds(int gameId)
+        {
+            var roundViewModels = _gameApiService.GetRoundsViewModel(gameId);
+            return Ok(roundViewModels);
         }
     }
 }

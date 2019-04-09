@@ -10,9 +10,12 @@
 <body>
     <nav id="nav-id" style="border-bottom: 3px solid #28a745" class="navbar navbar-light bg-light shadow">
         <span class="navbar-brand mb-0 h1">BlackJack Game</span>
-        <button type="button" id="get-cards-button" class="btn btn-outline-success button-game">Get card</button>
-        <button type="button" id="skip-button" class="btn btn-outline-success button-game">Not get card</button>
-        <button type="button" id="next-round-button" class="btn btn-outline-success button-game">Next Round</button>
+        <button type="button" id="get-cards-button" class="btn btn-primary button-game">Hit</button>
+        <button type="button" id="skip-button" class="btn btn-primary button-game">Stand</button>
+        <button type="button" id="next-round-button" class="btn btn-primary button-game">Next Round</button>
+        <form method="post" asp-controller="Menu" asp-action="Index">
+            <button type="submit" id="exit-game-button" class="btn btn-dark button-game">End Game</button>
+        </form>
         <span class="navbar-brand" style="float: right">@Model.Game.Name</span>
     </nav>
     @RenderBody()

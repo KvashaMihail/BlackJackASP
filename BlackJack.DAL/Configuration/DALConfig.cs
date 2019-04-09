@@ -1,7 +1,5 @@
 ﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Repository.EntityFramework;
-using BlackJack.DAL.Repository.Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;

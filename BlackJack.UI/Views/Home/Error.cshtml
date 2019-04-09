@@ -1,0 +1,12 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="alert alert-danger" role="alert">
+    Ooops: Error status: @Model
+    @*<div class="h2">@ViewBag.RouteOfException</div>*@
+    <div class="h1">@ViewBag.ErrorMessage</div>
+</div>
+
+

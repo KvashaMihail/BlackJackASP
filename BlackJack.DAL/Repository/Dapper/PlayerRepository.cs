@@ -22,9 +22,9 @@ namespace BlackJack.DAL.Repository.Dapper
         {
             Player player = Mapper.ToEntity(item);
             player.IsBot = false;
-            var sqlQuery = "INSERT INTO Players (Name, IsBot)" +
-                "VALUES(@Name, @IsBot); SELECT CAST(SCOPE_IDENTITY() as int)";
-            int? id = _dbConnection.Query<int>(sqlQuery, player).FirstOrDefault();
+            var sqlQuery = @"INSERT INTO Players (Name, IsBot)
+                VALUES(@Name, @IsBot); SELECT CAST(SCOPE_IDENTITY() as int)";
+            int? id = _dbConnection.QuerySingle<int>(sqlQuery, player);
             return id.Value;
         }
 
@@ -36,7 +36,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.Player Get(int id)
         {
-            var player = _dbConnection.Query<Player>("SELECT * FROM Players WHERE Id = @id", new { id }).FirstOrDefault();
+            var player = _dbConnection.QuerySingle<Player>("SELECT * FROM Players WHERE Id = @id", new { id });
             return Mapper.ToModel(player);
         }
 
@@ -60,19 +60,19 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public Models.Player Get(string name)
         {
-            var player = _dbConnection.Query<Player>("SELECT * FROM Players WHERE Name = @name", new { name }).FirstOrDefault();
+            var player = _dbConnection.QuerySingle<Player>("SELECT * FROM Players WHERE Name = @Name", new { Name = name });
             return Mapper.ToModel(player);
         }
 
         public bool GetIsEmptyByName(string name)
         {
-            var player = _dbConnection.Query<Player>("SELECT * FROM Players WHERE Name = @name", new { name }).FirstOrDefault();
+            var player = _dbConnection.QuerySingle<Player>("SELECT * FROM Players WHERE Name = @name", new { name });
             return player == null;
         }
 
         public Models.Player GetDealer()
         {
-            var player = _dbConnection.Query<Player>("SELECT * FROM Players WHERE Id = 8").FirstOrDefault();
+            var player = _dbConnection.QuerySingle<Player>("SELECT * FROM Players WHERE Id = 8");
             return Mapper.ToModel(player);
         }
     }
