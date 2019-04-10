@@ -5,12 +5,11 @@ namespace BlackJack.BL.Services.Interfaces
 {
     public interface IGameApiService
     {
-        PlayerStatsViewModel GetCards(int gameId);
-        PlayerStatsViewModel GetStartCards(int gameId);
-        PlayerStatsViewModel GetLastCards(int gameId);
-        void StartRound(int gameId);
-        List<bool> GetFlagsIsWin(int gameId);
+        PlayerStatsViewModel GetCards();
+        PlayerStatsViewModel GetStartCards();
+        PlayerStatsViewModel GetLastCards();
+        void StartRound();
+        List<bool> GetFlagsIsWin();
         List<RoundViewModel> GetRoundsViewModel(int gameId);
-
     }
 }

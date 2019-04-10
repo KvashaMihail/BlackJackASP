@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Middlewares\RequestValidation.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Middlewares\RequestValidation.cs" />
     <None Include="wwwroot\Scripts\script.js" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 ﻿using BlackJack.Models;
+using BlackJack.ViewModels.Game;
 using System.Collections.Generic;
 
 namespace BlackJack.BL.Services.Interfaces
@@ -7,10 +8,12 @@ namespace BlackJack.BL.Services.Interfaces
     {
         Game Create(string name);
         Player SelectPlayer(string name);
-        void UpdateTimeForGame(int gameId);
+        void FinishGame(int gameId);
         IEnumerable<Game> GetGames();
         IEnumerable<Player> GetPlayers(string playerName, int countBots);
         List<string> GetNamePlayers(List<int> playersId);
-        bool GetIsEmptyById(int gameId);
+        Game GetCurrentGame(string playerName);
+        int GetCurrentGameId(string playerName);
+        PlayerMenuViewModel GetPlayerMenu(string playerName);
     }
 }

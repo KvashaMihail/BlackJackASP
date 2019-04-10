@@ -3,7 +3,6 @@ using BlackJack.ViewModels.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace BlackJack.UI.Controllers
 {
@@ -22,13 +21,25 @@ namespace BlackJack.UI.Controllers
 
         public IActionResult Index()
         {
-            return View("Index", _userManager.GetUserName(HttpContext.User));
+            var playerMenu = _gameMenuService.GetPlayerMenuViewModel();
+            return View("Index", playerMenu);
+        }
+
+        public IActionResult BackToMenu()
+        {
+            _gameMenuService.FinishGame();
+            return Redirect("Index");
         }
 
         public IActionResult StartGame(int countBots)
         {
-            string playerName = _userManager.GetUserName(HttpContext.User);
-            GameViewModel gameViewModel = _gameMenuService.GetGameViewModel(countBots, playerName);
+            GameViewModel gameViewModel = _gameMenuService.CreateGameViewModel(countBots);
+            return View("Game", gameViewModel);
+        }
+
+        public IActionResult ContinueGame()
+        {
+            GameViewModel gameViewModel = _gameMenuService.GetGameViewModel();
             return View("Game", gameViewModel);
         }
 

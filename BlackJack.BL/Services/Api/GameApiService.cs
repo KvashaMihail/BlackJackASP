@@ -1,6 +1,7 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.Models;
 using BlackJack.ViewModels.Api;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,19 +12,23 @@ namespace BlackJack.BL.Services.Api
         private ICardService _cardService;
         private IRoundService _roundService;
         private IGameService _gameService;
+        private string _playerName;
 
         public GameApiService(ICardService cardService,
             IRoundService roundService,
-            IGameService gameService)
+            IGameService gameService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _cardService = cardService;
             _roundService = roundService;
             _gameService = gameService;
+            _playerName = httpContextAccessor.HttpContext.User.Identity.Name;
         }
 
-        public PlayerStatsViewModel GetCards(int gameId)
+        public PlayerStatsViewModel GetCards()
         {
-            if (_gameService.GetIsEmptyById(gameId))
+            var gameId = _gameService.GetCurrentGameId(_playerName);
+            if(gameId < 0)
             {
                 return null;
             }
@@ -38,14 +43,19 @@ namespace BlackJack.BL.Services.Api
             return playerStatsViewModel;
         }
 
-        public void StartRound(int gameId)
+        public void StartRound()
         {
-            _roundService.StartRound(gameId);
+            var gameId = _gameService.GetCurrentGameId(_playerName);
+            if (gameId > 0)
+            {
+                _roundService.StartRound(gameId);
+            }          
         }
 
-        public PlayerStatsViewModel GetLastCards(int gameId)
+        public PlayerStatsViewModel GetLastCards()
         {
-            if (_gameService.GetIsEmptyById(gameId))
+            var gameId = _gameService.GetCurrentGameId(_playerName);
+            if (gameId < 0)
             {
                 return null;
             }
@@ -66,9 +76,10 @@ namespace BlackJack.BL.Services.Api
             return playerStatsViewModel;
         }
 
-        public PlayerStatsViewModel GetStartCards(int gameId)
+        public PlayerStatsViewModel GetStartCards()
         {
-            if (_gameService.GetIsEmptyById(gameId))
+            var gameId = _gameService.GetCurrentGameId(_playerName);
+            if (gameId < 0)
             {
                 return null;
             }
@@ -81,24 +92,20 @@ namespace BlackJack.BL.Services.Api
             return playerStatsViewModel;
         }
 
-        public List<bool> GetFlagsIsWin(int gameId)
+        public List<bool> GetFlagsIsWin()
         {
-            if (_gameService.GetIsEmptyById(gameId))
+            var gameId = _gameService.GetCurrentGameId(_playerName);
+            if (gameId < 0)
             {
                 return null;
             }
             var flags = _roundService.GetFlagsIsWin(gameId).ToList();
-            _roundService.SaveRound(gameId, flags);
-            _gameService.UpdateTimeForGame(gameId);
+            _roundService.SaveRound(gameId, flags);            
             return flags;
         }
 
         public List<RoundViewModel> GetRoundsViewModel(int gameId)
         {
-            if (_gameService.GetIsEmptyById(gameId))
-            {
-                return null;
-            }
             var roundViewModels = new List<RoundViewModel>();
             var rounds = _roundService.GetRounds(gameId);
             foreach (Round round in rounds)

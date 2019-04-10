@@ -13,7 +13,7 @@
         <button type="button" id="get-cards-button" class="btn btn-primary button-game">Hit</button>
         <button type="button" id="skip-button" class="btn btn-primary button-game">Stand</button>
         <button type="button" id="next-round-button" class="btn btn-primary button-game">Next Round</button>
-        <form method="post" asp-controller="Menu" asp-action="Index">
+        <form method="post" asp-controller="Menu" asp-action="BackToMenu">
             <button type="submit" id="exit-game-button" class="btn btn-dark button-game">End Game</button>
         </form>
         <span class="navbar-brand" style="float: right">@Model.Game.Name</span>

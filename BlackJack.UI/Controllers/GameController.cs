@@ -17,31 +17,31 @@ namespace BlackJack.UI.Controllers
             _gameApiService = gameApiService;
         }
 
-        [HttpPost("{gameId}")]
-        public ActionResult StartNextRound(int gameId)
+        [HttpPost]
+        public ActionResult StartNextRound()
         {
-            _gameApiService.StartRound(gameId);
+            _gameApiService.StartRound();
             return Ok();
         }
 
-        [HttpGet("{gameId}")]
-        public ActionResult GetStartCards(int gameId)
+        [HttpGet]
+        public ActionResult GetStartCards()
         {
-            var playerStatsViewModel = _gameApiService.GetStartCards(gameId);
+            var playerStatsViewModel = _gameApiService.GetStartCards();
             return Ok(playerStatsViewModel);
         }
 
-        [HttpGet("{gameId}")]
-        public ActionResult GetLastCards(int gameId)
+        [HttpGet]
+        public ActionResult GetLastCards()
         {
-            var playerStatsViewModel = _gameApiService.GetLastCards(gameId);
+            var playerStatsViewModel = _gameApiService.GetLastCards();
             return Ok(playerStatsViewModel);
         }
 
-        [HttpGet("{gameId}")]
-        public ActionResult<PlayerStatsViewModel> GetCards(int gameId)
+        [HttpGet]
+        public ActionResult<PlayerStatsViewModel> GetCards()
         {
-            var playerStatsViewModel = _gameApiService.GetCards(gameId);
+            var playerStatsViewModel = _gameApiService.GetCards();
             if (playerStatsViewModel == null)
             {
 
@@ -49,10 +49,10 @@ namespace BlackJack.UI.Controllers
             return Ok(playerStatsViewModel);
         }
 
-        [HttpGet("{gameId}")]
-        public JsonResult GetFlagsIsWin(int gameId)
+        [HttpGet]
+        public JsonResult GetFlagsIsWin()
         {
-            var flags = _gameApiService.GetFlagsIsWin(gameId);
+            var flags = _gameApiService.GetFlagsIsWin();
             return new JsonResult(flags);
         }
 

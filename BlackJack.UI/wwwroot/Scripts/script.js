@@ -1,5 +1,4 @@
-﻿const gameApi = "api/Game";
-
+﻿
 $(document).ready(() => {
 
     $("#get-cards-button").click(() => {
@@ -14,18 +13,27 @@ $(document).ready(() => {
         ClearOldRound();
         StartRound();
     });
+
 });
 
 $(window).on('load', function () {
     $("#next-round-button").attr("disabled", true);
     $("#exit-game-button").attr("disabled", true);
-    GiveStartCards();
+    var isFinish = $('.card-img').length == 0;
+    if (isFinish) {
+        GiveStartCards();
+    }
+    if (!isFinish) {
+        var idDealer = $('.card').length;
+        $('#body-' + idDealer).find("img").eq(1).css('display', 'none');
+        $('#body-' + idDealer).append('<img id="" src="/Images/0.png" class="card-img" />');
+        $('#score-' + idDealer).css('display', 'none');
+    }
 });
 
 function StartRound() {
-
     $.ajax({
-        url: '/api/Game/StartNextRound/' + $("#id-game").html(),
+        url: '/api/Game/StartNextRound',
         cache: false,
         type: 'POST',
         success: ()=>{
@@ -36,7 +44,7 @@ function StartRound() {
 
 function GiveStartCards() {
     $.ajax({
-        url: '/api/Game/GetStartCards/' + $("#id-game").html(),
+        url: '/api/Game/GetStartCards',
         cache: false,
         type: 'GET',
         success: getViewModel => {
@@ -62,7 +70,7 @@ function ShowCards(cards) {
 
 function GiveCards() {
     $.ajax({
-        url: '/api/Game/GetCards/' + $("#id-game").html(),
+        url: '/api/Game/GetCards',
         cache: false,
         type: 'GET',
         success: getViewModel => {            
@@ -81,7 +89,7 @@ function GiveCards() {
 
 function GiveLastCards() {
     $.ajax({
-        url: '/api/Game/GetLastCards/' + $("#id-game").html(),
+        url: '/api/Game/GetLastCards',
         cache: false,
         type: 'GET',
         success: getViewModel => {
@@ -107,7 +115,7 @@ function CardSetWin(i) {
 function FinishRound(id) {
     isFinishRound = true;
     $.ajax({
-        url: '/api/Game/GetFlagsIsWin/' + $("#id-game").html(),
+        url: '/api/Game/GetFlagsIsWin',
         cache: false,
         type: 'GET',
         success: flags => {
@@ -128,7 +136,7 @@ function FinishRound(id) {
             $('#score-' + id).css('display', 'block');
         }
     });
-}
+    }
 
 function ShowScores(scores) {
     for (var i = 1; i <= scores.length; i++) {

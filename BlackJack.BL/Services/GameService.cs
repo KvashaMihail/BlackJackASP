@@ -1,10 +1,10 @@
-﻿using BlackJack.Models;
-using BlackJack.BL.Services.Interfaces;
+﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.DAL.Interfaces;
+using BlackJack.Models;
+using BlackJack.Shared.Enums;
+using BlackJack.ViewModels.Game;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using BlackJack.Shared.Enums;
 
 namespace BlackJack.BL.Services
 {
@@ -20,7 +20,7 @@ namespace BlackJack.BL.Services
             _playerRepository = playerRepository;
         }
         
-        public void UpdateTimeForGame(int gameId)
+        public void FinishGame(int gameId)
         {
             _gameRepository.Update(gameId);
         }
@@ -37,6 +37,11 @@ namespace BlackJack.BL.Services
 
         public Game Create(string playerName)
         {
+            int gameId = GetCurrentGameId(playerName);
+            if (gameId > 0)
+            {
+                FinishGame(gameId);
+            }          
             string name = $"{playerName}-{DateTime.Now.Hour}-{DateTime.Now.Minute}";
             Game game = new Game
             {
@@ -51,11 +56,6 @@ namespace BlackJack.BL.Services
             return _gameRepository.GetAll();
         }
 
-        public bool GetIsEmptyById(int gameId)
-        {
-            return _gameRepository.GetIsEmptyById(gameId);
-        }
-
         public IEnumerable<Player> GetPlayers(string playerName, int countBots)
         {
             var players = new List<Player>();
@@ -63,6 +63,31 @@ namespace BlackJack.BL.Services
             players.AddRange(_playerRepository.GetBots(countBots));
             players.Add(_playerRepository.Get((int)Constants.DealerId));
             return players;
+        }
+
+        public Game GetCurrentGame(string playerName)
+        {
+            var player = _playerRepository.Get(playerName);
+            var game = _gameRepository.GetUnfinishedGameByPlayerId(player.Id);
+            return game;
+        }
+
+        public int GetCurrentGameId(string playerName)
+        {
+            int gameId = -1;
+            var game = GetCurrentGame(playerName);
+            if (game != null)
+            {
+                gameId = game.Id;
+            }
+            return gameId;
+        }
+
+        public PlayerMenuViewModel GetPlayerMenu(string playerName)
+        {
+            var currentGame = GetCurrentGame(playerName);
+            var playerMenu = new PlayerMenuViewModel { Name = playerName, IsAnyUnfinishedGame = currentGame != null };
+            return playerMenu;
         }
 
         public List<string> GetNamePlayers(List<int> playersId)
@@ -74,5 +99,6 @@ namespace BlackJack.BL.Services
             }
             return namePlayers;
         }
+
     }
 }

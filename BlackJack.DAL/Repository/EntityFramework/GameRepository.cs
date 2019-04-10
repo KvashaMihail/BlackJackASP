@@ -20,7 +20,7 @@ namespace BlackJack.DAL.Repository.EntityFramework
         {
             Game game = Mapper.ToEntity(item);
             game.DateStart = DateTime.Now;
-            game.DateFinishLastRound = DateTime.Now;
+            game.DateEnd = DateTime.Now;
             _context.Games.Add(game);
             _context.SaveChanges();
             return game.Id;
@@ -48,7 +48,24 @@ namespace BlackJack.DAL.Repository.EntityFramework
 
         public IEnumerable<Models.Game> GetGamesByPlayerId(int playerId)
         {
-            throw new NotImplementedException();
+            var games = _context.Games
+                .Where(g => g.Rounds == _context.Rounds
+                    .Where(r => r.RoundPlayers == _context.RoundPlayers
+                        .Where(rp => rp.PlayerId == playerId)));
+            if (games == null)
+            {
+                return null;
+            }
+            return Mapper.ToModel(games);
+        }
+
+        public Models.Game GetUnfinishedGameByPlayerId(int playerId)
+        {
+            var game = _context.Games
+                .FirstOrDefault(g => !g.IsFinished && g.Rounds == _context.Rounds
+                    .Where(r => r.RoundPlayers == _context.RoundPlayers
+                        .Where(rp => rp.PlayerId == playerId)));
+            return Mapper.ToModel(game);
         }
 
         public bool GetIsEmptyById(int id)
@@ -60,7 +77,8 @@ namespace BlackJack.DAL.Repository.EntityFramework
         public void Update(int gameId)
         {
             var entity = _context.Games.FirstOrDefault(g => g.Id == gameId);
-            entity.DateFinishLastRound = DateTime.Now;
+            entity.DateEnd = DateTime.Now;
+            entity.IsFinished = true;
             _context.SaveChanges();
         }
     }

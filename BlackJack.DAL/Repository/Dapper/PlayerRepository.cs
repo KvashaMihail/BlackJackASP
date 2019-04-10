@@ -54,7 +54,7 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public IEnumerable<Models.Player> GetBots(int countBots)
         {
-            var players = _dbConnection.Query<Player>("SELECT * FROM Players WHERE Id < @countBots", new { countBots });
+            var players = _dbConnection.Query<Player>("SELECT * FROM Players WHERE Id <= @Count", new { Count = countBots });
             return Mapper.ToModel(players);
         }
 

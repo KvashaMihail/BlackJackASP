@@ -205,16 +205,8 @@ namespace BlackJack.BL.Services
                 {
                     isWin = true;
                 }
-
-                roundPlayers[i].IsWin = isWin;
-                _roundPlayerRepository.Update(roundPlayers[i]);
                 flags.Add(isWin);
             }
-            int roundId = GetCurrentRoundId(gameId);
-            Round round = _roundRepository.Get(roundId);
-            round.IsCompleted = true;
-            _roundRepository.Update(round);
-
             return flags;
         }
 

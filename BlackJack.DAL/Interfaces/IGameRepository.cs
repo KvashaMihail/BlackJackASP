@@ -8,5 +8,6 @@ namespace BlackJack.DAL.Interfaces
         void Update(int gameId);
         bool GetIsEmptyById(int gameId);
         IEnumerable<Game> GetGamesByPlayerId(int playerId);
+        Game GetUnfinishedGameByPlayerId(int playerId);
     }
 }

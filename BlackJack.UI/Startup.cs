@@ -1,7 +1,5 @@
 ﻿using BlackJack.BL.Configuration;
 using BlackJack.UI.Data;
-using BlackJack.UI.Middlewares;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +24,7 @@ namespace BlackJack.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<UsersContext>(options =>
                 options.UseSqlServer(
                     _configuration.GetConnectionString("IdentityConnection")));

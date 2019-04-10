@@ -95,7 +95,7 @@ namespace BlackJack.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateFinishLastRound");
+                    b.Property<DateTime>("DateEnd");
 
                     b.Property<DateTime>("DateStart");
 

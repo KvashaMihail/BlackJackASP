@@ -21,9 +21,9 @@ namespace BlackJack.DAL.Repository.Dapper
         {
             Game game = Mapper.ToEntity(item);
             game.DateStart = DateTime.Now;
-            game.DateFinishLastRound = DateTime.Now;
-            var sqlQuery = @"INSERT INTO Games (Name, DateStart, DateFinishLastRound)
-                VALUES(@Name, @DateStart, @DateFinishLastRound); SELECT CAST(SCOPE_IDENTITY() as int)";
+            game.DateEnd = DateTime.Now;
+            var sqlQuery = @"INSERT INTO Games (Name, DateStart, DateEnd)
+                VALUES(@Name, @DateStart, @DateEnd); SELECT CAST(SCOPE_IDENTITY() as int)";
             int? id = _dbConnection.Query<int>(sqlQuery, game).FirstOrDefault();
             return id.Value;
         }
@@ -54,15 +54,41 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public void Update(int gameId)
         {
-            var sqlQuery = "UPDATE Games SET DateFinishLastRound = @DateFinishLastRound WHERE Id = @Id";
-            Game game = new Game { Id = gameId, DateFinishLastRound = DateTime.Now };
+            var sqlQuery = "UPDATE Games SET DateEnd = @DateEnd, IsFinished = @IsFinished WHERE Id = @Id";
+            Game game = new Game { Id = gameId, DateEnd = DateTime.Now, IsFinished = true };
             _dbConnection.Execute(sqlQuery, game);
         }
 
         public IEnumerable<Models.Game> GetGamesByPlayerId(int playerId)
         {
-            var games = _dbConnection.Query<Game>("SELECT * FROM Games");
+            var sqlQuery = @"SELECT * FROM games 
+                             WHERE  Games.Id in ( 
+                                SELECT Rounds.GameId FROM Rounds
+                                WHERE  Rounds.Id in ( 
+                                    SELECT RoundPlayers.RoundId	FROM RoundPlayers
+                                    WHERE RoundPlayers.PlayerId = @Id))";
+            var games = _dbConnection.Query<Game>(sqlQuery, new { Id = playerId });
+            if (games == null)
+            {
+                return null;
+            }
             return Mapper.ToModel(games);
+        }
+
+        public Models.Game GetUnfinishedGameByPlayerId(int playerId)
+        {
+            var sqlQuery = @"SELECT * FROM games 
+                             WHERE Games.IsFinished = 'false' AND Games.Id in ( 
+                                SELECT Rounds.GameId FROM Rounds
+                                WHERE  Rounds.Id in ( 
+                                    SELECT RoundPlayers.RoundId	FROM RoundPlayers
+                                    WHERE RoundPlayers.PlayerId = @Id))";
+            var game = _dbConnection.QueryFirstOrDefault<Game>(sqlQuery, new { Id = playerId });
+            if (game == null)
+            {
+                return null;
+            }
+            return Mapper.ToModel(game);
         }
     }
 }
