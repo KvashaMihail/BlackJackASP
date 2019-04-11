@@ -1,0 +1,104 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+button {
+  margin: 10px;
+  width: 250px;
+}
+
+.body-center {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-game {
+  float: left;
+  margin: 2px;
+  border-width: 2px;
+  font-family: Consolas;
+}
+
+.button-my-outline {
+  margin: 10px 25px 10px 25px;
+  padding: 5px;
+  border-width: 2px;
+  border-radius: 5px;
+  width: -webkit-fill-available;
+  min-width: 250px;
+  font-family: Consolas;
+  font-weight: 400;
+}
+
+.bj-centered-block {
+  display: block;
+  width: 100%;
+  padding: 0 15px 0 15px;
+  max-width: 600px;
+  margin: 2px 10px;
+}
+
+.card-modify {
+  margin: 10px;
+  border: medium solid #808080;
+  border-radius: 8px;
+  width: 200px;
+  float: left;
+}
+
+.card-body-modify {
+  height: 165px;
+  padding: 0 12px;
+}
+
+.card-img {
+  margin: 3px;
+  padding: 0;
+  border: 1px solid #28a745;
+  width: 50px;
+  height: 76px;
+  float: left;
+}
+
+.view-img {
+  margin: 3px;
+  padding: 0;
+  border: 1px solid #000000;
+  width: 75px;
+  height: 110px;
+  float: left;
+}
+
+.card-font-large {
+  font-family: Consolas;
+  font-weight: bold;
+  font-size: large;
+}
+
+.card-score {
+  float: left;
+  width: 30px;
+}
+
+.bj-centered-control {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 2px 10px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.my-row {
+  padding: 0 5px;
+  text-align: center;
+}

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,10 +43,6 @@ namespace BlackJack.UI
                 AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options =>
             {
-                //options.Cookie.HttpOnly = false;
-                //options.LoginPath = new PathString("/Home/Login");
-                //options.AccessDeniedPath = new PathString("/Home/AccessDenied");
-                //options.SlidingExpiration = true;
                 options.Events.OnRedirectToLogin = context =>
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -53,6 +50,10 @@ namespace BlackJack.UI
                 };
             });
             services.AddMvc();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
             services.AddServicesFromBL(_configuration.GetConnectionString("DefaultConnection"));
         }
 
@@ -70,11 +71,19 @@ namespace BlackJack.UI
             
             app.UseHttpsRedirection();
             app.UseStatusCodePagesWithReExecute("/Error/{0}");     
-            app.UseStaticFiles();          
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseAuthentication();
-            //app.UseMiddleware<RequestValidation>();
-            app.UseMvcWithDefaultRoute();
-            
+            app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseAngularCliServer(npmScript: "start");
+                    }
+                });
+            //app.UseMvcWithDefaultRoute();
         }
     }
 }

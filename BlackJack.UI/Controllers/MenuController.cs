@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlackJack.UI.Controllers
 {
     [Authorize]
-    public class MenuController : Controller
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class MenuController : ControllerBase
     {
         private IGameMenuService _gameMenuService;
         private readonly UserManager<IdentityUser> _userManager;
@@ -22,7 +24,7 @@ namespace BlackJack.UI.Controllers
         public IActionResult Index()
         {
             var playerMenu = _gameMenuService.GetPlayerMenuViewModel();
-            return View("Index", playerMenu);
+            return Ok(playerMenu);
         }
 
         public IActionResult BackToMenu()
@@ -34,19 +36,19 @@ namespace BlackJack.UI.Controllers
         public IActionResult StartGame(int countBots)
         {
             GameViewModel gameViewModel = _gameMenuService.CreateGameViewModel(countBots);
-            return View("Game", gameViewModel);
+            return Ok(gameViewModel);
         }
 
         public IActionResult ContinueGame()
         {
             GameViewModel gameViewModel = _gameMenuService.GetGameViewModel();
-            return View("Game", gameViewModel);
+            return Ok(gameViewModel);
         }
 
         public IActionResult ShowGames()
         {
             var games = _gameMenuService.GetGames();
-            return View("List", games);
+            return Ok(games);
         }
 
         

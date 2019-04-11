@@ -1,15 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Middlewares\RequestValidation.cs" />
+    <Compile Remove="ClientApp\src\app\services\**" />
+    <Content Remove="ClientApp\src\app\services\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\services\**" />
+    <None Remove="ClientApp\src\app\services\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Middlewares\RequestValidation.cs" />
+    <None Remove="ClientApp\src\app\account\account.component.ts" />
+    <None Remove="ClientApp\src\karma.conf.js" />
+    <None Remove="ClientApp\src\test.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Scripts\script.js" />
   </ItemGroup>
 
@@ -35,7 +44,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\account\login\" />
+    <Folder Include="ClientApp\src\app\account\register\" />
+    <Folder Include="ClientApp\src\app\menu\" />
+    <Folder Include="ClientApp\src\app\game\" />
     <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\account\account.component.ts" />
   </ItemGroup>
 
 </Project>
