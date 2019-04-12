@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace BlackJack.UI.Controllers
 {
-    public class HomeController : Controller
+
+    public class AccountController : Controller
     {
         private IGameService _gameService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(IGameService gameService, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(IGameService gameService, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _gameService = gameService;
             _userManager = userManager;
