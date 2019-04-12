@@ -1,14 +1,17 @@
-<form method="post" asp-controller="Home" asp-action="Login">
-  <div class="text-danger" role="alert" asp-validation-summary="All"></div>
-  <div class="form-group">
-    <label asp-for="Login"></label><br />
-    <input class="form-control" asp-for="Login" />
-  </div>
-  <div class="form-group">
-    <label asp-for="Password"></label><br />
-    <input class=" form-control" asp-for="Password" />
-  </div>
-  <div class="form-group">
-    <input type="submit" class="btn btn btn-outline-success button-my-outline" value="Login" />
-  </div>
-</form>
+<div class="container">
+  <h2>Login</h2>
+  <form>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="text" class="form-control" id="password" required [(ngModel)]="model.password" name="password">
+    </div>
+
+    <button type="submit" style="width: 300px;" class="btn btn-success">Login</button>
+  </form>
+  Already have an account? <a routerLink="/account/register">Sign Up</a>
+</div>

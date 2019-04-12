@@ -16,6 +16,8 @@
     <None Remove="ClientApp\src\app\account\account.component.ts" />
     <None Remove="ClientApp\src\app\account\login\login.component.ts" />
     <None Remove="ClientApp\src\app\account\register\register.component.ts" />
+    <None Remove="ClientApp\src\app\viewModels\LoginAccountView.ts" />
+    <None Remove="ClientApp\src\app\viewModels\RegisterAccountView.ts" />
     <None Remove="ClientApp\src\karma.conf.js" />
     <None Remove="ClientApp\src\test.ts" />
   </ItemGroup>
@@ -48,6 +50,7 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\menu\" />
     <Folder Include="ClientApp\src\app\game\" />
+    <Folder Include="ClientApp\src\app\models\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
@@ -55,6 +58,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\account\account.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\account\login\login.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\account\register\register.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\viewModels\LoginAccountView.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\viewModels\RegisterAccountView.ts" />
   </ItemGroup>
 
 </Project>
