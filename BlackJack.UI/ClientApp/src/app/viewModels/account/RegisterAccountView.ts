@@ -1,5 +1,5 @@
 export class RegisterAccountView {
-  name: string;
-  password: string;
+  name?: string;
+  password?: string;
   passwordConfirm?: string;
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlackJack.UI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class MenuController : ControllerBase
@@ -25,6 +25,13 @@ namespace BlackJack.UI.Controllers
         {
             var playerMenu = _gameMenuService.GetPlayerMenuViewModel();
             return Ok(playerMenu);
+        }
+
+        [HttpGet]
+        public IActionResult GetStr()
+        {
+            var str = "Give me get ";
+            return Ok(str);
         }
 
         public IActionResult BackToMenu()

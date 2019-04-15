@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\services\**" />
+    <Compile Remove="Views\**" />
     <Content Remove="ClientApp\src\app\services\**" />
+    <Content Remove="Views\**" />
     <EmbeddedResource Remove="ClientApp\src\app\services\**" />
+    <EmbeddedResource Remove="Views\**" />
     <None Remove="ClientApp\src\app\services\**" />
+    <None Remove="Views\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,15 +40,6 @@
     <ProjectReference Include="..\BlackJack.BL\BlackJack.BL.csproj" />
     <ProjectReference Include="..\BlackJack.Models\BlackJack.Models.csproj" />
     <ProjectReference Include="..\BlackJack.ViewModels\BlackJack.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Views\Shared\_LayoutListGame.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Shared\_LayoutGame.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

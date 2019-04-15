@@ -4,11 +4,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using System;
+using System.Text;
 
 namespace BlackJack.UI
 {
@@ -29,6 +33,7 @@ namespace BlackJack.UI
             services.AddDbContext<UsersContext>(options =>
                 options.UseSqlServer(
                     _configuration.GetConnectionString("IdentityConnection")));
+            services.AddMvc();
             services.AddDefaultIdentity<IdentityUser>(
                 options =>
                     options.Password = new PasswordOptions
@@ -41,6 +46,25 @@ namespace BlackJack.UI
                     })
                 .AddEntityFrameworkStores<UsersContext>().
                 AddDefaultTokenProviders();
+
+            //var jwtOptions = _configuration.GetSection("JWTOptions").Get<JWTOptions>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = "BlackJackServerProvider",
+                    ValidAudience = "BlackJackServerProvider",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecurityKey")),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
             services.ConfigureApplicationCookie(options =>
             {
                 options.Events.OnRedirectToLogin = context =>
@@ -49,7 +73,7 @@ namespace BlackJack.UI
                     return Task.CompletedTask;
                 };
             });
-            services.AddMvc();
+            
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -69,11 +93,13 @@ namespace BlackJack.UI
                 app.UseHsts();
             }
             
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStatusCodePagesWithReExecute("/Error/{0}");     
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
+            //app.UseMvcWithDefaultRoute();
+            
             app.UseSpa(spa =>
                 {
                     spa.Options.SourcePath = "ClientApp";
@@ -83,7 +109,13 @@ namespace BlackJack.UI
                         spa.UseAngularCliServer(npmScript: "start");
                     }
                 });
-            //app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
+            });
+
         }
     }
 }

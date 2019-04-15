@@ -2,7 +2,7 @@
 
 namespace BlackJack.ViewModels.Game
 {
-    public class RegisterPlayerModel
+    public class RegisterAccountView
     {
         [Required]
         [Display(Name = "Login")]

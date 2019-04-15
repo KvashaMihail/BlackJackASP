@@ -8,15 +8,17 @@
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="text" class="form-control" id="password" required [(ngModel)]="model.password" name="password">
+      <input type="text" class="form-control" id="password"
+             required minlength="6" [(ngModel)]="model.password" name="password"/>            
     </div>
 
     <div class="form-group">
       <label for="confirm-password">Confirm password</label>
-      <input type="text" class="form-control" id="confirm-password" required [(ngModel)]="model.passwordConfirm" [ngModelOptions]="{standalone: true}"/>
+      <input type="text" class="form-control" id="confirm-password" 
+             required minlength="6" [(ngModel)]="model.passwordConfirm" name="passwordConfirm"/>
     </div>
 
-    <button type="submit" style="width: 300px;" class="btn btn-success">Register</button>
+    <button type="submit" style="width: 300px;" class="btn btn-success" (click)='register()' >Register</button>
   </form>
   No account? <a routerLink="/account/login">Sign In</a>
 </div>

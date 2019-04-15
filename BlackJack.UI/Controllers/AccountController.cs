@@ -2,6 +2,7 @@
 using BlackJack.ViewModels.Game;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace BlackJack.UI.Controllers
@@ -19,10 +20,18 @@ namespace BlackJack.UI.Controllers
             _gameService = gameService;
             _userManager = userManager;
             _signInManager = signInManager;
+            Debug.WriteLine(Request.QueryString);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterPlayerModel model)
+        public IActionResult TempAction()
+        {
+            var i = 5;
+            return Ok(i);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody]RegisterAccountView model)
         {
             IdentityUser user = new IdentityUser { UserName = model.Name};
             var result = await _userManager.CreateAsync(user, model.Password);
