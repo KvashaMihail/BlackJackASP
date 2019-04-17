@@ -7,13 +7,14 @@
 
   <ItemGroup>
     <Compile Remove="ClientApp\src\app\services\**" />
-    <Compile Remove="Views\**" />
     <Content Remove="ClientApp\src\app\services\**" />
-    <Content Remove="Views\**" />
     <EmbeddedResource Remove="ClientApp\src\app\services\**" />
-    <EmbeddedResource Remove="Views\**" />
     <None Remove="ClientApp\src\app\services\**" />
-    <None Remove="Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Account\Login.cshtml" />
+    <Content Remove="Views\Account\Register.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Account\Login.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
     <None Include="wwwroot\Scripts\script.js" />
   </ItemGroup>
 

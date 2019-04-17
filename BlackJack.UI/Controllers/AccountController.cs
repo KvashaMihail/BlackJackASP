@@ -1,8 +1,14 @@
 ﻿using BlackJack.BL.Services.Interfaces;
-using BlackJack.ViewModels.Game;
+using BlackJack.Shared.Options;
+using BlackJack.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BlackJack.UI.Controllers
@@ -14,13 +20,17 @@ namespace BlackJack.UI.Controllers
         private IGameService _gameService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly JwtSettingsOptions _jwtSettings;
 
-        public AccountController(IGameService gameService, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(IGameService gameService, 
+            UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> signInManager,
+            IOptions<JwtSettingsOptions> options)
         {
             _gameService = gameService;
             _userManager = userManager;
             _signInManager = signInManager;
-            Debug.WriteLine(Request.QueryString);
+            _jwtSettings = options.Value;
         }
 
         [HttpPost]
@@ -33,6 +43,10 @@ namespace BlackJack.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterAccountView model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             IdentityUser user = new IdentityUser { UserName = model.Name};
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -44,13 +58,30 @@ namespace BlackJack.UI.Controllers
                 return BadRequest(ModelState);
             }
             await _signInManager.SignInAsync(user, false);
-            _gameService.SelectPlayer(model.Name);         
-            return Ok(model);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(_jwtSettings.TokenSecret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, model.Name.ToLower())
+                }),
+                Expires = DateTime.Now.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+            string serializedToken = tokenHandler.WriteToken(token);
+            _gameService.SelectPlayer(model.Name);
+            var response = new AccountResponseView
+            {
+                Name = model.Name,
+                Token = serializedToken
+            };
+            return Ok(response);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginPlayerModel model)
+        public async Task<IActionResult> Login([FromBody]LoginAccountView model)
         {
             var result =
                     await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
@@ -59,7 +90,25 @@ namespace BlackJack.UI.Controllers
                 ModelState.AddModelError("", "Incorrect username and / or password");
                 return BadRequest(ModelState);
             }
-            return Ok(model);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(_jwtSettings.TokenSecret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, model.Login.ToLower())
+                }),
+                Expires = DateTime.Now.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+            string serializedToken = tokenHandler.WriteToken(token);
+            var response = new AccountResponseView
+            {
+                Name = model.Login,
+                Token = serializedToken
+            };
+            return Ok(response);
         }
 
         //[Route("Error/{statusCode}")]

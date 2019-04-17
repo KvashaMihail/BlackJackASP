@@ -3,6 +3,7 @@ using BlackJack.DAL.Interfaces;
 using Dapper;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository.Dapper
@@ -66,7 +67,8 @@ namespace BlackJack.DAL.Repository.Dapper
 
         public bool GetIsEmptyByName(string name)
         {
-            var player = _dbConnection.QuerySingle<Player>("SELECT * FROM Players WHERE Name = @name", new { name });
+            Debug.WriteLine(name);
+            var player = _dbConnection.QueryFirstOrDefault<Player>("SELECT * FROM Players WHERE Name = @name", new { name });
             return player == null;
         }
 

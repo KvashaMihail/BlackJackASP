@@ -13,18 +13,19 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using System;
 using System.Text;
+using BlackJack.Shared.Options;
 
 namespace BlackJack.UI
 {
     public class Startup
     {
 
-        private IConfiguration _configuration;
+        public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
             
-            _configuration = configuration;
+            Configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -32,7 +33,7 @@ namespace BlackJack.UI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<UsersContext>(options =>
                 options.UseSqlServer(
-                    _configuration.GetConnectionString("IdentityConnection")));
+                    Configuration.GetConnectionString("IdentityConnection")));
             services.AddMvc();
             services.AddDefaultIdentity<IdentityUser>(
                 options =>
@@ -47,24 +48,29 @@ namespace BlackJack.UI
                 .AddEntityFrameworkStores<UsersContext>().
                 AddDefaultTokenProviders();
 
-            //var jwtOptions = _configuration.GetSection("JWTOptions").Get<JWTOptions>();
+            IConfigurationSection settingsSection = Configuration.GetSection("JwtSettings");
+            services.Configure<JwtSettingsOptions>(settingsSection);
+
+            JwtSettingsOptions jwtOptions = settingsSection.Get<JwtSettingsOptions>();
+            byte[] key = Encoding.ASCII.GetBytes(jwtOptions.TokenSecret);
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(cfg =>
+            })
+            .AddJwtBearer(options =>
             {
-                cfg.RequireHttpsMetadata = false;
-                cfg.SaveToken = true;
-                cfg.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = "BlackJackServerProvider",
-                    ValidAudience = "BlackJackServerProvider",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecurityKey")),
-                    ClockSkew = TimeSpan.Zero
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
                 };
             });
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.Events.OnRedirectToLogin = context =>
@@ -78,7 +84,7 @@ namespace BlackJack.UI
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            services.AddServicesFromBL(_configuration.GetConnectionString("DefaultConnection"));
+            services.AddServicesFromBL(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -93,13 +99,19 @@ namespace BlackJack.UI
                 app.UseHsts();
             }
             
-            //app.UseHttpsRedirection();
-            app.UseStatusCodePagesWithReExecute("/Error/{0}");     
+            app.UseHttpsRedirection();
+            //app.UseStatusCodePagesWithReExecute("/Error/{0}");     
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
             //app.UseMvcWithDefaultRoute();
-            
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}");
+            });
             app.UseSpa(spa =>
                 {
                     spa.Options.SourcePath = "ClientApp";
@@ -109,12 +121,7 @@ namespace BlackJack.UI
                         spa.UseAngularCliServer(npmScript: "start");
                     }
                 });
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            
 
         }
     }

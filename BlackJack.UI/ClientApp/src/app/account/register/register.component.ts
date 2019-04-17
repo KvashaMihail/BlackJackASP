@@ -17,8 +17,8 @@ export class RegisterComponent {
 
   register(): void {
     this.accountService.register(this.model).subscribe(
-      data => console.log("data"),
-      error => console.log("error")
+      data => console.log(data),
+      error => console.log(error)
     );
   }
 }

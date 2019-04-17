@@ -15,9 +15,9 @@ export class LoginComponent {
   public model: LoginAccountView = new LoginAccountView();
 
   login(): void {
-    this.accountService.login(this.model); //.subscribe(
-    //   data => console.log("data"),
-    //   error => console.log("error")
-    // );
+    this.accountService.login(this.model).subscribe(
+       data => console.log("success"),
+       error => console.log("error")
+     );
   }
 }

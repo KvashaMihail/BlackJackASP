@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlackJack.ViewModels.Game
+namespace BlackJack.ViewModels.Account
 {
     public class RegisterAccountView
     {

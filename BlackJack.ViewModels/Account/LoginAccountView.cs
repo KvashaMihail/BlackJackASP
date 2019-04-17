@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlackJack.ViewModels.Game
+namespace BlackJack.ViewModels.Account
 {
-    public class LoginPlayerModel
+    public class LoginAccountView
     {
         [Required]
         [Display(Name = "Login")]
@@ -13,6 +13,6 @@ namespace BlackJack.ViewModels.Game
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        public string ReturnUrl { get; set; }
+        //public string ReturnUrl { get; set; }
     }
 }

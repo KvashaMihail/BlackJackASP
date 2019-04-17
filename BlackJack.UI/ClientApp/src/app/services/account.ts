@@ -4,8 +4,7 @@ import { LoginAccountView } from '../viewModels/account/LoginAccountView';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './localStorageService';
 import { RegisterAccountView } from '../viewModels/account/RegisterAccountView';
-import { LoginAccountResponseView } from '../viewModels/account/LoginAccountResponseView';
-import { RegisterAccountResponseView } from '../viewModels/account/RegisterAccountResponseView';
+import { AccountResponseView } from '../viewModels/account/AccountResponseView';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 
@@ -27,11 +26,10 @@ getToken(): string {
   return this.localStorageService.getItem<string>("accessToken");
 }
 
-login(model: LoginAccountView): Observable<void> {
-  return this.http.post<LoginAccountResponseView>(`${this.Url}Login`, model).pipe(
-    map((response: LoginAccountResponseView) => {
-      this.localStorageService.setItem<string>("accessToken", response.accessToken);
-      this.localStorageService.setItem<string>("userName", response.name);
+login(model: LoginAccountView): Observable<any> {
+  return this.http.post(this.Url + 'Login', model).pipe(
+    map((response: AccountResponseView) => {
+      this.localStorageService.setItem<AccountResponseView>("UserToken", response);
     }));
 }
 
@@ -52,9 +50,8 @@ whatClick(model: RegisterAccountView): Observable<any>  {
 
 register(model: RegisterAccountView): Observable<any> {
    return this.http.post(this.Url+'Register', model).pipe(
-    map((response: RegisterAccountResponseView) => {
-      this.localStorageService.setItem<string>("accessToken", response.accessToken);
-      this.localStorageService.setItem<string>("userName", response.name);
+    map((response: AccountResponseView) => {
+      this.localStorageService.setItem<AccountResponseView>("UserToken", response);
     }));
 }
 }
