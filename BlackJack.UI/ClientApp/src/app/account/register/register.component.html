@@ -15,7 +15,7 @@
     <div class="form-group">
       <label for="confirm-password">Confirm password</label>
       <input type="text" class="form-control" id="confirm-password" 
-             required minlength="6" [(ngModel)]="model.passwordConfirm" name="passwordConfirm"/>
+             required pattern="^\w+$" minlength="6" [(ngModel)]="model.passwordConfirm" name="passwordConfirm"/>
     </div>
 
     <button type="submit" style="width: 300px;" class="btn btn-success" (click)='register()' >Register</button>

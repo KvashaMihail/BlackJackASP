@@ -6,52 +6,54 @@ import { LocalStorageService } from './localStorageService';
 import { RegisterAccountView } from '../viewModels/account/RegisterAccountView';
 import { AccountResponseView } from '../viewModels/account/AccountResponseView';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
     providedIn: 'root',
   })
 export class AccountService {
 
+  public userName: string;
+
   private Url = 'api/Account/';
-//   private Url = `${environment}api/account/`;
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
-}
+    if (this.isSignedIn()) {
+      this.userName = this.getAccount().name;   
+    }
+  }
 
-isSignedIn(): boolean {
-  return this.getToken() != null;
-}
+  index():  Observable<any> {
+    return this.http.get('api/Menu/Index').pipe(
+      map((object: string) => {
+        console.log(object);
+      })
+    );
+  }
 
-getToken(): string {
-  return this.localStorageService.getItem<string>("accessToken");
-}
+  isSignedIn(): boolean {
+    return this.getAccount() != null;
+  }
 
-login(model: LoginAccountView): Observable<any> {
-  return this.http.post(this.Url + 'Login', model).pipe(
-    map((response: AccountResponseView) => {
-      this.localStorageService.setItem<AccountResponseView>("UserToken", response);
-    }));
-}
+  getAccount(): AccountResponseView {
+    return this.localStorageService.getItem<AccountResponseView>("UserToken");
+  }
 
-logout(): void {
-  this.localStorageService.removeItem("accessToken");
-  this.localStorageService.removeItem("userName");
-}
+  login(model: LoginAccountView): Observable<any> {
+    return this.http.post(this.Url + 'Login', model).pipe(
+      map((response: AccountResponseView) => {
+        this.localStorageService.setItem<AccountResponseView>("UserToken", response);
+        this.userName = response.name;
+      }));
+  }
 
-getLoggedPlayerName(): string {
-  return this.localStorageService.getItem<string>("userName");
-}
+  logout(): void {
+    this.localStorageService.removeItem("UserToken");
+  }
 
-whatClick(model: RegisterAccountView): Observable<any>  {
-    let str = this.http.get(`api/Menu/GetStr`);
-    console.log(str);
-    return str;
-}
-
-register(model: RegisterAccountView): Observable<any> {
-   return this.http.post(this.Url+'Register', model).pipe(
-    map((response: AccountResponseView) => {
-      this.localStorageService.setItem<AccountResponseView>("UserToken", response);
-    }));
-}
+  register(model: RegisterAccountView): Observable<any> {
+    return this.http.post(this.Url+'Register', model).pipe(
+      map((response: AccountResponseView) => {
+        this.localStorageService.setItem<AccountResponseView>("UserToken", response);
+        this.userName = response.name;
+      }));
+  }
 }

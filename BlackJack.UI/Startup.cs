@@ -56,6 +56,7 @@ namespace BlackJack.UI
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
@@ -68,15 +69,6 @@ namespace BlackJack.UI
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
-                };
-            });
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    return Task.CompletedTask;
                 };
             });
             
@@ -99,12 +91,10 @@ namespace BlackJack.UI
                 app.UseHsts();
             }
             
-            app.UseHttpsRedirection();
-            //app.UseStatusCodePagesWithReExecute("/Error/{0}");     
+            app.UseHttpsRedirection(); 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
-            //app.UseMvcWithDefaultRoute();
 
             app.UseMvc(routes =>
             {

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { LoginAccountView } from 'src/app/viewModels/account/LoginAccountView';
 import { AccountService } from 'src/app/services/account';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-login',
@@ -10,13 +11,15 @@ import { AccountService } from 'src/app/services/account';
 })
 export class LoginComponent {
 
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService, private router: Router) {
   }
   public model: LoginAccountView = new LoginAccountView();
 
+  @Output() onSigned = new EventEmitter();
+
   login(): void {
     this.accountService.login(this.model).subscribe(
-       data => console.log("success"),
+       data => this.router.navigateByUrl("/game"),
        error => console.log("error")
      );
   }

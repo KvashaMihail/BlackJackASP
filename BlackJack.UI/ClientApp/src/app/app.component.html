@@ -1,6 +1,13 @@
-<nav id="nav-id" style="border-bottom: 3px solid #28a745" class="navbar navbar-dark bg-dark shadow p-3">
+<nav id="nav-id" class="navbar navbar-dark bg-dark shadow p-3 nav-modified">
   <span class="navbar-brand mb-0 h1">BlackJack Game</span>
-  <span class="navbar-brand" style="float: right">{{ title }}</span>
+  
+  <div *ngIf="service.isSignedIn(); else titleBlock" id="player-title" class="navbar-brand" style="float: right">
+    Welcome {{ service.userName }}
+    <a routerLink="/account/login" (click)="logout()">Logout</a>
+  </div>
+  <ng-template #titleBlock><span id="title" class="navbar-brand" style="float: right">{{ title }}</span></ng-template>
+  
+  
 </nav>
-<!--<app-account></app-account>-->
-<router-outlet></router-outlet>
+
+<router-outlet (onSignedAccount)="onSignedAccount($event)"></router-outlet>
