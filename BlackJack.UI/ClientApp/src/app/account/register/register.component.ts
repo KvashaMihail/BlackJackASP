@@ -1,25 +1,32 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { RegisterAccountView } from 'src/app/viewModels/account/RegisterAccountView';
+import { AccountView } from 'src/app/viewModels/account/AccountView';
 import { AccountService } from 'src/app/services/account';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-account-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-
 export class RegisterComponent {
-  
+  public model: AccountView = new AccountView();
+  public confirmPassword: string;
+  public errors: string[];
+
   constructor(private accountService: AccountService, private router: Router) {
   }
-  public model: RegisterAccountView = new RegisterAccountView();
+
+  
 
   register(): void {
+    this.errors = [];
     this.accountService.register(this.model).subscribe(
-      data => this.router.navigateByUrl("/game"),
-      error => console.log(error)
+      () => this.router.navigateByUrl("/game"),
+      (error: HttpErrorResponse) => {
+        this.errors = error.error;
+        console.log(this.errors);
+      } 
     );
   }
 }

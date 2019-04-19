@@ -1,0 +1,25 @@
+<div class="parent">
+    <div>
+        <h2>Menu</h2>
+        <form>
+            <div class="form-group">
+                <label for="countBots">Count Bots:</label>
+                <select class="form-control" name="countBots" [(ngModel)]="countBots" id="countBotsString">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                </select>
+                <button type="submit" style="width: 300px;" class="btn btn-primary button-my-outline" (click)='newGame()'>New Game</button>
+            </div>            
+        </form>
+
+        <button type="submit" style="width: 300px;" class="btn btn-success button-my-outline" (click)='continueGame()'>Continue Game</button><br>
+        <button type="submit" style="width: 300px;" class="btn btn-secondary button-my-outline" (click)='showGames()'>Show Games</button>
+    </div>
+</div>
+
+
+<!------------------------------------------------------------------------------------>

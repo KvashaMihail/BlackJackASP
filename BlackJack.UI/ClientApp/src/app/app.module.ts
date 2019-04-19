@@ -11,7 +11,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from './helpers/token.interceptor';
 import { HttpErrorInterceptor } from './helpers/error.interceptor';
 import { GameComponent } from './game/game.component';
-import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
+import { MenuComponent } from './game/menu/menu.component';
+import { EqualValidator } from './helpers/equal-validator.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
     AccountComponent,
     LoginComponent,
     RegisterComponent,
-    GameComponent
+    GameComponent,
+    MenuComponent,
+    EqualValidator
   ],
   imports: [
     AppRoutingModule,

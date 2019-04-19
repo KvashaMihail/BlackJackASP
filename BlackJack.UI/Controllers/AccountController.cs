@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,20 +34,28 @@ namespace BlackJack.UI.Controllers
             _jwtSettings = options.Value;
         }
 
-        [HttpPost]
-        public IActionResult TempAction()
+        private string GetToken(string name)
         {
-            var i = 5;
-            return Ok(i);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(_jwtSettings.TokenSecret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, name.ToLower())
+                }),
+                Expires = DateTime.Now.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+            string serializedToken = tokenHandler.WriteToken(token);
+            return serializedToken;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegisterAccountView model)
+        public async Task<IActionResult> Register([FromBody]AccountView model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
             IdentityUser user = new IdentityUser { UserName = model.Name};
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -55,58 +64,36 @@ namespace BlackJack.UI.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Keys.SelectMany(k => ModelState[k].Errors)
+                              .Select(m => m.ErrorMessage).ToArray());
             }
             await _signInManager.SignInAsync(user, false);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_jwtSettings.TokenSecret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, model.Name.ToLower())
-                }),
-                Expires = DateTime.Now.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            string serializedToken = tokenHandler.WriteToken(token);
+            string token = GetToken(model.Name);
             _gameService.SelectPlayer(model.Name);
             var response = new AccountResponseView
             {
                 Name = model.Name,
-                Token = serializedToken
+                Token = token
             };
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginAccountView model)
+        public async Task<IActionResult> Login([FromBody]AccountView model)
         {
             var result =
-                    await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+                    await _signInManager.PasswordSignInAsync(model.Name, model.Password, false, false);
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", "Incorrect username and / or password");
-                return BadRequest(ModelState);
+                return BadRequest(ModelState.Keys.SelectMany(k => ModelState[k].Errors)
+                              .Select(m => m.ErrorMessage).ToArray());
             }
-            var tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(_jwtSettings.TokenSecret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, model.Login.ToLower())
-                }),
-                Expires = DateTime.Now.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            string serializedToken = tokenHandler.WriteToken(token);
+            string token = GetToken(model.Name);
             var response = new AccountResponseView
             {
-                Name = model.Login,
-                Token = serializedToken
+                Name = model.Name,
+                Token = token
             };
             return Ok(response);
         }

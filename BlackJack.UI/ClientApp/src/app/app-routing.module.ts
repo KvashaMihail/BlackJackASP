@@ -4,6 +4,7 @@ import { AccountComponent } from './account/account.component';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { GameComponent } from './game/game.component';
+import { MenuComponent } from './game/menu/menu.component';
 
 
 
@@ -17,7 +18,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'game', component: GameComponent
+    path: 'game', component: GameComponent, children: [
+      { path: '', redirectTo: 'menu', pathMatch: 'full' },
+      { path: 'menu', component: MenuComponent},
+    ]
   },
   { path: '**', redirectTo: '/404', pathMatch: 'full' }
 ];

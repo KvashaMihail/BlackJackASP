@@ -1,19 +1,17 @@
 ﻿using BlackJack.BL.Configuration;
+using BlackJack.Shared.Options;
 using BlackJack.UI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using System;
+using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using BlackJack.Shared.Options;
 
 namespace BlackJack.UI
 {

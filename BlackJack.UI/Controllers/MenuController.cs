@@ -22,23 +22,10 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetPlayerMenu()
         {
             var playerMenu = _gameMenuService.GetPlayerMenuViewModel();
             return Ok(playerMenu);
-        }
-
-        [HttpGet]
-        public IActionResult GetStr()
-        {
-            var str = "Give me get ";
-            return Ok(str);
-        }
-
-        public IActionResult BackToMenu()
-        {
-            _gameMenuService.FinishGame();
-            return Redirect("Index");
         }
 
         public IActionResult StartGame(int countBots)
