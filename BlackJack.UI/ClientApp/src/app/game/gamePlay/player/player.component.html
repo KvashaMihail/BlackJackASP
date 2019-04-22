@@ -1,0 +1,15 @@
+<div class="card card-modify">
+    <div class="card-header">
+        {{ player.name }}
+    </div>
+    <div class="card-body card-body-modify">
+        <div *ngFor="let card of cards">
+            <img  class="card-img" *ngIf="(card != 53)" src="/assets/images/{{card}}.png">
+        </div>
+
+    </div>
+    <div style="height: 52px" class="alert-secondary card-footer">
+        <span class="card-font-large card-score">{{ score }}</span>
+        <span class="card-font-large" style="float: right"></span>
+    </div>
+</div>

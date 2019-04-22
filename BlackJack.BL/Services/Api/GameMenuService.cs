@@ -1,7 +1,7 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.Models;
-using BlackJack.ViewModels.Api;
 using BlackJack.ViewModels.Game;
+using BlackJack.ViewModels.Menu;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;

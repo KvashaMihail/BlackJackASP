@@ -17,8 +17,6 @@ export class RegisterComponent {
   constructor(private accountService: AccountService, private router: Router) {
   }
 
-  
-
   register(): void {
     this.errors = [];
     this.accountService.register(this.model).subscribe(

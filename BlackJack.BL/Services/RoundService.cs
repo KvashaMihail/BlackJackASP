@@ -116,8 +116,15 @@ namespace BlackJack.BL.Services
         {
             var cards = new List<List<byte>>();
             var flags = new List<bool> { true, true, true, true, true, true, true, true, true };
-            cards.Add(GetCardsForPlayers(gameId, flags).ToList());
-            cards.Add(GetCardsForPlayers(gameId, flags).ToList());
+
+            var cardsLine = GetCardsForPlayers(gameId, flags).ToList();
+            var cardsLine2 = GetCardsForPlayers(gameId, flags).ToList();
+            for (int i = 0; i < cardsLine.Count(); i++)
+            {
+                cards.Add(new List<byte>());
+                cards[i].Add(cardsLine[i]);
+                cards[i].Add(cardsLine2[i]);
+            }
             return cards;
         }
 

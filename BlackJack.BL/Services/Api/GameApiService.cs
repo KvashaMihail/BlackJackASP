@@ -1,6 +1,6 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.Models;
-using BlackJack.ViewModels.Api;
+using BlackJack.ViewModels.Game;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,8 +34,17 @@ namespace BlackJack.BL.Services.Api
             }
             var playerStatsViewModel = new PlayerStatsViewModel();
             var cards = new List<List<byte>>();
+
             var flags = _roundService.GetFlagsIsGiveCard(gameId, true).ToList();
-            cards.Add(_roundService.GetCardsForPlayers(gameId, flags).ToList());
+            var cardsLine = _roundService.GetCardsForPlayers(gameId, flags).ToList();
+            for (int i = 0; i < cardsLine.Count(); i++)
+            {
+                if (cards.Count() < cardsLine.Count())
+                {
+                    cards.Add(new List<byte>());
+                }            
+                cards[i].Add(cardsLine[i]);
+            }
             playerStatsViewModel.Scores = _roundService.GetScores(gameId).ToList();
             flags = _roundService.GetFlagsIsGiveCard(gameId, playerStatsViewModel.Scores[0] < 20).ToList();
             playerStatsViewModel.Cards = cards;
@@ -65,7 +74,15 @@ namespace BlackJack.BL.Services.Api
             bool isFinishRound;
             do
             {
-                cards.Add(_roundService.GetCardsForPlayers(gameId, flags).ToList());
+                var cardsLine = _roundService.GetCardsForPlayers(gameId, flags).ToList();
+                for (int i = 0; i < cardsLine.Count(); i++)
+                {
+                    if (cards.Count() < cardsLine.Count())
+                    {
+                        cards.Add(new List<byte>());
+                    }
+                    cards[i].Add(cardsLine[i]);
+                }
                 playerStatsViewModel.Scores = _roundService.GetScores(gameId).ToList();
                 flags = _roundService.GetFlagsIsGiveCard(gameId, false).ToList();
                 isFinishRound = _roundService.GetIsRoundFinished(gameId, flags);

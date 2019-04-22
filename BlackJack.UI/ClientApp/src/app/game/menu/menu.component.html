@@ -1,25 +1,43 @@
 <div class="parent">
     <div>
-        <h2>Menu</h2>
-        <form>
-            <div class="form-group">
-                <label for="countBots">Count Bots:</label>
-                <select class="form-control" name="countBots" [(ngModel)]="countBots" id="countBotsString">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                </select>
-                <button type="submit" style="width: 300px;" class="btn btn-primary button-my-outline" (click)='newGame()'>New Game</button>
-            </div>            
-        </form>
-
-        <button type="submit" style="width: 300px;" class="btn btn-success button-my-outline" (click)='continueGame()'>Continue Game</button><br>
-        <button type="submit" style="width: 300px;" class="btn btn-secondary button-my-outline" (click)='showGames()'>Show Games</button>
+        <button type="button" class="btn btn-primary button-my-outline button-menu" data-toggle="modal"
+            data-target="#exampleModal">New game</button><br>
+        <div *ngIf="isAnyUnfinishedGame">
+            <button type="button" class="btn btn-success button-my-outline button-menu" (click)='continueGame()'>Continue
+                game</button><br>
+        </div>        
+        <button type="button" class="btn btn-info button-my-outline button-menu" (click)='showGames()'>Show
+            games</button>
     </div>
 </div>
 
 
-<!------------------------------------------------------------------------------------>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New game</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="countBots">Count bots:</label>
+                    <select class="form-control" name="countBots" [(ngModel)]="countBots" id="countBotsString">
+                        <option selected>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                    </select>
+                </div>
+                {{ countBots }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)='newGame()'>Start game</button>
+            </div>
+        </div>
+    </div>
+</div>

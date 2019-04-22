@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from 'src/app/services/game';
+import { PlayerMenuView } from 'src/app/viewModels/game/PlayerMenuView';
+import { GameView } from 'src/app/viewModels/game/GameView';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,13 +12,45 @@ import { GameService } from 'src/app/services/game';
 })
 export class MenuComponent implements OnInit {
   
-  constructor(private service: GameService) {
+  isAnyUnfinishedGame: boolean;
+  countBots: number;
+
+  constructor(private service: GameService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.service.getPlayerMenu().subscribe(
-      response => console.log(response),
+      (response  : PlayerMenuView ) => {
+        console.log(response);
+        this.isAnyUnfinishedGame = response.isAnyUnfinishedGame;
+      },
       error => console.log(error)
     )
+  }
+
+  newGame() {
+    this.service.newGame(this.countBots).subscribe(
+      (response  : GameView ) => {
+        console.log(response);
+        this.router.navigateByUrl('/game/gamePlay');
+      },
+      error => console.log(error)
+    );
+    
+  }
+
+  continueGame() {
+    this.service.continueGame().subscribe(
+      (response  : GameView ) => {
+        console.log(response);
+        this.router.navigateByUrl('/game/gamePlay');
+      },
+      error => console.log(error)
+    );
+    
+  }
+
+  showGames() {
+
   }
 }

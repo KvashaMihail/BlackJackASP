@@ -1,7 +1,7 @@
 ﻿using BlackJack.Models;
 using System.Collections.Generic;
 
-namespace BlackJack.ViewModels.Api
+namespace BlackJack.ViewModels.Game
 {
     public class RoundViewModel
     {

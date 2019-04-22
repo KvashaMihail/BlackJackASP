@@ -2,7 +2,7 @@
 using BlackJack.DAL.Interfaces;
 using BlackJack.Models;
 using BlackJack.Shared.Enums;
-using BlackJack.ViewModels.Game;
+using BlackJack.ViewModels.Menu;
 using System;
 using System.Collections.Generic;
 

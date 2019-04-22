@@ -13,6 +13,8 @@ import { HttpErrorInterceptor } from './helpers/error.interceptor';
 import { GameComponent } from './game/game.component';
 import { MenuComponent } from './game/menu/menu.component';
 import { EqualValidator } from './helpers/equal-validator.directive';
+import { GamePlayComponent } from './game/gamePlay/game-play.component';
+import { PlayerComponent } from './game/gamePlay/player/player.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { EqualValidator } from './helpers/equal-validator.directive';
     RegisterComponent,
     GameComponent,
     MenuComponent,
+    GamePlayComponent,
+    PlayerComponent,
     EqualValidator
   ],
   imports: [

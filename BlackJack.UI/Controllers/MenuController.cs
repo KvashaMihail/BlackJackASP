@@ -1,5 +1,6 @@
 ﻿using BlackJack.BL.Services.Interfaces;
-using BlackJack.ViewModels.Api;
+using BlackJack.ViewModels.Game;
+using BlackJack.ViewModels.Menu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,18 +29,21 @@ namespace BlackJack.UI.Controllers
             return Ok(playerMenu);
         }
 
-        public IActionResult StartGame(int countBots)
+        [HttpPost]
+        public IActionResult StartGame([FromBody]CreateGameViewModel createGameViewModel)
         {
-            GameViewModel gameViewModel = _gameMenuService.CreateGameViewModel(countBots);
+            GameViewModel gameViewModel = _gameMenuService.CreateGameViewModel(createGameViewModel.CountBots);
             return Ok(gameViewModel);
         }
 
+        [HttpGet]
         public IActionResult ContinueGame()
         {
             GameViewModel gameViewModel = _gameMenuService.GetGameViewModel();
             return Ok(gameViewModel);
         }
 
+        [HttpGet]
         public IActionResult ShowGames()
         {
             var games = _gameMenuService.GetGames();
