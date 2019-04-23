@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './localStorageService';
-import { AccountResponseView } from '../viewModels/account/AccountResponseView';
+import { AccountResponseView } from '../_viewModels/account/AccountResponseView';
 import { map } from 'rxjs/operators';
-import { AccountView } from '../viewModels/account/AccountView';
+import { AccountView } from '../_viewModels/account/AccountView';
 
 @Injectable({
   providedIn: 'root',

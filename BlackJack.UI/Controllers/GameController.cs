@@ -1,5 +1,6 @@
 ﻿using BlackJack.BL.Services.Interfaces;
 using BlackJack.ViewModels.Game;
+using BlackJack.ViewModels.Menu;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,12 @@ namespace BlackJack.UI.Controllers
             _gameApiService = gameApiService;
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult StartNextRound()
         {
             _gameApiService.StartRound();
-            return Ok();
+            var playerStatsViewModel = _gameApiService.GetStartCards();
+            return Ok(playerStatsViewModel);
         }
 
         [HttpGet]
@@ -50,17 +52,24 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetFlagsIsWin()
+        public ActionResult GetPlayerStates()
         {
-            var flags = _gameApiService.GetFlagsIsWin();
-            return new JsonResult(flags);
+            var states = _gameApiService.GetPlayerStates();
+            return Ok(states);
         }
 
-        [HttpGet("{gameId}")]
-        public ActionResult GetRounds(int gameId)
+        [HttpPost]
+        public ActionResult GetRounds([FromBody]GameIdModel gameIdModel)
         {
-            var roundViewModels = _gameApiService.GetRoundsViewModel(gameId);
+            var roundViewModels = _gameApiService.GetRoundsViewModel(gameIdModel.GameId);
             return Ok(roundViewModels);
+        }
+
+        [HttpPost]
+        public ActionResult FinishGame()
+        {
+            _gameApiService.FinishGame();
+            return Ok();
         }
     }
 }

@@ -1,23 +1,23 @@
 <main>
-    <app-player class="col-md-3" *ngFor="let player of service.gameView.players; let i = index" [player]="player"
-        [cards]="service.gameView.cards[i]" [score]="service.gameView.scores[i]"></app-player>
+    <app-player *ngFor="let player of service.gameView.players; let i = index" [player]="player"
+        [cards]="service.gameView.cards[i]" [score]="service.gameView.scores[i]" [state]="service.resultPlayers[i]"></app-player>
 </main>
 
 <footer class="fixed-bottom shadow-up-sm">
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
-        <button class="nav-item nav-link btn btn-success text-white w-100 m-1" (click)="hit()">
+        <button [disabled]="service.gameView.scores[0] > 21" *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-success text-white w-100 m-1" (click)="hit()">
             Hit
         </button>
-        <button class="nav-item nav-link btn btn-danger text-white w-100 m-1" (click)="stand()">
+        <button *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-danger text-white w-100 m-1" (click)="stand()">
             Stand
         </button>
-        <button class="nav-item nav-link btn btn-primary text-white w-100 m-1" (click)="nextRound()">
+        <button *ngIf="service.isFinishedRound" class="nav-item nav-link btn btn-info text-white w-100 m-1" (click)="nextRound()">
             Next round
         </button>
-        <button class="nav-item nav-link btn btn-primary text-white w-100 m-1" (click)="endGame()">
+        <button *ngIf="service.isFinishedRound" routerLink="/game/menu" class="nav-item nav-link btn btn-secondary text-white w-100 m-1" (click)="endGame()">
             End game
         </button>
-        <button routerLink="/" class="nav-item nav-link btn btn-primary text-white w-100 mx-2">
+        <button routerLink="/game/menu" class="nav-item nav-link btn btn-primary text-white w-100 mx-2">
             Quit
         </button>
     </nav>

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from 'src/app/services/game';
-import { GameView } from 'src/app/viewModels/game/GameView';
-import { GameStepView } from 'src/app/viewModels/game/GameStepView';
+import { GameService } from 'src/app/_services/game';
 
 @Component({
   selector: 'app-gamePlay',
@@ -10,25 +8,50 @@ import { GameStepView } from 'src/app/viewModels/game/GameStepView';
 })
 export class GamePlayComponent implements OnInit {
 
+  
   constructor(public service: GameService) {
   }
 
   ngOnInit(): void {
+    if (this.service.gameView == undefined) {
+      this.service.continueGame().subscribe(
+        () => {},
+        error => console.log(error)
+      );
+    }
     if (this.service.gameView.cards == null) {
       this.service.getStartCards().subscribe(
-        () => {
-          console.log("Success");
-        },
+        () => {},
         error => console.log(error)
       );
     }
   }
   
-  hit(): void {
+  hit() {
     this.service.getCards().subscribe(
       () => {},
       error => console.log(error)
     );
   }
+
+  stand() {
+    this.service.getLastCards().subscribe(
+      () => {}
+    );
+  }
+
+  nextRound() {
+    this.service.refresh();
+    this.service.nextRound().subscribe(() => {});
+  }
+
+  endGame() {
+    this.service.finishGame().subscribe(() => {});
+  }
+
+
+
+  
+
 
 }

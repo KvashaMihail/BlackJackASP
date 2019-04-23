@@ -1,4 +1,4 @@
-<div class="card card-modify">
+<div class="card card-modify {{ colorClasses[0][state] }}">
     <div class="card-header">
         {{ player.name }}
     </div>
@@ -8,8 +8,11 @@
         </div>
 
     </div>
-    <div style="height: 52px" class="alert-secondary card-footer">
+    <div style="height: 52px" class="{{ colorClasses[1][state] }} card-footer">
         <span class="card-font-large card-score">{{ score }}</span>
-        <span class="card-font-large" style="float: right"></span>
+        <span class="card-font-large" style="float: right">
+            <div *ngIf="state == 1">Win</div>
+            <div *ngIf="state == 2">Lose</div>
+        </span>
     </div>
 </div>

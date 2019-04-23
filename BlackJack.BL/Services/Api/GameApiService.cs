@@ -109,16 +109,22 @@ namespace BlackJack.BL.Services.Api
             return playerStatsViewModel;
         }
 
-        public List<bool> GetFlagsIsWin()
+        public List<byte> GetPlayerStates()
         {
             var gameId = _gameService.GetCurrentGameId(_playerName);
-            if (gameId < 0)
-            {
-                return null;
-            }
+            var states = new List<byte>();
             var flags = _roundService.GetFlagsIsWin(gameId).ToList();
-            _roundService.SaveRound(gameId, flags);            
-            return flags;
+            _roundService.SaveRound(gameId, flags); 
+            foreach (bool flag in flags)
+            {
+                byte state = 2;
+                if (flag)
+                {
+                    state = 1;
+                }
+                states.Add(state);
+            }
+            return states;
         }
 
         public List<RoundViewModel> GetRoundsViewModel(int gameId)
@@ -139,6 +145,11 @@ namespace BlackJack.BL.Services.Api
                 roundViewModels.Add(roundViewModel);
             }
             return roundViewModels;
+        }
+
+        public void FinishGame()
+        {
+            _gameService.FinishGame(_gameService.GetCurrentGameId(_playerName));
         }
     }
 }

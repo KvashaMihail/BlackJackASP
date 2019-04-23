@@ -9,7 +9,8 @@ namespace BlackJack.BL.Services.Interfaces
         PlayerStatsViewModel GetStartCards();
         PlayerStatsViewModel GetLastCards();
         void StartRound();
-        List<bool> GetFlagsIsWin();
+        List<byte> GetPlayerStates();
         List<RoundViewModel> GetRoundsViewModel(int gameId);
+        void FinishGame();
     }
 }

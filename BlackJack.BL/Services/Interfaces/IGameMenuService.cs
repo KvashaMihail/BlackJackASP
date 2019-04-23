@@ -10,7 +10,6 @@ namespace BlackJack.BL.Services.Interfaces
         GameViewModel CreateGameViewModel(int countBots);
         GameViewModel GetGameViewModel();
         PlayerMenuViewModel GetPlayerMenuViewModel();
-        IEnumerable<Game> GetGames();
-        void FinishGame();
+        IEnumerable<Game> GetGames();       
     }
 }

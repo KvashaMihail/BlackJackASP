@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AccountView } from 'src/app/viewModels/account/AccountView';
-import { AccountService } from 'src/app/services/account';
+import { AccountView } from 'src/app/_viewModels/account/AccountView';
+import { AccountService } from 'src/app/_services/account';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 

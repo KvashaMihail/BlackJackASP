@@ -44,7 +44,7 @@ namespace BlackJack.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult ShowGames()
+        public IActionResult GetGames()
         {
             var games = _gameMenuService.GetGames();
             return Ok(games);

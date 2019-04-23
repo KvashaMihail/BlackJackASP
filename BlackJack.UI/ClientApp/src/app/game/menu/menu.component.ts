@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from 'src/app/services/game';
-import { PlayerMenuView } from 'src/app/viewModels/game/PlayerMenuView';
-import { GameView } from 'src/app/viewModels/game/GameView';
+import { GameService } from 'src/app/_services/game';
+import { PlayerMenuView } from 'src/app/_viewModels/game/PlayerMenuView';
+import { GameView } from 'src/app/_viewModels/game/GameView';
 import { Router } from '@angular/router';
 
 
@@ -51,6 +51,6 @@ export class MenuComponent implements OnInit {
   }
 
   showGames() {
-
+    this.router.navigateByUrl('/game/history');
   }
 }

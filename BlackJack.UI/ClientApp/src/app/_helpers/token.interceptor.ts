@@ -2,8 +2,8 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LocalStorageService } from '../services/localStorageService';
-import { AccountResponseView } from '../viewModels/account/AccountResponseView';
+import { LocalStorageService } from '../_services/localStorageService';
+import { AccountResponseView } from '../_viewModels/account/AccountResponseView';
   
 @Injectable()
   export class HttpTokenInterceptor implements HttpInterceptor {

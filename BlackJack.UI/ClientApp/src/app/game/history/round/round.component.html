@@ -1,0 +1,15 @@
+<div>
+    <ul class="list-group list-group-horizontal row no-gutters my-row">
+        <li class="list-group-item list-group-item-action col col-sm-1">
+            <a href data-toggle="collapse" data-target="#B{{round.round.id}}" [attr.aria-controls]="'B'+round.round.id" aria-expanded="false">
+                # {{round.round.numberRound}}</a></li>
+        <li *ngFor="let player of round.players; let i = index" class="list-group-item col"> {{player}} :
+            {{round.scores[i]}} </li>
+    </ul>
+    <ul id="B{{round.round.id}}" class="collapse list-group list-group-horizontal row no-gutters my-row">
+        <li class="list-group-item col col-sm-1"> Cards: </li>
+        <li *ngFor="let player of round.players; let i = index" class= "list-group-item col">
+                <img *ngFor="let card of round.cards[i]" src="/Images/{{card}}.png" class="view-img" />
+        </li>
+    </ul>
+</div>

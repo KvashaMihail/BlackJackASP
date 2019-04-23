@@ -81,11 +81,6 @@ namespace BlackJack.BL.Services.Api
         public IEnumerable<Game> GetGames()
         {
             return _gameService.GetGames();
-        }
-
-        public void FinishGame()
-        {
-            _gameService.FinishGame(_gameService.GetCurrentGameId(_playerName));
-        }
+        }      
     }
 }

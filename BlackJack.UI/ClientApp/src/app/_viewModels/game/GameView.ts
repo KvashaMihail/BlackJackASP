@@ -1,5 +1,5 @@
-import { Game } from 'src/app/models/Game';
-import { Player } from 'src/app/models/Player';
+import { Game } from 'src/app/_models/Game';
+import { Player } from 'src/app/_models/Player';
 
 export class GameView {
     game? : Game;
