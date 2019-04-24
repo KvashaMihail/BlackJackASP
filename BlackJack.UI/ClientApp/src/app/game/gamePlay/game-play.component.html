@@ -1,20 +1,28 @@
 <main>
-    <app-player *ngFor="let player of service.gameView.players; let i = index" [player]="player"
-        [cards]="service.gameView.cards[i]" [score]="service.gameView.scores[i]" [state]="service.resultPlayers[i]"></app-player>
+    <div *ngIf="service.gameView.cards && service.gameView.scores">
+        <app-player *ngFor="let player of service.gameView?.players; let i = index" [player]="player"
+            [cards]="service.gameView.cards[i]" [score]="service.gameView.scores[i]" [state]="service.resultPlayers[i]"
+            [isFinished]="service.isFinishedRound" [id]="i" [idDealer]="service.gameView.players.length - 1">
+        </app-player>
+    </div>
 </main>
 
 <footer class="fixed-bottom shadow-up-sm">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
-        <button [disabled]="service.gameView.scores[0] > 21" *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-success text-white w-100 m-1" (click)="hit()">
+    <nav *ngIf="service.gameView.scores != null" class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+        <button [disabled]="service.gameView.scores[0] > 21" *ngIf="!service.isFinishedRound"
+            class="nav-item nav-link btn btn-success text-white w-100 m-1" (click)="hit()">
             Hit
         </button>
-        <button *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-danger text-white w-100 m-1" (click)="stand()">
+        <button *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-danger text-white w-100 m-1"
+            (click)="stand()">
             Stand
         </button>
-        <button *ngIf="service.isFinishedRound" class="nav-item nav-link btn btn-info text-white w-100 m-1" (click)="nextRound()">
+        <button *ngIf="service.isFinishedRound" class="nav-item nav-link btn btn-info text-white w-100 m-1"
+            (click)="nextRound()">
             Next round
         </button>
-        <button *ngIf="service.isFinishedRound" routerLink="/game/menu" class="nav-item nav-link btn btn-secondary text-white w-100 m-1" (click)="endGame()">
+        <button *ngIf="service.isFinishedRound" routerLink="/game/menu"
+            class="nav-item nav-link btn btn-secondary text-white w-100 m-1" (click)="endGame()">
             End game
         </button>
         <button routerLink="/game/menu" class="nav-item nav-link btn btn-primary text-white w-100 mx-2">

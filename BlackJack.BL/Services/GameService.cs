@@ -51,9 +51,10 @@ namespace BlackJack.BL.Services
             return game;
         }
 
-        public IEnumerable<Game> GetGames()
+        public IEnumerable<Game> GetGames(string playerName)
         {
-            return _gameRepository.GetAll();
+            var player = _playerRepository.Get(playerName);
+            return _gameRepository.GetGamesByPlayerId(player.Id);
         }
 
         public IEnumerable<Player> GetPlayers(string playerName, int countBots)

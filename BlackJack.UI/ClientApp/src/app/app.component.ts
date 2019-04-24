@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './_services/account';
-import { BlockingProxy } from 'blocking-proxy';
 import { Router } from '@angular/router';
 
 @Component({

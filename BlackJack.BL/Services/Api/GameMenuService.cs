@@ -80,7 +80,7 @@ namespace BlackJack.BL.Services.Api
 
         public IEnumerable<Game> GetGames()
         {
-            return _gameService.GetGames();
+            return _gameService.GetGames(_playerName);
         }      
     }
 }

@@ -207,7 +207,11 @@ namespace BlackJack.BL.Services
             for (int i = 0; i < dealerId; i++)
             {
                 bool isBlackJack = _cardService.CheckBlackJack(roundPlayers[i].Id);
-                bool isWin = scores[i] > scores[dealerId];
+                bool isWin = scores[i] >= scores[dealerId];
+                if (scores[i] == (int)Constants.OverScore)
+                {
+                    isWin = false;
+                }
                 if (isBlackJack)
                 {
                     isWin = true;

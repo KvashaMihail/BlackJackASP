@@ -8,50 +8,50 @@ import { GameService } from 'src/app/_services/game';
 })
 export class GamePlayComponent implements OnInit {
 
-  
+
   constructor(public service: GameService) {
+    
   }
 
   ngOnInit(): void {
     if (this.service.gameView == undefined) {
-      this.service.continueGame().subscribe(
-        () => {},
-        error => console.log(error)
-      );
+      this.service.continueGame().subscribe(() => {
+        console.log("Check cards is null..");
+        if (this.service.gameView.cards == null) {
+          console.log("Get start cards..");
+          this.service.getStartCards();
+        }
+      });
+    } else {
+      console.log("Check cards is null..");
+      if (this.service.gameView.cards == null) {
+        console.log("Get start cards..");
+        this.service.getStartCards();
+      }
     }
-    if (this.service.gameView.cards == null) {
-      this.service.getStartCards().subscribe(
-        () => {},
-        error => console.log(error)
-      );
-    }
+
   }
-  
+
   hit() {
-    this.service.getCards().subscribe(
-      () => {},
-      error => console.log(error)
-    );
+    this.service.getCards();
   }
 
   stand() {
-    this.service.getLastCards().subscribe(
-      () => {}
-    );
+    this.service.getLastCards();
   }
 
   nextRound() {
     this.service.refresh();
-    this.service.nextRound().subscribe(() => {});
+    this.service.nextRound();
   }
 
   endGame() {
-    this.service.finishGame().subscribe(() => {});
+    this.service.finishGame();
   }
 
 
 
-  
+
 
 
 }

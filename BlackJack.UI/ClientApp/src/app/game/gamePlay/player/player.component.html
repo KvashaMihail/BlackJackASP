@@ -3,13 +3,27 @@
         {{ player.name }}
     </div>
     <div class="card-body card-body-modify">
-        <div *ngFor="let card of cards">
-            <img  class="card-img" *ngIf="(card != 53)" src="/assets/images/{{card}}.png">
+        <div *ngFor="let card of cards; let i = index">
+            <div *ngIf="(card != 53)">
+                <img *ngIf="(i == 1) && (id == idDealer) && !isFinished; else cardtemplate" class="margin-left-minus card-img"
+                    src="/assets/images/0.png">
+                <ng-template #cardtemplate>
+                    <img class="{{ isMargin[(i == 0) ? 0 : 1] }} card-img" src="/assets/images/{{card}}.png">
+                </ng-template>
+            </div>
+
         </div>
 
     </div>
     <div style="height: 52px" class="{{ colorClasses[1][state] }} card-footer">
-        <span class="card-font-large card-score">{{ score }}</span>
+        <div *ngIf="(id != idDealer) || isFinished; else scoretempl">
+            <span class="card-font-large card-score">{{score}}</span>
+        </div>
+        <ng-template #scoretempl>
+            <span class="card-font-large">I will not say :D</span>
+        </ng-template>
+
+
         <span class="card-font-large" style="float: right">
             <div *ngIf="state == 1">Win</div>
             <div *ngIf="state == 2">Lose</div>
