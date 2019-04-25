@@ -3,10 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account/account.component';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
-import { GameComponent } from './game/game.component';
-import { MenuComponent } from './game/menu/menu.component';
-import { GamePlayComponent } from './game/gamePlay/game-play.component';
-import { HistoryComponent } from './game/history/history.component';
+import { MenuComponent } from './menu/menu.component';
+import { GamePlayComponent } from './game-play/game-play.component';
+import { HistoryGamesComponent } from './history-games/history-games.component';
 
 
 
@@ -20,13 +19,13 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'game', component: GameComponent, children: [
+    path: 'game', children: [
       { path: '', redirectTo: 'menu', pathMatch: 'full' },
       { path: 'menu', component: MenuComponent},
-      { path: 'gamePlay', component: GamePlayComponent},
-      { path: 'history', component: HistoryComponent}
+      { path: 'game-play', component: GamePlayComponent},
     ]
   },
+  { path: 'history', component: HistoryGamesComponent},
   { path: '**', redirectTo: '/404', pathMatch: 'full' }
 ];
 

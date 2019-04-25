@@ -4,10 +4,10 @@ import { PlayerState } from 'src/app/_enums/player-state';
 
 @Component({
   selector: 'app-player',
-  templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss']
+  templateUrl: './player-details.component.html',
+  styleUrls: ['./player-details.component.scss']
 })
-export class PlayerComponent {
+export class PlayerDetailsComponent {
 
   @Input() player: Player;
   @Input() cards?: Array<number>;
@@ -21,8 +21,5 @@ export class PlayerComponent {
     [ 'border-primary', 'border-success', 'border-danger' ],
     [ 'alert-primary' , 'alert-success', 'alert-danger' ]
   ];
-
   readonly isMargin: string[] = ["", "margin-left-minus"];
-  constructor() {
-  }
 }

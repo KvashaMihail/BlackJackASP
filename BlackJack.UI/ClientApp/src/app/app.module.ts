@@ -11,13 +11,12 @@ import { RegisterComponent } from './account/register/register.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from './_helpers/token.interceptor';
 import { HttpErrorInterceptor } from './_helpers/error.interceptor';
-import { GameComponent } from './game/game.component';
-import { MenuComponent } from './game/menu/menu.component';
+import { MenuComponent } from './menu/menu.component';
 import { EqualValidator } from './_helpers/equal-validator.directive';
-import { GamePlayComponent } from './game/gamePlay/game-play.component';
-import { PlayerComponent } from './game/gamePlay/player/player.component';
-import { HistoryComponent } from './game/history/history.component';
-import { RoundComponent } from './game/history/round/round.component';
+import { GamePlayComponent } from './game-play/game-play.component';
+import { PlayerDetailsComponent } from './game-play/player-details/player-details.component';
+import { HistoryGamesComponent } from './history-games/history-games.component';
+import { RoundDetailsComponent } from './history-games/round-details/round-details.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +24,11 @@ import { RoundComponent } from './game/history/round/round.component';
     AccountComponent,
     LoginComponent,
     RegisterComponent,
-    GameComponent,
     MenuComponent,
     GamePlayComponent,
-    PlayerComponent,
-    HistoryComponent,
-    RoundComponent,
+    PlayerDetailsComponent,
+    HistoryGamesComponent,
+    RoundDetailsComponent,
     EqualValidator
   ],
   imports: [

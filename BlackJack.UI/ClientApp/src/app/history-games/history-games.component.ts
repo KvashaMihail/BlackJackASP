@@ -5,10 +5,10 @@ import { RoundView } from 'src/app/_viewModels/history/RoundView';
 
 @Component({
   selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  templateUrl: './history-games.component.html',
+  styleUrls: ['./history-games.component.scss']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryGamesComponent implements OnInit {
   
   games : Array<Game>;
   rounds: Array<RoundView>;

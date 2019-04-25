@@ -17,6 +17,7 @@ export class GameService {
   private UrlGame = 'api/Game/';
 
   constructor(private http: HttpClient) {
+    this.gameView = new GameView();
   }
 
   getPlayerMenu() {

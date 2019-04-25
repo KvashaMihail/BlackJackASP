@@ -1,14 +1,12 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { RoundView } from 'src/app/_viewModels/history/RoundView';
-import { Round } from 'src/app/_models/Round';
-import { iterateListLike } from '@angular/core/src/change_detection/change_detection_util';
 
 @Component({
   selector: 'app-round',
-  templateUrl: './round.component.html',
-  styleUrls: ['./round.component.scss']
+  templateUrl: './round-details.component.html',
+  styleUrls: ['./round-details.component.scss']
 })
-export class RoundComponent implements OnInit {
+export class RoundDetailsComponent implements OnInit {
   
   @Input() round : RoundView;
   public isCollapsed = false;

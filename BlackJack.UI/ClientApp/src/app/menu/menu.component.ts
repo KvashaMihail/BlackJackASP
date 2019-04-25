@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.service.getPlayerMenu().subscribe(
       (response: PlayerMenuView) => {
-        console.log(response);
+        console.log(`Get unfinished game: ${response.isAnyUnfinishedGame}`);
         this.isAnyUnfinishedGame = response.isAnyUnfinishedGame;
       }
     );
@@ -28,17 +28,17 @@ export class MenuComponent implements OnInit {
 
   newGame() {
     this.service.newGame(this.countBots).subscribe(
-      () => this.router.navigateByUrl('/game/gamePlay')
+      () => this.router.navigateByUrl('/game/game-play')
     );
   }
 
   continueGame() {
     this.service.continueGame().subscribe(
-      () => this.router.navigateByUrl('/game/gamePlay')
+      () => this.router.navigateByUrl('/game/game-play')
     );
   }
 
   showGames() {
-    this.router.navigateByUrl('/game/history');
+    this.router.navigateByUrl('/history');
   }
 }
