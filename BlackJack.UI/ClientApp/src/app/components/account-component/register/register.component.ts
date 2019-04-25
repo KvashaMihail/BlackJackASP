@@ -20,7 +20,7 @@ export class RegisterComponent {
   register(): void {
     this.errors = [];
     this.accountService.register(this.model).subscribe(
-      () => this.router.navigateByUrl("/game"),
+      () => this.router.navigateByUrl("/menu"),
       (error: HttpErrorResponse) => {
         this.errors = error.error;
         console.log(this.errors);

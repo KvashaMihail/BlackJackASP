@@ -13,7 +13,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
                 this.accountService.logout();
-                this.router.navigateByUrl("/account/login");
+                this.router.navigateByUrl("/account");
             }
             return throwError(err);
         }))

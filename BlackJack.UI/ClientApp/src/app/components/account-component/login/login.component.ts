@@ -20,7 +20,7 @@ export class LoginComponent {
   login(): void {
     this.errors = [];
     this.accountService.login(this.model).subscribe(
-      () => this.router.navigateByUrl("/game"),
+      () => this.router.navigateByUrl("/menu"),
       (error: HttpErrorResponse) => this.errors = error.error
     );
   }
