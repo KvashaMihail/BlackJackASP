@@ -1,16 +1,28 @@
 .card-modify {
-    margin: 10px;
-    border: 2px solid;
-    border-radius: 8px;
-    width: 300px;
+    margin: 3px;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 100%;
     float: left;
   }
   
   .card-body-modify {
-    height: 250px;
     padding: 0 12px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background-color: darkcyan;
   }
   
+  .card-section-modify {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    padding: 8px 12px;
+  }
+
   .margin-left-minus {
     margin-left: -30px!important;
   }
@@ -26,4 +38,15 @@
     width: 75px;
     height: 114px;
     float: left;
+  }
+
+  .card-font-large {
+    font-family: Consolas;
+    font-weight: bold;
+    font-size: large;
+  }
+  
+  .card-score {
+    float: left;
+    width: 30px;
   }

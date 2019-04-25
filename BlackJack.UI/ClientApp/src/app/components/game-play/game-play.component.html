@@ -1,14 +1,15 @@
-<main>
-    <div *ngIf="service.gameView.cards && service.gameView.scores">
-        <app-player *ngFor="let player of service.gameView?.players; let i = index" [player]="player"
-            [cards]="service.gameView.cards[i]" [score]="service.gameView.scores[i]" [state]="service.resultPlayers[i]"
-            [isFinished]="service.isFinishedRound" [id]="i" [idDealer]="service.gameView.players.length - 1">
-        </app-player>
+<main *ngIf="service.gameView.cards && service.gameView.scores">
+    <div class="app-player card-position"
+        *ngFor="let player of service.gameView?.players; let i = index; let first = first; let last = last"
+        [player]="player" [cards]="service.gameView.cards[i]" [score]="service.gameView.scores[i]"
+        [state]="service.resultPlayers[i]" [isFinished]="service.isFinishedRound" [id]="i"
+        [idDealer]="service.gameView.players.length - 1" [ngClass]="{ first: first, last: last }">
     </div>
 </main>
 
 <footer class="fixed-bottom shadow-up-sm">
-    <nav *ngIf="service.gameView.scores != null" class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+    <nav *ngIf="service.gameView.scores != null"
+        class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
         <button [disabled]="service.gameView.scores[0] > 21" *ngIf="!service.isFinishedRound"
             class="nav-item nav-link btn btn-success text-white w-100 m-1" (click)="hit()">
             Hit

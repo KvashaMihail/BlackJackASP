@@ -1,8 +1,8 @@
 <div class="card card-modify {{ colorClasses[0][state] }}">
-    <div class="card-header">
+    <div class="card-header card-section-modify">
         {{ player.name }}
     </div>
-    <div class="card-body card-body-modify">
+    <div class="card-body card-body-modify col-sm">
         <div *ngFor="let card of cards; let i = index">
             <div *ngIf="(card != 53)">
                 <img *ngIf="(i == 1) && (id == idDealer) && !isFinished; else cardtemplate" class="margin-left-minus card-img"
@@ -15,7 +15,7 @@
         </div>
 
     </div>
-    <div style="height: 52px" class="{{ colorClasses[1][state] }} card-footer">
+    <div class="{{ colorClasses[1][state] }} card-footer card-section-modify">
         <div *ngIf="(id != idDealer) || isFinished; else scoretempl">
             <span class="card-font-large card-score">{{score}}</span>
         </div>

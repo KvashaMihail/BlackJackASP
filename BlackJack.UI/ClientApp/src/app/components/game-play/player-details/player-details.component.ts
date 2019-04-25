@@ -3,7 +3,7 @@ import { Player } from 'src/app/_models/Player';
 import { PlayerState } from 'src/app/_enums/player-state';
 
 @Component({
-  selector: 'app-player',
+  selector: '.app-player',
   templateUrl: './player-details.component.html',
   styleUrls: ['./player-details.component.scss']
 })
