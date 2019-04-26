@@ -58,10 +58,11 @@ namespace BlackJack.UI.Controllers
             return Ok(states);
         }
 
-        [HttpPost]
-        public ActionResult GetRounds([FromBody]GameIdModel gameIdModel)
+        [HttpGet]
+        [Route("{gameid}")]
+        public ActionResult GetRounds(int gameId)
         {
-            var roundViewModels = _gameApiService.GetRoundsViewModel(gameIdModel.GameId);
+            var roundViewModels = _gameApiService.GetRoundsViewModel(gameId);
             return Ok(roundViewModels);
         }
 

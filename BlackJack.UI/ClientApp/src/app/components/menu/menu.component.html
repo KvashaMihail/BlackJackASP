@@ -1,5 +1,5 @@
-<div class="parent">
-    <div>
+<div class="parent"> 
+    <div *ngIf="isAnyUnfinishedGame != undefined">
         <button type="button" class="btn btn-primary button-my-outline button-menu" data-toggle="modal"
             data-target="#exampleModal">New game</button><br>
         <div *ngIf="isAnyUnfinishedGame">

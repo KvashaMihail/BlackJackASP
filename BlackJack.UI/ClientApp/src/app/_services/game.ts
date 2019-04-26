@@ -27,7 +27,7 @@ export class GameService {
   newGame(countBots: number) {
     this.refresh();
     this.isFinishedRound = false;
-    return this.http.post(`${this.UrlMenu}StartGame`, {countBots: countBots}).pipe(
+    return this.http.get(`${this.UrlMenu}StartGame/${countBots}`).pipe(
       map((gameView: GameView) => this.gameView = gameView)
       );
   }
@@ -104,6 +104,6 @@ export class GameService {
   }
 
   getRounds(id : number) {
-    return this.http.post(`${this.UrlGame}GetRounds`, {gameId: id});
+    return this.http.get(`${this.UrlGame}GetRounds/${id}`);
   }
 }

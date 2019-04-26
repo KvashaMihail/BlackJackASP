@@ -15,18 +15,6 @@ const routes: Routes = [
   {
     path: 'menu', component: MenuComponent
   },
-  // {
-  //   path: 'account',
-  //   loadChildren: './modules/account.module#AccountModule'
-  // },
-  // {
-  //   path: 'game',
-  //   loadChildren: './modules/game.module#GameModule'
-  // },
-  // {
-  //   path: 'history',
-  //   loadChildren: './modules/history.module#HistoryModule'
-  // },
   { path: '**', redirectTo: '' }
 ];
 

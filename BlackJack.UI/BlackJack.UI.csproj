@@ -13,11 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Account\Login.cshtml" />
-    <Content Remove="Views\Account\Register.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="ClientApp\src\app\account\account.component.ts" />
     <None Remove="ClientApp\src\app\account\login\login.component.ts" />
     <None Remove="ClientApp\src\app\account\register\register.component.ts" />
@@ -28,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Account\Login.cshtml" />
-    <None Include="Views\Account\Register.cshtml" />
     <None Include="wwwroot\Scripts\script.js" />
   </ItemGroup>
 

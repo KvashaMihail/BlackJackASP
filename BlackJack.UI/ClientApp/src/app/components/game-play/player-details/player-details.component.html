@@ -1,5 +1,5 @@
 <div class="card-modify">
-    <div class="card-section-modify card-font-large {{ colorClasses[0][state] }}">
+    <div class="card-section-modify card-font-large {{ colorClasses.text[state] }}">
         {{ player.name }}
     </div>
     <div class="card-body-modify col-sm">
@@ -8,7 +8,7 @@
                 <img *ngIf="(i == 1) && (id == idDealer) && !isFinished; else cardtemplate"
                     class="margin-left-minus card-img" src="/assets/images/0.png">
                 <ng-template #cardtemplate>
-                    <img class="{{ isMargin[(i == 0) ? 0 : 1] }} card-img {{ colorClasses[1][state] }}"
+                    <img class="{{ isMargin[(i == 0) ? 0 : 1] }} card-img {{ colorClasses.shadow[state] }}"
                         src="/assets/images/{{card}}.png">
                 </ng-template>
             </div>
@@ -16,13 +16,13 @@
     </div>
     <div class="card-section-modify">
         <div *ngIf="(id != idDealer) || isFinished; else scoretempl">
-            <span class="card-font-large  {{ colorClasses[0][state] }}">{{score}}</span>
+            <span class="card-font-large  {{ colorClasses.text[state] }}">{{score}}</span>
         </div>
         <ng-template #scoretempl>
-            <span class="card-font-large {{ colorClasses[0][state] }}">I will not say :D</span>
+            <span class="card-font-large {{ colorClasses.text[state] }}">I will not say :D</span>
         </ng-template>
 
-        <span class="card-font-large {{ colorClasses[0][state] }} ">
+        <span class="card-font-large {{ colorClasses.text[state] }} ">
             <div *ngIf="state == 1"> (Win) </div>
             <div *ngIf="state == 2"> (Lose) </div>
         </span>

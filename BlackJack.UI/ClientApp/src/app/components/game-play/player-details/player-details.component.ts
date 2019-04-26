@@ -17,10 +17,10 @@ export class PlayerDetailsComponent {
   @Input() id: number;
   @Input() idDealer: number;
 
-  readonly colorClasses: string[][] = [
-    [ '', 'card-font-win', 'card-font-lose' ],
-    [ '', 'card-img-win', 'card-img-lose' ]
-];
+  readonly colorClasses:any = {
+    text:   [ '', 'card-font-win', 'card-font-lose' ],
+    shadow: [ '', 'card-img-win', 'card-img-lose' ]
+  };
 
   readonly isMargin: string[] = ["", "margin-left-minus"];
 }

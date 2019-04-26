@@ -29,10 +29,11 @@ namespace BlackJack.UI.Controllers
             return Ok(playerMenu);
         }
 
-        [HttpPost]
-        public IActionResult StartGame([FromBody]CreateGameViewModel createGameViewModel)
+        [HttpGet]
+        [Route("{countBots}")]
+        public IActionResult StartGame(int countBots)
         {
-            GameViewModel gameViewModel = _gameMenuService.CreateGameViewModel(createGameViewModel.CountBots);
+            GameViewModel gameViewModel = _gameMenuService.CreateGameViewModel(countBots);
             return Ok(gameViewModel);
         }
 
