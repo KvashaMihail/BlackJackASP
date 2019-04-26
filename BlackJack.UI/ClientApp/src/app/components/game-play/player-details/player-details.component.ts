@@ -18,8 +18,9 @@ export class PlayerDetailsComponent {
   @Input() idDealer: number;
 
   readonly colorClasses: string[][] = [
-    [ 'border-primary', 'border-success', 'border-danger' ],
-    [ 'alert-primary' , 'alert-success', 'alert-danger' ]
-  ];
+    [ '', 'card-font-win', 'card-font-lose' ],
+    [ '', 'card-img-win', 'card-img-lose' ]
+];
+
   readonly isMargin: string[] = ["", "margin-left-minus"];
 }

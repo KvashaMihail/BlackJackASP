@@ -1,32 +1,30 @@
-<div class="card card-modify {{ colorClasses[0][state] }}">
-    <div class="card-header card-section-modify">
+<div class="card-modify">
+    <div class="card-section-modify card-font-large {{ colorClasses[0][state] }}">
         {{ player.name }}
     </div>
-    <div class="card-body card-body-modify col-sm">
+    <div class="card-body-modify col-sm">
         <div *ngFor="let card of cards; let i = index">
             <div *ngIf="(card != 53)">
-                <img *ngIf="(i == 1) && (id == idDealer) && !isFinished; else cardtemplate" class="margin-left-minus card-img"
-                    src="/assets/images/0.png">
+                <img *ngIf="(i == 1) && (id == idDealer) && !isFinished; else cardtemplate"
+                    class="margin-left-minus card-img" src="/assets/images/0.png">
                 <ng-template #cardtemplate>
-                    <img class="{{ isMargin[(i == 0) ? 0 : 1] }} card-img" src="/assets/images/{{card}}.png">
+                    <img class="{{ isMargin[(i == 0) ? 0 : 1] }} card-img {{ colorClasses[1][state] }}"
+                        src="/assets/images/{{card}}.png">
                 </ng-template>
             </div>
-
         </div>
-
     </div>
-    <div class="{{ colorClasses[1][state] }} card-footer card-section-modify">
+    <div class="card-section-modify">
         <div *ngIf="(id != idDealer) || isFinished; else scoretempl">
-            <span class="card-font-large card-score">{{score}}</span>
+            <span class="card-font-large  {{ colorClasses[0][state] }}">{{score}}</span>
         </div>
         <ng-template #scoretempl>
-            <span class="card-font-large">I will not say :D</span>
+            <span class="card-font-large {{ colorClasses[0][state] }}">I will not say :D</span>
         </ng-template>
 
-
-        <span class="card-font-large" style="float: right">
-            <div *ngIf="state == 1">Win</div>
-            <div *ngIf="state == 2">Lose</div>
+        <span class="card-font-large {{ colorClasses[0][state] }} ">
+            <div *ngIf="state == 1"> (Win) </div>
+            <div *ngIf="state == 2"> (Lose) </div>
         </span>
     </div>
 </div>

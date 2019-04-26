@@ -6,64 +6,79 @@ main {
     top: 0px;
     left: 0;
     padding: 76px 15px;
+    background: darkgreen;
+    //background-image: url(/assets/images/table-background.jpg);
+    //background-repeat: repeat;
+    box-shadow: inset 0px 0px 100px 100px rgba(0,0,0,0.5);
 }
 
 nav {
     padding: 3px;
 }
 .app-player {
-    float: right;
-    width: auto;
+    width: 400px;
     margin: 3px;
 }
 .first {
-    width: 44%!important;
-    top: 30%;
+    top: 35%;
     left: 50%!important;
     margin-top: -110px;
-    margin-left: -22.5%;
+    margin-left: -200px;
 }
 
 .last {
-    width: 44%!important;
-    top: 65%!important;
+    top: 70%!important;
     left: 50%!important;
     margin-top: -110px;
-    margin-left: -22.5%;
+    margin-left: -200px;
 }
 
 .card-position {
-    width: 26%;
     position: absolute;
 }
 
-.card-position:nth-child(2n) {
-    top: 74px;
-    left: 0;
+.card-position:nth-child(2) {
+    top: 90px;
+    left: 12%;
 }
 
-.card-position:nth-child(3n) {
-    top: 74px;
-    right: 15px;
+.card-position:nth-child(3) {
+    top: 90px;
+    right: 12%;
 }
 
-.card-position:nth-child(4n) {
-    top: 285px;
-    left: 0;
+.card-position:nth-child(6) {
+    top: 50%;
+    left: 4%;
+    margin-top: -110px;
 }
 
-.card-position:nth-child(5n) {
-    top: 285px;
-    right: 15px;
+.card-position:nth-child(7) {
+    top: 50%;
+    right: 4%;
+    margin-top: -110px;
 }
 
-.card-position:nth-child(6n) {
-    top: 496px;
-    left: 0;
+.card-position:nth-child(4) {
+    bottom: 30px;
+    left: 12%;
 }
 
-.card-position:nth-child(7n) {
-    top: 496px;
-    right: 15px;
+.card-position:nth-child(5) {
+    bottom: 30px;
+    right: 12%;
 }
 
+.navigation-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    margin-left: -211px;
+    margin-top: -28px;
+}
+
+button {
+    width: 200px;
+    box-shadow: 1px 1px 5px #000; 
+}

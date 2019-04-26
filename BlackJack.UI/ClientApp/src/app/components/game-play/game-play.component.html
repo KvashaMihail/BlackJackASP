@@ -7,27 +7,23 @@
     </div>
 </main>
 
-<footer class="fixed-bottom shadow-up-sm">
+
     <nav *ngIf="service.gameView.scores != null"
-        class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+        class="navigation-menu">
         <button [disabled]="service.gameView.scores[0] > 21" *ngIf="!service.isFinishedRound"
-            class="nav-item nav-link btn btn-success text-white w-100 m-1" (click)="hit()">
+            class="nav-item nav-link btn btn-success text-white m-1" (click)="hit()">
             Hit
         </button>
-        <button *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-danger text-white w-100 m-1"
+        <button *ngIf="!service.isFinishedRound" class="nav-item nav-link btn btn-danger text-white m-1"
             (click)="stand()">
             Stand
         </button>
-        <button *ngIf="service.isFinishedRound" class="nav-item nav-link btn btn-info text-white w-100 m-1"
+        <button *ngIf="service.isFinishedRound" class="nav-item nav-link btn btn-info text-white m-1"
             (click)="nextRound()">
             Next round
         </button>
         <button *ngIf="service.isFinishedRound" routerLink="/menu"
-            class="nav-item nav-link btn btn-secondary text-white w-100 m-1" (click)="endGame()">
+            class="nav-item nav-link btn btn-secondary text-white m-1" (click)="endGame()">
             End game
         </button>
-        <button routerLink="/menu" class="nav-item nav-link btn btn-primary text-white w-100 mx-2">
-            Quit
-        </button>
     </nav>
-</footer>

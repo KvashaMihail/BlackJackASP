@@ -1,7 +1,7 @@
 <div class="w-100 h-100">
   <header>
     <nav id="nav-id" class="navbar navbar-dark bg-dark shadow p-3 nav-modified position-sticky">
-      <span class="navbar-brand mb-0 h1">BlackJack Game</span>
+        <a routerLink="/menu" class="navbar-brand mb-0 h1">BlackJack Game</a>
 
       <div *ngIf="service.isSignedIn(); else titleBlock" id="player-title" class="navbar-brand" style="float: right">
         Welcome {{ service.userName }}
