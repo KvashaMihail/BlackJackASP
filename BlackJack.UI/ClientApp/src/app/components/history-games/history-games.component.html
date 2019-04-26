@@ -1,24 +1,17 @@
-<main class="container-fluid" style="padding: 0">
-    <div class="row no-gutters">
-        <div class="col col-sm-3">
-            <div class="alert alert-primary no-margin" style="border-radius: 5px 5px 0 0" role="heading">
-                Games:
-            </div>
-            <div id="games-id" class="list-group">
-                <button *ngFor="let game of games; let i = index" type="button" style="padding: 8px 12px"
-                    class="list-group-item list-group-item-action no-margin" (click)="showRounds(game.id)">{{ game.name }}</button>
-            </div>
+<main class="container-fluid">
+    <div class="position-games">
+        <div id="games-id" class="list-group">
+            <button *ngFor="let game of games; let i = index" type="button" style="padding: 8px 12px"
+                class="list-group-item list-group-item-action no-margin"
+                (click)="showRounds(game.id)">{{ game.name }}</button>
         </div>
-        <div class="col">
-            <div class="alert alert-success no-margin" style="border-radius: 5px 5px 0 0" role="heading">
-                Rounds:
+    </div>
+    <div class="position-rounds">
+        <div id="rounds-id" class="tab-content">
+            <div *ngIf="!rounds" class="alert alert-danger">
+                Select any game
             </div>
-            <div id="rounds-id" class="tab-content" >
-                <div *ngIf="!rounds" class="alert alert-danger">
-                    Select any game
-                </div>
-                <app-round *ngFor="let round of rounds" [round]="round" ></app-round>
-            </div>
+            <app-round *ngFor="let round of rounds" [round]="round"></app-round>
         </div>
     </div>
 </main>

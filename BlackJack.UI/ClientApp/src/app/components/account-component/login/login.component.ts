@@ -15,6 +15,7 @@ export class LoginComponent {
 
   constructor(private accountService: AccountService, private router: Router) {
   }
+
   public model: AccountView = new AccountView();
 
   login(): void {
