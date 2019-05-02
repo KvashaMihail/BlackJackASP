@@ -1,6 +1,8 @@
 ﻿using BlackJack.DAL.EF;
 using BlackJack.DAL.Interfaces;
+using BlackJack.Shared.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -9,9 +11,9 @@ namespace BlackJack.DAL.Configuration
 {
     public static class DALConfig
     {
-        public static IServiceCollection AddEF(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddEF(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<DbConnection>(provider => new SqlConnection(connectionString));
+            services.AddTransient<DbConnection>(provider => new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<BlackJackContext>(c => c.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
             services.AddTransient<IPlayerRepository, Repository.EntityFramework.PlayerRepository>();
@@ -24,10 +26,10 @@ namespace BlackJack.DAL.Configuration
             return services;
         }
 
-        public static IServiceCollection AddDapper(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddDapper(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<DbConnection>(provider => new SqlConnection(connectionString));
-
+            //services.AddTransient<DbConnection>(provider => new SqlConnection(connectionString));
+            services.Configure<DbSettingsOptions>(dbso => dbso.ConnectionString = configuration.GetConnectionString("DefaultConnection"));
             services.AddTransient<IPlayerRepository, Repository.Dapper.PlayerRepository>();
             services.AddTransient<IGameRepository, Repository.Dapper.GameRepository>();
             services.AddTransient<IRoundRepository, Repository.Dapper.RoundRepository>();

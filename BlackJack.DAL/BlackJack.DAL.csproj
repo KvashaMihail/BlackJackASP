@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlackJack.Models\BlackJack.Models.csproj" />
+    <ProjectReference Include="..\BlackJack.Shared\BlackJack.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,20 +1,22 @@
 ﻿using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
+using BlackJack.Shared.Options;
 using Dapper;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace BlackJack.DAL.Repository.Dapper
 {
     public class GameRepository : IGameRepository
     {
-        protected readonly DbConnection _dbConnection;
+        protected readonly string _connectionString;
 
-        public GameRepository(DbConnection dbConnection)
+        public GameRepository(IOptions<DbSettingsOptions> options)
         {
-            _dbConnection = dbConnection;
+            _connectionString = options.Value.ConnectionString;
         }
 
         public int Create(Models.Game item)
@@ -24,39 +26,59 @@ namespace BlackJack.DAL.Repository.Dapper
             game.DateEnd = DateTime.Now;
             var sqlQuery = @"INSERT INTO Games (Name, DateStart, DateEnd)
                 VALUES(@Name, @DateStart, @DateEnd); SELECT CAST(SCOPE_IDENTITY() as int)";
-            int? id = _dbConnection.Query<int>(sqlQuery, game).FirstOrDefault();
-            return id.Value;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                int? id = connection.Query<int>(sqlQuery, game).FirstOrDefault();
+                return id.Value;
+            }
         }
 
         public void Delete(int id)
         {
             var sqlQuery = "DELETE FROM Games WHERE Id = @id";
-            _dbConnection.Execute(sqlQuery, new { id });
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(sqlQuery, new { id });
+            }
+            
         }
 
         public Models.Game Get(int id)
         {
-            var game = _dbConnection.QuerySingle<Game>("SELECT * FROM Games WHERE Id = @id", new { id });
-            return Mapper.ToModel(game);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var game = connection.QuerySingle<Game>("SELECT * FROM Games WHERE Id = @id", new { id });
+                return Mapper.ToModel(game);
+            }
+            
         }
 
         public IEnumerable<Models.Game> GetAll()
         {
-            var games = _dbConnection.Query<Game>("SELECT * FROM Games");
-            return Mapper.ToModel(games);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var games = connection.Query<Game>("SELECT * FROM Games");
+                return Mapper.ToModel(games);
+            }
         }
 
         public bool GetIsEmptyById(int id)
         {
-            var game = _dbConnection.Query<Game>("SELECT * FROM Games WHERE Id = @id", new { id });
-            return !game.Any();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var game = connection.Query<Game>("SELECT * FROM Games WHERE Id = @id", new { id });
+                return !game.Any();
+            }
         }
 
         public void Update(int gameId)
         {
             var sqlQuery = "UPDATE Games SET DateEnd = @DateEnd, IsFinished = @IsFinished WHERE Id = @Id";
             Game game = new Game { Id = gameId, DateEnd = DateTime.Now, IsFinished = true };
-            _dbConnection.Execute(sqlQuery, game);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(sqlQuery, game);
+            }
         }
 
         public IEnumerable<Models.Game> GetGamesByPlayerId(int playerId)
@@ -67,12 +89,15 @@ namespace BlackJack.DAL.Repository.Dapper
                                 WHERE  Rounds.Id in ( 
                                     SELECT RoundPlayers.RoundId	FROM RoundPlayers
                                     WHERE RoundPlayers.PlayerId = @Id))";
-            var games = _dbConnection.Query<Game>(sqlQuery, new { Id = playerId });
-            if (games == null)
+            using (var connection = new SqlConnection(_connectionString))
             {
-                return null;
+                var games = connection.Query<Game>(sqlQuery, new { Id = playerId });
+                if (games == null)
+                {
+                    return null;
+                }
+                return Mapper.ToModel(games);
             }
-            return Mapper.ToModel(games);
         }
 
         public Models.Game GetUnfinishedGameByPlayerId(int playerId)
@@ -83,12 +108,16 @@ namespace BlackJack.DAL.Repository.Dapper
                                 WHERE  Rounds.Id in ( 
                                     SELECT RoundPlayers.RoundId	FROM RoundPlayers
                                     WHERE RoundPlayers.PlayerId = @Id))";
-            var game = _dbConnection.QueryFirstOrDefault<Game>(sqlQuery, new { Id = playerId });
-            if (game == null)
+            using (var connection = new SqlConnection(_connectionString))
             {
-                return null;
+                var game = connection.QueryFirstOrDefault<Game>(sqlQuery, new { Id = playerId });
+                if (game == null)
+                {
+                    return null;
+                }
+                return Mapper.ToModel(game);
             }
-            return Mapper.ToModel(game);
+
         }
     }
 }

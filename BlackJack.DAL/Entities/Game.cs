@@ -11,5 +11,6 @@ namespace BlackJack.DAL.Entities
         public DateTime DateEnd { get; set; }
         public bool IsFinished { get; set; }
         public ICollection<Round> Rounds { get; set; }
+        public int RoundId { get; set; }
     }
 }

@@ -1,25 +1,28 @@
 ﻿using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
+using BlackJack.Shared.Options;
 using Dapper;
-using System.Data.Common;
-using System.Linq;
+using Microsoft.Extensions.Options;
+using System.Data.SqlClient;
 
 namespace BlackJack.DAL.Repository.Dapper
 {
     public class CardRepository : ICardRepository
     {
 
-        protected readonly DbConnection _dbConnection;
-
-        public CardRepository(DbConnection dbConnection)
+        protected readonly string _connectionString;
+        public CardRepository(IOptions<DbSettingsOptions> options)
         {
-            _dbConnection = dbConnection;
+            _connectionString = options.Value.ConnectionString;
         }
 
         public Models.Card Get(byte id)
         {
-            var card = _dbConnection.QuerySingle<Card>("SELECT * FROM Cards WHERE Id = @id", new { id });
-            return Mapper.ToModel(card);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var card = connection.QuerySingle<Card>("SELECT * FROM Cards WHERE Id = @id", new { id });
+                return Mapper.ToModel(card);
+            }
         }
     }
 }

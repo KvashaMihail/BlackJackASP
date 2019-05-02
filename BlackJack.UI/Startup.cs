@@ -74,7 +74,7 @@ namespace BlackJack.UI
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            services.AddServicesFromBL(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddServicesFromBL(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

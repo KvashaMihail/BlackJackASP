@@ -61,10 +61,21 @@ namespace BlackJack.DAL.Repository.EntityFramework
 
         public Models.Game GetUnfinishedGameByPlayerId(int playerId)
         {
-            var game = _context.Games
-                .FirstOrDefault(g => !g.IsFinished && g.Rounds == _context.Rounds
-                    .Where(r => r.RoundPlayers == _context.RoundPlayers
-                        .Where(rp => rp.PlayerId == playerId)));
+            //var game = _context.Games
+            //    .FirstOrDefault(g => !g.IsFinished && g.Rounds == _context.Rounds
+            //        .Where(r => r.RoundPlayers == _context.RoundPlayers
+            //            .Where(rp => rp.PlayerId == playerId)));
+            var game = _context.Games.Where(g => !g.IsFinished)
+                .Join(_context.Rounds
+                    .Join(_context.RoundPlayers
+                        .Where(rp => rp.PlayerId == playerId),
+                        round => round.RoundPlayerId,
+                        roundPlayer => roundPlayer.Id,
+                        (round, roundPlayer) => round),
+                    g => g.RoundId,
+                    round => round.Id,
+                    (g, round) => g).
+                FirstOrDefault();
             return Mapper.ToModel(game);
         }
 
